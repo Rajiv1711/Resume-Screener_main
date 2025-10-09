@@ -1,0 +1,20 @@
+{
+  "job_1": {
+    "title": "Senior Python Developer",
+    "description": "We are looking for an experienced Senior Python Developer to join our team. The ideal candidate will have strong experience with Python, FastAPI, and cloud technologies. Experience with machine learning and AI is a plus. Responsibilities include developing scalable web applications, working with databases, and collaborating with cross-functional teams.",
+    "required_skills": ["Python", "FastAPI", "SQL", "Azure", "Git"],
+    "preferred_skills": ["Machine Learning", "Docker", "React", "MongoDB"]
+  },
+  "job_2": {
+    "title": "Data Scientist",
+    "description": "Seeking a Data Scientist to work on predictive modeling and analytics projects. The role involves building machine learning models, analyzing large datasets, and creating insights for business decisions. Strong skills in Python, R, and statistical analysis are required.",
+    "required_skills": ["Python", "Machine Learning", "Statistics", "SQL"],
+    "preferred_skills": ["TensorFlow", "PyTorch", "Tableau", "AWS", "Big Data"]
+  },
+  "job_3": {
+    "title": "Frontend React Developer",  
+    "description": "Looking for a Frontend Developer with expertise in React and modern JavaScript. The candidate will be responsible for building user interfaces, implementing responsive designs, and working closely with UX/UI designers. Experience with TypeScript and testing frameworks is preferred.",
+    "required_skills": ["React", "JavaScript", "HTML", "CSS"],
+    "preferred_skills": ["TypeScript", "Jest", "Material-UI", "Git", "Webpack"]
+  }
+}

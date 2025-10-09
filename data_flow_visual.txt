@@ -1,0 +1,184 @@
+RESUME SCREENER PROJECT - DATA FLOW VISUALIZATION
+==================================================
+
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                                FRONTEND (React)                                 │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                │
+│  │   Upload Page   │  │   Dashboard     │  │   Results Table │                │
+│  │                 │  │                 │  │                 │                │
+│  │ • File Select   │  │ • Job Desc      │  │ • Ranked List   │                │
+│  │ • Upload        │  │ • Rank Button   │  │ • Download      │                │
+│  │ • Progress      │  │ • View Results  │  │ • Export        │                │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘                │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    │ HTTP API Calls
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                              FASTAPI BACKEND                                    │
+│                                                                                 │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                │
+│  │  /api/upload    │  │  /api/rank      │  │  /api/reports   │                │
+│  │                 │  │                 │  │                 │                │
+│  │ • File Upload   │  │ • Job Matching  │  │ • Download      │                │
+│  │ • Parse Resume  │  │ • Generate      │  │ • Excel/PDF     │                │
+│  │ • Return Data   │  │   Rankings      │  │   Reports       │                │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘                │
+│                                    │                                           │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                │
+│  │   Parser        │  │   Ranker        │  │   Reporter      │                │
+│  │   Service       │  │   Service       │  │   Service       │                │
+│  │                 │  │                 │  │                 │                │
+│  │ • Text Extract  │  │ • Embeddings    │  │ • Excel Gen     │                │
+│  │ • Preprocess    │  │ • Similarity    │  │ • PDF Gen       │                │
+│  │ • GPT Parse     │  │ • Ranking       │  │ • JSON Export   │                │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘                │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    │ File I/O
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                               FILE SYSTEM                                       │
+│                                                                                 │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                │
+│  │ data/raw_resumes│  │ data/processed  │  │    reports/     │                │
+│  │                 │  │                 │  │                 │                │
+│  │ • PDF files     │  │ • .txt files    │  │ • .json results │                │
+│  │ • DOCX files    │  │ • Extracted     │  │ • .xlsx reports │                │
+│  │ • ZIP archives  │  │   text          │  │ • .pdf reports  │                │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘                │
+└─────────────────────────────────────────────────────────────────────────────────┘
+                                    │
+                                    │ API Calls
+                                    ▼
+┌─────────────────────────────────────────────────────────────────────────────────┐
+│                            EXTERNAL SERVICES                                    │
+│                                                                                 │
+│  ┌─────────────────┐  ┌─────────────────┐  ┌─────────────────┐                │
+│  │  Azure OpenAI   │  │  Azure OpenAI   │  │   Azure AD      │                │
+│  │  GPT-3.5 Turbo  │  │  Embeddings     │  │  Authentication │                │
+│  │                 │  │                 │  │                 │                │
+│  │ • Resume Parse  │  │ • Text Vectors  │  │ • JWT Tokens    │                │
+│  │ • Structured    │  │ • Similarity    │  │ • User Auth     │                │
+│  │   Data Extract  │  │   Calculation   │  │ • Access Control│                │
+│  └─────────────────┘  └─────────────────┘  └─────────────────┘                │
+└─────────────────────────────────────────────────────────────────────────────────┘
+
+DETAILED DATA FLOW SEQUENCE
+===========================
+
+1. UPLOAD PHASE
+   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+   │   User      │    │  Frontend   │    │   Backend   │    │ File System │
+   │             │    │             │    │             │    │             │
+   │ Select File │───▶│ POST /upload│───▶│ Save File   │───▶│ raw_resumes │
+   │             │    │             │    │             │    │             │
+   │             │    │             │    │ Parse File  │◀───│             │
+   │             │    │             │    │             │    │             │
+   │ View Result │◀───│ Return Data │◀───│ Return JSON │    │             │
+   └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+
+2. RANKING PHASE
+   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+   │   User      │    │  Frontend   │    │   Backend   │    │ File System │
+   │             │    │             │    │             │    │             │
+   │ Enter Job   │───▶│ POST /rank  │───▶│ Read All    │◀───│ raw_resumes │
+   │ Description │    │             │    │ Resumes     │    │             │
+   │             │    │             │    │             │    │             │
+   │             │    │             │    │ Generate    │───▶│ reports/    │
+   │             │    │             │    │ Reports     │    │             │
+   │ View Results│◀───│ Return      │◀───│ Return      │    │             │
+   │             │    │ Rankings    │    │ Rankings    │    │             │
+   └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+
+3. REPORTING PHASE
+   ┌─────────────┐    ┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+   │   User      │    │  Frontend   │    │   Backend   │    │ File System │
+   │             │    │             │    │             │    │             │
+   │ Download    │───▶│ GET /reports│───▶│ Read Report │◀───│ reports/    │
+   │ Report      │    │             │    │ Files       │    │             │
+   │             │    │             │    │             │    │             │
+   │ Receive     │◀───│ Return File │◀───│ Return File │    │             │
+   │ File        │    │             │    │             │    │             │
+   └─────────────┘    └─────────────┘    └─────────────┘    └─────────────┘
+
+DATA TRANSFORMATION PIPELINE
+============================
+
+Raw File (PDF/DOCX/TXT)
+         │
+         ▼
+    Text Extraction
+         │
+         ▼
+    Raw Text String
+         │
+         ▼
+    ┌─────────────────┐
+    │   Preprocessing │
+    │                 │
+    │ • Clean Text    │
+    │ • Tokenize      │
+    │ • Extract Skills│
+    └─────────────────┘
+         │
+         ▼
+    Preprocessed Data
+         │
+         ▼
+    ┌─────────────────┐
+    │   GPT Parsing   │
+    │                 │
+    │ • Extract Name  │
+    │ • Extract Email │
+    │ • Extract Skills│
+    │ • Extract Exp   │
+    └─────────────────┘
+         │
+         ▼
+    Structured Data
+         │
+         ▼
+    ┌─────────────────┐
+    │   Embeddings    │
+    │                 │
+    │ • Text Vector   │
+    │ • Skills Vector │
+    │ • Combined      │
+    └─────────────────┘
+         │
+         ▼
+    Vector Embedding
+         │
+         ▼
+    ┌─────────────────┐
+    │   Similarity    │
+    │                 │
+    │ • Job Vector    │
+    │ • Resume Vector │
+    │ • Cosine Sim    │
+    └─────────────────┘
+         │
+         ▼
+    Similarity Score
+         │
+         ▼
+    ┌─────────────────┐
+    │   Ranking       │
+    │                 │
+    │ • Sort by Score │
+    │ • Generate Rank │
+    │ • Create Report │
+    └─────────────────┘
+         │
+         ▼
+    Ranked Results
+         │
+         ▼
+    ┌─────────────────┐
+    │   Reports       │
+    │                 │
+    │ • Excel File    │
+    │ • PDF File      │
+    │ • JSON Data     │
+    └─────────────────┘

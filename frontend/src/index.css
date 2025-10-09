@@ -1,0 +1,139 @@
+/* Dark Theme CSS Variables */
+:root {
+  --bg-primary: #0d1117;
+  --bg-secondary: #161b22;
+  --bg-tertiary: #21262d;
+  --text-primary: #e6edf3;
+  --text-secondary: #7d8590;
+  --text-muted: #656d76;
+  --accent-primary: #58a6ff;
+  --accent-secondary: #1f6feb;
+  --accent-success: #238636;
+  --accent-warning: #d29922;
+  --accent-danger: #da3633;
+  --border-primary: #30363d;
+  --border-secondary: #21262d;
+}
+
+/* Global Dark Theme Styles */
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background-color: var(--bg-primary) !important;
+}
+
+html[data-bs-theme="dark"] {
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background-color: var(--bg-primary);
+  color: var(--text-primary);
+  min-height: 100vh;
+}
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+  background-color: var(--bg-tertiary);
+  color: var(--text-primary);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+/* Dark theme overrides for Bootstrap components */
+.card {
+  background-color: var(--bg-secondary) !important;
+  border-color: var(--border-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+.form-control {
+  background-color: var(--bg-tertiary) !important;
+  border-color: var(--border-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+.form-control:focus {
+  background-color: var(--bg-tertiary) !important;
+  border-color: var(--accent-primary) !important;
+  color: var(--text-primary) !important;
+  box-shadow: 0 0 0 0.2rem rgba(88, 166, 255, 0.25) !important;
+}
+
+.btn-primary {
+  background-color: var(--accent-primary) !important;
+  border-color: var(--accent-primary) !important;
+}
+
+.btn-primary:hover {
+  background-color: var(--accent-secondary) !important;
+  border-color: var(--accent-secondary) !important;
+}
+
+.table-dark {
+  background-color: var(--bg-secondary) !important;
+  color: var(--text-primary) !important;
+}
+
+.table-dark th,
+.table-dark td {
+  border-color: var(--border-primary) !important;
+}
+
+.alert-info {
+  background-color: rgba(88, 166, 255, 0.1) !important;
+  border-color: var(--accent-primary) !important;
+  color: var(--text-primary) !important;
+}
+
+/* Additional Bootstrap Dark Theme Overrides */
+.navbar-dark {
+  background-color: var(--bg-secondary) !important;
+}
+
+.btn-outline-light {
+  border-color: var(--border-primary) !important;
+  color: var(--text-secondary) !important;
+}
+
+.btn-outline-light:hover {
+  background-color: rgba(255, 255, 255, 0.1) !important;
+  border-color: var(--border-primary) !important;
+}
+
+.form-label {
+  color: var(--text-primary) !important;
+}
+
+.text-muted {
+  color: var(--text-muted) !important;
+}
+
+/* Ensure all text inputs have proper dark styling */
+input[type="file"] {
+  color: var(--text-primary) !important;
+}
+
+/* Override any remaining Bootstrap defaults */
+.container-fluid,
+.container,
+.row,
+.col,
+[class*="col-"] {
+  color: inherit;
+}
+
+/* Ensure proper background inheritance */
+#root {
+  background-color: var(--bg-primary);
+  min-height: 100vh;
+}

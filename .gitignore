@@ -1,0 +1,73 @@
+# Python
+__pycache__/
+venv/
+.venv/
+*.pyc
+*.pyo
+
+# Environment Variables
+.env
+.env.*
+
+# Application-specific
+temp_*.pdf
+
+# IDE and Editor Directories
+.vscode/
+.idea/
+
+# Operating System Files
+.DS_Store
+Thumbs.db
+
+# Log files
+*.log
+
+# Python build artifacts
+build/
+dist/
+pip-wheel-metadata/
+*.egg-info/
+.eggs/
+
+# Test and coverage
+.pytest_cache/
+.tox/
+.nox/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Type checker / linters
+.mypy_cache/
+.ruff_cache/
+.pyre/
+.pytype/
+
+# Jupyter and general caches
+.ipynb_checkpoints/
+.cache/
+
+# Python version/direnv
+.python-version
+.envrc
+
+# Local databases (common in dev)
+db.sqlite3
+*.sqlite3
+
+# More OS files (Windows/macOS)
+ehthumbs.db
+Desktop.ini
+._*
+
+# VS tooling
+.vs/
+
+# Node.js (root)
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*

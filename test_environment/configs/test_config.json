@@ -1,0 +1,87 @@
+{
+  "test_environment": {
+    "name": "Resume Screener Test Environment",
+    "version": "1.0.0",
+    "description": "Standalone testing environment for ML components without external dependencies"
+  },
+  
+  "mock_services": {
+    "openai": {
+      "enabled": true,
+      "embedding_dimension": 1536,
+      "model_name": "text-embedding-3-large",
+      "chat_model": "gpt-35-turbo"
+    },
+    "blob_storage": {
+      "enabled": true,
+      "base_path": "temp/mock_blob_storage"
+    },
+    "database": {
+      "enabled": false,
+      "description": "Database mocking not implemented in this version"
+    },
+    "azure_ad": {
+      "enabled": false,
+      "description": "Azure AD mocking handled in frontend"
+    }
+  },
+  
+  "test_data": {
+    "sample_resumes": [
+      "sample_resume_1.txt",
+      "sample_resume_2.txt", 
+      "sample_resume_3.txt"
+    ],
+    "job_descriptions": "job_descriptions.json",
+    "expected_skills": [
+      "python", "javascript", "java", "react", "sql", "html", "css",
+      "nodejs", "azure", "aws", "git", "docker", "kubernetes", 
+      "tensorflow", "scikit-learn", "machine learning", "fastapi",
+      "flask", "django", "mongodb", "mysql", "postgresql"
+    ]
+  },
+  
+  "test_settings": {
+    "parser": {
+      "test_files": true,
+      "test_extraction": true,
+      "test_gpt_parsing": true,
+      "test_preprocessing": true
+    },
+    "embedder": {
+      "test_basic_embedding": true,
+      "test_similarity": true,
+      "test_resume_embedding": true,
+      "similarity_threshold": 0.7
+    },
+    "ranker": {
+      "test_scoring_methods": true,
+      "test_ranking_pipeline": true,
+      "test_hybrid_scoring": true,
+      "alpha_weight": 0.7
+    }
+  },
+  
+  "output": {
+    "verbose": true,
+    "show_scores": true,
+    "show_embeddings": false,
+    "log_file": "test_results.log"
+  },
+  
+  "dependencies": {
+    "required": [
+      "spacy",
+      "scikit-learn", 
+      "numpy",
+      "pandas"
+    ],
+    "models": [
+      "en_core_web_sm"
+    ],
+    "optional": [
+      "matplotlib",
+      "seaborn"
+    ]
+  }
+}

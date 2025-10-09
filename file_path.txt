@@ -1,0 +1,67 @@
+Resume_Screener_Project/
+│── README.md
+│── requirements.txt
+│── Dockerfile
+│── azure-pipelines.yml          # CI/CD pipeline (backend + frontend)
+│── .gitignore
+│
+├── app/                         # FastAPI backend
+│   ├── main.py                  # Entry point for FastAPI
+│   ├── routers/
+│   │   ├── auth.py              # Entra ID authentication
+│   │   ├── resumes.py           # Resume upload & parsing APIs
+│   │   └── ranking.py           # Ranking endpoint
+│   ├── models/
+│   │   ├── db_models.py         # SQLAlchemy models
+│   │   └── schemas.py           # Pydantic models
+│   ├── services/
+│   │   ├── parser.py            # Resume parsing logic
+│   │   ├── embeddings.py        # Azure OpenAI embeddings
+│   │   ├── ranker.py            # Hybrid ranking logic
+│   │   └── report.py            # Excel/PDF report generation
+│   └── config.py                # Azure config (SQL, Blob, AI keys)
+│
+├── frontend/                    # React webapp
+│   ├── package.json
+│   ├── public/
+│   │   └── index.html
+│   └── src/
+│       ├── index.js
+│       ├── App.js               # Main React app
+│       ├── components/
+│       │   ├── UploadResume.js  # Upload resumes
+│       │   ├── ResultsTable.js  # Show ranked resumes
+│       │   ├── InsightsChart.js # Skill frequency, trends
+│       │   └── Navbar.js
+│       ├── pages/
+│       │   ├── Dashboard.js     # Main recruiter dashboard
+│       │   └── Login.js         # Auth (Entra ID frontend flow)
+│       └── services/
+│           └── api.js           # Axios client for FastAPI
+│
+├── data/
+│   ├── raw_resumes/             # Uploaded resumes (PDF, DOCX, etc.)
+│   ├── processed/               # Preprocessed text versions
+│   └── samples/                 # Sample dataset
+│
+├── ml/
+│   ├── preprocessing.py          # Tokenization, cleaning
+│   ├── baseline_model.py         # Initial classifier (Week 2)
+│   ├── hybrid_ranker.py          # Rule-based + embeddings
+│   └── train.py                  # Training & evaluation script
+│
+├── tests/
+│   ├── test_api.py
+│   ├── test_parser.py
+│   └── test_ranker.py
+│
+├── scripts/
+│   ├── init_db.py                # Create Azure SQL tables
+│   ├── deploy_backend.sh         # FastAPI deploy
+│   ├── deploy_frontend.sh        # React deploy
+│   └── monitor_setup.sh          # App Insights setup
+│
+└── reports/
+    ├── ranked_resumes.xlsx
+    ├── ranked_resumes.pdf
+    └── insights_summary.pdf

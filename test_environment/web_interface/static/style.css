@@ -1,0 +1,344 @@
+/* Resume Screener Test Interface Styles */
+
+:root {
+    --primary-color: #0d6efd;
+    --success-color: #198754;
+    --warning-color: #ffc107;
+    --danger-color: #dc3545;
+    --info-color: #0dcaf0;
+    --secondary-color: #6c757d;
+    --light-gray: #f8f9fa;
+    --border-color: #dee2e6;
+}
+
+body {
+    background-color: var(--light-gray);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Card Enhancements */
+.card {
+    border: none;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    transition: box-shadow 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.card-header {
+    background-color: white;
+    border-bottom: 1px solid var(--border-color);
+    font-weight: 600;
+}
+
+/* Skill Badges */
+.skill-badge {
+    display: inline-block;
+    background: linear-gradient(45deg, var(--primary-color), var(--info-color));
+    color: white;
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.75rem;
+    font-weight: 500;
+    margin: 0.125rem;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.skill-badge.required {
+    background: linear-gradient(45deg, var(--danger-color), #ff6b6b);
+}
+
+.skill-badge.preferred {
+    background: linear-gradient(45deg, var(--warning-color), #ffd93d);
+    color: #333;
+}
+
+.skill-badge.matched {
+    background: linear-gradient(45deg, var(--success-color), #51cf66);
+}
+
+/* Ranking Cards */
+.ranking-card {
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border-left: 4px solid transparent;
+}
+
+.ranking-card.rank-1 {
+    border-left-color: #ffd700;
+    background: linear-gradient(90deg, #fff8dc 0%, white 100%);
+}
+
+.ranking-card.rank-2 {
+    border-left-color: #c0c0c0;
+    background: linear-gradient(90deg, #f5f5f5 0%, white 100%);
+}
+
+.ranking-card.rank-3 {
+    border-left-color: #cd7f32;
+    background: linear-gradient(90deg, #fdf5e6 0%, white 100%);
+}
+
+.ranking-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15);
+}
+
+/* Score Indicators */
+.score-indicator {
+    position: relative;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, var(--info-color), var(--primary-color));
+}
+
+.score-indicator.high {
+    background: linear-gradient(135deg, var(--success-color), #51cf66);
+}
+
+.score-indicator.medium {
+    background: linear-gradient(135deg, var(--warning-color), #ffd93d);
+    color: #333;
+}
+
+.score-indicator.low {
+    background: linear-gradient(135deg, var(--secondary-color), #adb5bd);
+}
+
+/* Progress Enhancements */
+.progress {
+    height: 0.75rem;
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.progress-bar {
+    background: linear-gradient(90deg, var(--success-color), var(--info-color));
+    border-radius: 0.5rem;
+}
+
+/* Status Icons */
+.status-icon {
+    font-size: 1.25rem;
+    margin-right: 0.5rem;
+}
+
+.status-icon.success {
+    color: var(--success-color);
+}
+
+.status-icon.error {
+    color: var(--danger-color);
+}
+
+.status-icon.processing {
+    color: var(--warning-color);
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* File Upload Enhancement */
+.form-control:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 0.25rem rgba(13, 110, 253, 0.25);
+}
+
+/* Button Enhancements */
+.btn {
+    border-radius: 0.375rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.15);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, var(--success-color), #51cf66);
+    border: none;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color), #4dabf7);
+    border: none;
+}
+
+/* Analysis Charts */
+.analysis-chart {
+    background: white;
+    border-radius: 0.5rem;
+    padding: 1rem;
+    margin: 0.5rem 0;
+    border: 1px solid var(--border-color);
+}
+
+.metric-card {
+    text-align: center;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    background: linear-gradient(135deg, #f8f9fa, white);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+.metric-card:hover {
+    transform: scale(1.02);
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 0, 0, 0.1);
+}
+
+.metric-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--primary-color);
+}
+
+.metric-label {
+    font-size: 0.875rem;
+    color: var(--secondary-color);
+    margin-top: 0.25rem;
+}
+
+/* Coverage Bars */
+.coverage-bar {
+    height: 0.5rem;
+    background-color: #e9ecef;
+    border-radius: 0.25rem;
+    overflow: hidden;
+    margin: 0.25rem 0;
+}
+
+.coverage-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--success-color), #51cf66);
+    transition: width 0.6s ease;
+}
+
+.coverage-fill.low {
+    background: linear-gradient(90deg, var(--danger-color), #ff6b6b);
+}
+
+.coverage-fill.medium {
+    background: linear-gradient(90deg, var(--warning-color), #ffd93d);
+}
+
+/* Resume Details */
+.resume-detail {
+    background: #f8f9fa;
+    border-radius: 0.375rem;
+    padding: 0.75rem;
+    margin: 0.25rem 0;
+    border-left: 3px solid var(--primary-color);
+}
+
+.resume-detail h6 {
+    color: var(--primary-color);
+    margin-bottom: 0.25rem;
+}
+
+/* Loading States */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.9);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-spinner {
+    font-size: 3rem;
+    color: var(--primary-color);
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding: 0.5rem;
+    }
+    
+    .card-body {
+        padding: 1rem;
+    }
+    
+    .ranking-card {
+        margin-bottom: 0.5rem;
+    }
+    
+    .skill-badge {
+        font-size: 0.6rem;
+        padding: 0.125rem 0.25rem;
+    }
+    
+    .metric-value {
+        font-size: 1.5rem;
+    }
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1050;
+}
+
+.toast {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+.toast.success {
+    background: linear-gradient(135deg, var(--success-color), #51cf66);
+    color: white;
+}
+
+.toast.error {
+    background: linear-gradient(135deg, var(--danger-color), #ff6b6b);
+    color: white;
+}
+
+/* Dark Mode Support */
+@media (prefers-color-scheme: dark) {
+    body {
+        background-color: #1a1a1a;
+        color: #e9ecef;
+    }
+    
+    .card {
+        background-color: #2d3748;
+        color: #e9ecef;
+    }
+    
+    .card-header {
+        background-color: #2d3748;
+        border-bottom-color: #4a5568;
+    }
+    
+    .resume-detail {
+        background-color: #4a5568;
+        color: #e9ecef;
+    }
+}
