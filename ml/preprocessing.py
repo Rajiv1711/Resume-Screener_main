@@ -1,12 +1,29 @@
 import re
-import spacy
+import nltk
+from nltk.corpus import stopwords
+from nltk.tokenize import word_tokenize
+from nltk.stem import WordNetLemmatizer
 from typing import List
 
-# Load spaCy model for English
-nlp = spacy.load("en_core_web_sm")
+# Download required NLTK data (will skip if already downloaded)
+try:
+    nltk.data.find('tokenizers/punkt')
+except LookupError:
+    nltk.download('punkt')
 
-# Optional: Define custom stopwords
-STOPWORDS = nlp.Defaults.stop_words
+try:
+    nltk.data.find('corpora/stopwords')
+except LookupError:
+    nltk.download('stopwords')
+
+try:
+    nltk.data.find('corpora/wordnet')
+except LookupError:
+    nltk.download('wordnet')
+
+# Initialize NLTK components
+lemmatizer = WordNetLemmatizer()
+STOPWORDS = set(stopwords.words('english'))
 
 def clean_text(text: str) -> str:
     """
@@ -22,10 +39,10 @@ def tokenize_and_lemmatize(text: str) -> List[str]:
     """
     Tokenize, remove stopwords, and lemmatize words.
     """
-    doc = nlp(text)
+    tokens = word_tokenize(text)
     tokens = [
-        token.lemma_ for token in doc 
-        if token.is_alpha and token.text not in STOPWORDS
+        lemmatizer.lemmatize(token.lower()) for token in tokens 
+        if token.isalpha() and token.lower() not in STOPWORDS
     ]
     return tokens
 

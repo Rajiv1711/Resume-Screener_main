@@ -3,62 +3,69 @@
 # ─────────────────────────────
 fastapi==0.115.0
 uvicorn==0.30.1
-starlette>=0.37.2,<0.39.0
+starlette==0.38.6
 aiofiles==23.2.1
 jinja2==3.1.4
+python-multipart==0.0.20
 
 # ─────────────────────────────
-# NLP & Text Processing
+# NLP & Text Processing (Windows Compatible)
 # ─────────────────────────────
-spacy==3.7.4
+# Note: spacy removed due to Windows compilation issues
+# Using NLTK as replacement for text processing
 nltk==3.9.1
 PyPDF2==3.0.1
 python-docx==1.1.2
 docx2txt==0.8
-regex==2023.12.25
+regex==2025.9.18
 
 # ─────────────────────────────
 # Machine Learning / AI
 # ─────────────────────────────
-numpy==1.26.4
-scikit-learn==1.5.1
-transformers>=4.41.0,<5.0
-sentence-transformers==5.1.0
-torch>=2.3.0
+numpy==2.3.3
+scikit-learn==1.7.2
+transformers==4.57.0
+# sentence-transformers removed due to dependency conflicts
+# torch removed due to large size - can be added if needed
 
 # ─────────────────────────────
 # Azure & OpenAI API
 # ─────────────────────────────
-openai==1.47.0
-azure-identity==1.17.1
-azure-storage-blob==12.22.0
-python-dotenv==1.0.1
+openai==2.3.0
+azure-identity==1.25.1
+azure-storage-blob==12.26.0
+python-dotenv==1.1.1
 
 # ─────────────────────────────
 # Reporting / File Export
 # ─────────────────────────────
 openpyxl==3.1.5
-reportlab==4.2.2
-pandas==2.2.3
+reportlab==4.4.4
+pandas==2.3.3
 
 # ─────────────────────────────
 # Testing / Utilities
 # ─────────────────────────────
-pytest==8.3.3
-httpx==0.27.2
+pytest==8.4.2
+httpx==0.28.1
 
 # ─────────────────────────────
-# Optional tools for DevOps / CI
+# Code Quality Tools
 # ─────────────────────────────
-black==24.8.0
-isort==5.13.2
-flake8==7.1.1
-
+black==25.9.0
+isort==7.0.0
+flake8==7.3.0
 
 # ─────────────────────────────
 # Authentication
 # ─────────────────────────────
-PyJWT==2.8.0
-python-jose[cryptography]==3.3.0
-requests==2.31.0
-cachetools==5.4.0
+PyJWT==2.10.1
+python-jose[cryptography]==3.5.0
+requests==2.32.5
+cachetools==6.2.1
+
+# ─────────────────────────────
+# Test Web Interface (Optional)
+# ─────────────────────────────
+flask==3.1.0
+werkzeug==3.1.0
