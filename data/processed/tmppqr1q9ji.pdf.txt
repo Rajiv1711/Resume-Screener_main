@@ -1,0 +1,44 @@
+Chandan
+(+91) 8700737019 |aryachandan1947@gmail.com |LinkedIn |GitHub
+Summary
+Aspiring Machine Learning Engineer with experience in building real-world AI/ML applications. Skilled in deep
+learning, computer vision, and natural language processing using Python, TensorFlow, scikit-learn, and modern
+LLM tools. Passionate about using data to solve impactful problems through model development and experimen-
+tation.
+Education
+Degree/Exam Year Institution Score
+B.Tech CSE-IOT 2021–2025 Netaji Subhas University of Technology 6.88 CGPA
+CBSE (Class XII) 2021 Rajkiya Pratibha Vikas Vidyalaya 89.2%
+CBSE (Class X) 2019 Rajkiya Pratibha Vikas Vidyalaya 85.5%
+Experience
+Research & Development Intern June–August 2024
+•Contributed to the development of an IoT-based automation system.
+•Designed and implemented web user interfaces and Python Tkinter applications.
+•Programmed STM-based controller firmware in C.
+•Documented processes and collaborated with cross-functional teams.
+Projects
+Credit Card Recommendation System [GitHub] [Demo]
+•AI-powered web app recommending credit cards using hybrid embeddings (text + numeric features) and LLMs
+for personalized explanations. Built with Python, Streamlit, Hugging Face; deployed on Streamlit Cloud.
+•Engineered data pipeline: extracted, cleaned, and normalized financial data; implemented vector similarity for
+recommendations. Integrated user preference input, reward simulations, and secure API token management.
+SentinelSecure [GitHub]
+•Real-time object detection and alerting system for CCTV using YOLOv8 and Python.
+•Automated threat detection and notification for enhanced security monitoring.
+Skills
+Programming: Python, SQL, JavaScript, C |Frameworks: React.js, Next.js |Data Analysis: Pandas,
+NumPy, Matplotlib, Seaborn, Tableau |Tools: OpenCV, Excel, Power BI, Git, Jupyter Notebook, MySQL,
+PostgreSQL
+Leadership & Activities
+TATSAM, The Hindi Society of NSUT (2022–present): PR Head (2023–24), led PR, content, and event
+promotion.
+National Service Scheme (NSS), NSUT (Volunteer, 2022–24): Organized and participated in community
+service initiatives.
+National Cadet Corps, 5 Delhi Battalion (CHM) (2019–20): Company Havildar Major; developed leadership
+and teamwork skills.
+Achievements
+•Top 15 out of 1500+ teams, HackWithIndia Hackathon.
+•Gold Medal, State-level Science and Mathematics Exhibition (2016–2019).
+•Represented school at Northern India Science Exhibition with project “TEG & TEC”.
+•Best Cadet Award, NCC 5 D BN (2019).
+1

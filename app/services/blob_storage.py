@@ -1,7 +1,8 @@
 import os
 import io
 from typing import Optional, List
-from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient
+from azure.core.exceptions import ResourceNotFoundError, ResourceExistsError
+from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient, ContentSettings
 from app.config import BLOB_CONNECTION_STRING, BLOB_CONTAINER_NAME
 
 
@@ -22,6 +23,24 @@ class BlobStorageService:
         except Exception:
             # Container already exists or other error
             pass
+
+    def _sanitize_container_suffix(self, user_id: str) -> str:
+        """Sanitize user id to be used as a container suffix (lowercase, alnum and dash)."""
+        if not user_id:
+            return "public"
+        sanitized = "".join(ch if ch.isalnum() or ch == '-' else '-' for ch in user_id.lower())
+        return sanitized.strip('-') or "public"
+
+    def _get_or_create_user_container(self, user_id: str):
+        """Return a container client for the user's container, creating if needed."""
+        suffix = self._sanitize_container_suffix(user_id)
+        user_container = f"{self.container_name}-{suffix}"
+        container_client = self.blob_service_client.get_container_client(user_container)
+        try:
+            container_client.create_container()
+        except Exception:
+            pass
+        return user_container
     
     def upload_file(self, file_content: bytes, blob_name: str) -> str:
         """
@@ -41,6 +60,15 @@ class BlobStorageService:
         
         blob_client.upload_blob(file_content, overwrite=True)
         return blob_client.url
+
+    def upload_file_user(self, file_content: bytes, blob_name: str, user_id: str) -> str:
+        user_container = self._get_or_create_user_container(user_id)
+        blob_client = self.blob_service_client.get_blob_client(
+            container=user_container,
+            blob=blob_name
+        )
+        blob_client.upload_blob(file_content, overwrite=True)
+        return blob_client.url
     
     def download_file(self, blob_name: str) -> bytes:
         """
@@ -57,6 +85,15 @@ class BlobStorageService:
             blob=blob_name
         )
         
+        download_stream = blob_client.download_blob()
+        return download_stream.readall()
+
+    def download_file_user(self, blob_name: str, user_id: str) -> bytes:
+        user_container = self._get_or_create_user_container(user_id)
+        blob_client = self.blob_service_client.get_blob_client(
+            container=user_container,
+            blob=blob_name
+        )
         download_stream = blob_client.download_blob()
         return download_stream.readall()
     
@@ -89,6 +126,12 @@ class BlobStorageService:
             List of blob names
         """
         container_client = self.blob_service_client.get_container_client(self.container_name)
+        blobs = container_client.list_blobs(name_starts_with=prefix)
+        return [blob.name for blob in blobs]
+
+    def list_blobs_user(self, prefix: str, user_id: str) -> List[str]:
+        user_container = self._get_or_create_user_container(user_id)
+        container_client = self.blob_service_client.get_container_client(user_container)
         blobs = container_client.list_blobs(name_starts_with=prefix)
         return [blob.name for blob in blobs]
     
@@ -144,6 +187,14 @@ class BlobStorageService:
         """
         blob_client = self.blob_service_client.get_blob_client(
             container=self.container_name, 
+            blob=blob_name
+        )
+        return blob_client.url
+
+    def get_blob_url_user(self, blob_name: str, user_id: str) -> str:
+        user_container = self._get_or_create_user_container(user_id)
+        blob_client = self.blob_service_client.get_blob_client(
+            container=user_container,
             blob=blob_name
         )
         return blob_client.url

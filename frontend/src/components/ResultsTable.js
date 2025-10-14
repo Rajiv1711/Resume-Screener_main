@@ -1,4 +1,5 @@
 import React from "react";
+import { motion } from "framer-motion";
 
 const ResultsTable = ({ resumes }) => {
   const getScoreColor = (score) => {
@@ -51,13 +52,15 @@ const ResultsTable = ({ resumes }) => {
         </thead>
         <tbody>
           {resumes.map((resume, idx) => (
-            <tr 
-              key={idx} 
+            <motion.tr
+              key={idx}
               className="align-middle"
               style={{
                 borderColor: 'var(--border-primary)',
                 backgroundColor: idx % 2 === 0 ? 'var(--bg-secondary)' : 'rgba(255, 255, 255, 0.02)'
               }}
+              whileHover={{ scale: 1.01, backgroundColor: 'rgba(79, 209, 197, 0.06)' }}
+              transition={{ scale: { type: 'spring', stiffness: 300, damping: 24 } }}
             >
               <td style={{color: 'var(--text-primary)'}}>
                 <div className="d-flex align-items-center">
@@ -118,7 +121,7 @@ const ResultsTable = ({ resumes }) => {
                 <div className="d-flex flex-wrap gap-1">
                   {resume.skills && resume.skills.length > 0 ? (
                     resume.skills.slice(0, 5).map((skill, skillIdx) => (
-                      <span 
+                      <motion.span
                         key={skillIdx}
                         className="badge rounded-pill px-2 py-1"
                         style={{
@@ -127,9 +130,11 @@ const ResultsTable = ({ resumes }) => {
                           border: '1px solid var(--border-primary)',
                           fontSize: '0.75rem'
                         }}
+                        whileHover={{ scale: 1.06, color: '#ffffff' }}
+                        transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                       >
                         {skill}
-                      </span>
+                      </motion.span>
                     ))
                   ) : (
                     <span style={{color: 'var(--text-muted)', fontStyle: 'italic'}}>
@@ -137,20 +142,21 @@ const ResultsTable = ({ resumes }) => {
                     </span>
                   )}
                   {resume.skills && resume.skills.length > 5 && (
-                    <span 
+                    <motion.span 
                       className="badge rounded-pill px-2 py-1"
                       style={{
                         backgroundColor: 'var(--accent-primary)',
                         color: 'white',
                         fontSize: '0.75rem'
                       }}
+                      whileHover={{ scale: 1.06 }}
                     >
                       +{resume.skills.length - 5} more
-                    </span>
+                    </motion.span>
                   )}
                 </div>
               </td>
-            </tr>
+            </motion.tr>
           ))}
         </tbody>
       </table>

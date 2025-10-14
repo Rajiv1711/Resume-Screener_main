@@ -1,0 +1,37 @@
+Rajiv Ranjan
+21SCSE1011111@galgotiasuniv ersit y .edu.in | +918920615221 | C-1301 express park view, Chi V, Greater
+Noida, 201310, India
+Educa tion
+FI ITJEE W orld Sc ho ol Hyderabad, India
+Degree in Matriculation Marc h 2017 - Marc h 2018
+CGP A: 9.46
+M.D.J. Public Sc ho ol Ara, India
+Degree in In termediate Marc h 2018 - Marc h 2020
+P ercen tage: 76.4 %
+Galgotias Univ ersit y Greater Noida, India
+CSE B.T ec h July 2021 - July 2025
+CGP A: 8.53
+Skills
+Programming Languages: Python, C, C++, HTML, CSS, JQuery , Ja v aScript
+Libraries/F ramew orks: Bo otStrap, React, T ensorFlo w, P andas, Nump y , NL TK
+Databases: MongoDB
+Pr ojects / Open-Sour ce
+T witter Sen timen t Analysis Python
+ The Pro ject aims to p erform sen timen t analysis on T witter data using Long Short-T erm Memory
+(LSTM) neural net w orks.
+ It prepro cesses text data b y tok enizing t w eets, con v erting w ords to w ord v ectors, and padding sequences
+for uniformit y .
+ The LSTM mo del is designed to learn from w ord em b eddings to predict sen timen t lab els (p ositiv e or
+negativ e) for t w eets.
+ The mo del is trained on a p ortion of the dataset, v alidated on another p ortion, and ev aluated on a test
+set to assess its p erformance.
+Driv er ' s Dro wsiness Sensor C, Em b edded T ec hnology
+ The Pro ject is designed to detect driv er dro wsiness using an infrared (IR) sensor and alert the driv er
+using a buzzer.
+ The IR sensor monitors the driv er ' s ey e mo v emen ts or facial expressions to determine dro wsiness lev els.
+ When signs of dro wsiness are detected, suc h as prolonged ey e closure or head no dding, the buzzer is
+activ ated to alert the driv er and prev en t p oten tial acciden ts.
+ This system aims to enhance road safet y b y pro viding real-time monitoring of driv er fatigue during long
+journeys or late-nigh t driving.
+Cer tifica tions
+ Cyb er Securit y Virtual In ternship - AICTE

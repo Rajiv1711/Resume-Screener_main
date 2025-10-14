@@ -11,10 +11,13 @@ from ml.preprocessing import preprocess_resume_text
 from app.services.blob_storage import blob_storage
 
 # Configure OpenAI / Azure OpenAI
-openai.api_type = "azure"
-openai.api_key = "C6GA6hGNxN48a6A2jR6JyhDYTzbnwfvHJuYTM2FUz4olCPa2mBq0JQQJ99BIAC77bzfXJ3w3AAABACOGAz1x"
-openai.api_base = "https://parseroa.openai.azure.com/"
-openai.api_version = "2024-12-01-preview"
+from openai import AzureOpenAI
+
+client = AzureOpenAI(
+    api_key="C6GA6hGNxN48a6A2jR6JyhDYTzbnwfvHJuYTM2FUz4olCPa2mBq0JQQJ99BIAC77bzfXJ3w3AAABACOGAz1x",
+    api_version="2024-12-01-preview",
+    azure_endpoint="https://parseroa.openai.azure.com/"
+)
 
 UPLOAD_DIR = "data/processed"
 
@@ -39,13 +42,16 @@ def extract_text(file_path: str) -> str:
     return text
 
 
-def extract_text_from_blob(blob_name: str) -> str:
+def extract_text_from_blob(blob_name: str, user_id: str = None) -> str:
     """Extract raw text from a blob in Azure Blob Storage."""
     text = ""
     ext = os.path.splitext(blob_name)[1].lower()
     
     # Download blob content to memory
-    file_content = blob_storage.download_file(blob_name)
+    if user_id:
+        file_content = blob_storage.download_file_user(blob_name, user_id)
+    else:
+        file_content = blob_storage.download_file(blob_name)
     file_stream = io.BytesIO(file_content)
 
     if ext == ".pdf":
@@ -99,13 +105,13 @@ def parse_resume_with_gpt(text: str) -> dict:
         "content": f"Extract key details from this resume:\n\n{text}"
     })
 
-    response = openai.ChatCompletion.create(
-        engine="gpt-35-turbo",  # Azure deployment name
+    response = client.chat.completions.create(
+        model="gpt-35-turbo",  # Azure deployment name
         messages=few_shot_examples,
         temperature=0.0
     )
 
-    parsed_output = response["choices"][0]["message"]["content"]
+    parsed_output = response.choices[0].message.content
 
     try:
         return json.loads(parsed_output)
@@ -137,13 +143,16 @@ def parse_resume(file_path: str) -> dict:
     }
 
 
-def parse_resume_from_blob(blob_name: str) -> dict:
+def parse_resume_from_blob(blob_name: str, user_id: str = None) -> dict:
     """Full pipeline: extract raw text from blob, preprocess, then parse with GPT."""
-    raw_text = extract_text_from_blob(blob_name)
+    raw_text = extract_text_from_blob(blob_name, user_id=user_id)
 
     # Save extracted raw text to blob storage
     processed_blob_name = f"processed/{os.path.basename(blob_name)}.txt"
-    blob_storage.upload_file(raw_text.encode('utf-8'), processed_blob_name)
+    if user_id:
+        blob_storage.upload_file_user(raw_text.encode('utf-8'), processed_blob_name, user_id)
+    else:
+        blob_storage.upload_file(raw_text.encode('utf-8'), processed_blob_name)
 
     # Step 1: Preprocess
     preprocessed = preprocess_resume_text(raw_text)
@@ -183,12 +192,15 @@ def parse_zip(file_path: str) -> list:
     return parsed_results
 
 
-def parse_zip_from_blob(blob_name: str) -> list:
+def parse_zip_from_blob(blob_name: str, user_id: str = None) -> list:
     """Handle ZIP file containing multiple resumes from blob storage."""
     parsed_results = []
 
     # Download ZIP file from blob storage
-    zip_content = blob_storage.download_file(blob_name)
+    if user_id:
+        zip_content = blob_storage.download_file_user(blob_name, user_id)
+    else:
+        zip_content = blob_storage.download_file(blob_name)
     
     with tempfile.TemporaryDirectory() as tmpdir:
         # Save ZIP content to temporary file

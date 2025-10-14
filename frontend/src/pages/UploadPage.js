@@ -1,31 +1,42 @@
 import React, { useState } from "react";
 import UploadResume from "../components/UploadResume";
+import ParallaxHero from "../components/ParallaxHero";
+import GlassCard from "../components/GlassCard";
+import { Skeleton, SkeletonRow } from "../components/Skeleton";
 
-const UploadPage = () => {
+const UploadPage = ({ pushToast }) => {
   const [uploaded, setUploaded] = useState(null);
+  const [uploading, setUploading] = useState(false);
 
   return (
     <div className="page-container">
-      <div className="page-header text-center">
-        <h1 className="page-title">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" className="me-3" style={{color: 'var(--accent-primary)'}}>
-            <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
-          </svg>
-          Upload Resumes
-        </h1>
-        <p className="page-subtitle">
-          Upload individual resumes or ZIP files containing multiple resumes for AI-powered screening
-        </p>
-      </div>
+      <ParallaxHero
+        title="Upload Resumes"
+        subtitle="Upload single files or ZIP archives for AI-powered screening"
+      />
 
       <div className="row justify-content-center">
         <div className="col-lg-8 col-xl-6">
-          <div className="custom-card">
-            <UploadResume onUpload={setUploaded} />
-          </div>
+          <GlassCard>
+            <UploadResume onUploadingChange={setUploading} onUpload={(data) => {
+              setUploaded(data);
+              if (pushToast) pushToast({ title: 'Upload Successful', message: 'Your files were uploaded and parsed.', type: 'success' });
+            }} />
+          </GlassCard>
 
-          {uploaded && (
-            <div className="alert alert-success d-flex align-items-center mt-4" role="alert" style={{
+          {uploading && (
+            <div className="mt-4">
+              <div className="mb-2" style={{ color: 'var(--text-secondary)' }}>Preparing results...</div>
+              <div className="d-flex flex-column gap-2">
+                <div className="glass p-3"><Skeleton width={"80%"} height={14} /></div>
+                <div className="glass p-3"><SkeletonRow /></div>
+                <div className="glass p-3"><Skeleton width={"60%"} height={14} /></div>
+              </div>
+            </div>
+          )}
+
+          {uploaded && !uploading && (
+            <div className="alert alert-success d-flex align-items-center mt-4 glass" role="alert" style={{
               backgroundColor: 'rgba(35, 134, 54, 0.15)',
               borderColor: 'var(--accent-success)',
               color: 'var(--text-primary)'
@@ -35,8 +46,21 @@ const UploadPage = () => {
               </svg>
               <div>
                 <strong>Upload Successful!</strong><br/>
-                Successfully parsed {Array.isArray(uploaded.files) ? uploaded.files.length : 1} resume(s). 
-                You can now go to the Dashboard to rank and analyze them.
+                {(() => {
+                  const count = Array.isArray(uploaded?.results)
+                    ? uploaded.results.reduce((sum, item) => {
+                        if (item?.status !== 'success') return sum;
+                        if (item?.type === 'zip') {
+                          const inner = Array.isArray(item?.parsed) ? item.parsed.length : 0;
+                          return sum + inner;
+                        }
+                        return sum + 1; // single file success
+                      }, 0)
+                    : (Array.isArray(uploaded?.files) ? uploaded.files.length : 1);
+                  return (
+                    <>Successfully parsed {count} resume(s). You can now go to the Dashboard to rank and analyze them.</>
+                  );
+                })()}
               </div>
             </div>
           )}

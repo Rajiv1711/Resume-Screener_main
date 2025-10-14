@@ -1,0 +1,54 @@
+Om Raghuvanshi
+New Delhi |omraghuvanshi1010@gmail.com |7838 700 999 |
+linkedin.com/in/omraghuvanshi4061/ |github.com/omraghuvanshi
+Education
+Gautam Buddha University , BTech in Information Technology Sept 2021 – June 2025
+•GPA: 8.4/10
+Experience
+AI/ML Trainee , Samsung Innovation Campus – Noida, India June 2024 – Aug 2024
+•Constructed a house pricing model , trained on a dataset of 10,000+ property records , achieving an R2 score of 89.21 ,
+while building a data pipeline for seamless data updates.
+•Engineered a diabetes prediction model using XGBoost andScikit-Learn , attaining 81% accuracy across 768 patient
+records and diminishing false negatives by 15% .
+•Collaborated with a 4-member team to build an NLP-based text summarization system using Python libraries like
+NLTK ,SpaCy , and Gensim . Processed 1GB+ of textual data to generate concise summaries, reducing text sizes by 60%
+without compromising critical information.
+Project Intern , LinuxWorld Informatics – Jaipur, India June 2023 – Sept 2023
+•Engineered an NLP-powered chatbot by integrating GPT-3 and GPT-4 , enhancing conversational AI capabilities.
+•Automated AWS EC2 and S3 operations using Boto3 , deploying AWS Lambda triggers for real-time monitoring via AWS
+SNS.
+•Developed an AI-driven hand gesture recognition system using OpenCV andMediaPipe , enabling real-time volume
+control via webcam.
+•Implemented LangChain and SerpAPI for intelligent search automation and OpenWeather API for real-time weather
+analysis.
+Projects
+Gesture-Controlled OS Launch Tool
+•Engineered an AI-powered system integrating hand gesture recognition with AWS Boto3 to automate the deployment of
+EC2 instances , streamlining cloud resource management.
+•Developed a computer vision pipeline to enhance system responsiveness, reducing execution time for launching virtual
+machines.
+•Architected a scalable and interactive control interface leveraging Python ,AWS SDK , and Machine Learning .
+Intelligent Multifunction Application
+•Designed an AI-driven multi-functional application integrating cloud computing ,image processing ,voice assistance ,
+andreal-time data retrieval .
+•Implemented AWS Cloud ,OpenCV , and SERP API to enable automated cloud operations, intelligent search capabilities,
+and dynamic GUI elements.
+•Optimized system efficiency by deploying Generative AI ,Weather APIs , and SEO-based API queries to generate
+real-time, data-driven insights.
+DocAI, AI-Powered Medical Chatbot
+•Designed and implemented a medical chatbot leveraging LangChain ,FAISS , and Hugging Face models, enabling
+contextual medical query handling and precise responses based on stored knowledge
+•Integrated a fine-tuned ”Mistral-7B-Instruct” LLM endpoint to handle up to 512-token user queries with a latency of
+under 2 seconds .
+•Employed a sentence-transformer model (”all-MiniLM-L6-v2”) for embeddings, facilitating efficient document chunking
+and similarity-based retrieval from a FAISS vector database.
+Technologies
+Languages: Python, Java, Linux, SQL
+Skills: Regression, Classification, Dimensionality Reduction, Anomaly Detection, Deep Learning, Image Classification, Object
+Detection, NLP, OpenAI Integration, scikit-learn, numpy, pandas, tensorflow, matplotlib, Generative AI, SQL, OpenCV,
+MediaPipe, Boto3, AWS, SERPAPI, Pinecone, FlutterFlow, Prompt Engineering, Cloud Event Triggers
+Accomplishments
+•Led a team of 5 to design and develop an MVP, establishing a scalable business model and delivering a successful investor
+pitch at a public event.
+•Co-organized a 24-hour hackathon with 1200+ participants, leading promotion, securing sponsorships, and driving
+engagement across 20+ colleges , resulting in 250+ innovative tech solutions and a INR 2 lakhs prize pool.

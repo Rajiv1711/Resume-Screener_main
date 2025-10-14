@@ -1,18 +1,43 @@
 /* Dark Theme CSS Variables */
 :root {
-  --bg-primary: #0d1117;
-  --bg-secondary: #161b22;
-  --bg-tertiary: #21262d;
+  --bg-primary: #0a0f1a;
+  --bg-secondary: #0f172a;
+  --bg-tertiary: #0b1220;
   --text-primary: #e6edf3;
-  --text-secondary: #7d8590;
-  --text-muted: #656d76;
-  --accent-primary: #58a6ff;
-  --accent-secondary: #1f6feb;
-  --accent-success: #238636;
-  --accent-warning: #d29922;
-  --accent-danger: #da3633;
-  --border-primary: #30363d;
-  --border-secondary: #21262d;
+  --text-secondary: #a0aec0;
+  --text-muted: #6b7280;
+  --accent-primary: #4fd1c5; /* teal */
+  --accent-secondary: #7c3aed; /* purple */
+  --accent-success: #34d399; /* green */
+  --accent-warning: #fb923c; /* orange */
+  --accent-danger: #ef4444;
+  --border-primary: #233047;
+  --border-secondary: #1b2436;
+}
+
+/* Smooth scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--accent-primary) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-image: linear-gradient(180deg, rgba(79,209,197,0.8), rgba(124,58,237,0.8));
+  border-radius: 8px;
+  border: 2px solid transparent;
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background-image: linear-gradient(180deg, rgba(79,209,197,1), rgba(124,58,237,1));
 }
 
 /* Global Dark Theme Styles */
@@ -21,7 +46,9 @@
 }
 
 html {
-  background-color: var(--bg-primary) !important;
+  background: radial-gradient(1200px 600px at 10% 10%, rgba(79,209,197,0.08), transparent 60%),
+              radial-gradient(900px 500px at 90% 20%, rgba(124,58,237,0.08), transparent 60%),
+              linear-gradient(180deg, #0a0f1a, #0b1220 60%, #0f172a) !important;
 }
 
 html[data-bs-theme="dark"] {
@@ -38,6 +65,11 @@ body {
   background-color: var(--bg-primary);
   color: var(--text-primary);
   min-height: 100vh;
+}
+
+@keyframes skeleton-shimmer {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
 }
 
 code {

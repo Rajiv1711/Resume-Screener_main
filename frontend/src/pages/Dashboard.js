@@ -2,8 +2,11 @@ import React, { useState } from "react";
 import { rankResumes, downloadReport } from "../services/api";
 import ResultsTable from "../components/ResultsTable";
 import InsightsChart from "../components/InsightsChart";
+import GlassCard from "../components/GlassCard";
+import Loader from "../components/Loader";
+import ParallaxHero from "../components/ParallaxHero";
 
-const Dashboard = () => {
+const Dashboard = ({ pushToast }) => {
   const [ranked, setRanked] = useState([]);
   const [jobDescription, setJobDescription] = useState("");
   const [isRanking, setIsRanking] = useState(false);
@@ -18,12 +21,22 @@ const Dashboard = () => {
     setIsRanking(true);
     try {
       const res = await rankResumes(jobDescription);
-      setRanked(res.data.ranked_resumes);
+      const ranked = Array.isArray(res.data?.ranked_resumes) ? res.data.ranked_resumes : [];
+      const mapped = ranked.map((r, i) => ({
+        ...r,
+        score: Math.round(((r?.hybrid_score ?? 0) * 100)),
+        name: (r?.parsed && r.parsed.name) ? r.parsed.name : (r?.file || `Candidate ${i + 1}`),
+        skills: Array.isArray(r?.skills) ? r.skills : []
+      }));
+      setRanked(mapped);
     } catch (err) {
       alert("Error ranking resumes. Please try again.");
       console.error(err);
     } finally {
       setIsRanking(false);
+      if (pushToast && ranked.length > 0) {
+        pushToast({ title: 'Ranking Complete', message: 'Results are ready on the dashboard.', type: 'success' });
+      }
     }
   };
 
@@ -36,23 +49,15 @@ const Dashboard = () => {
 
   return (
     <div className="page-container">
-      {/* Header */}
-      <div className="page-header">
-        <h1 className="page-title">
-          <svg width="40" height="40" viewBox="0 0 24 24" fill="currentColor" className="me-3" style={{color: 'var(--accent-primary)'}}>
-            <path d="M13,3V9H21V3M13,21H21V11H13M3,21H11V15H3M3,13H11V3H3V13Z" />
-          </svg>
-          Resume Dashboard
-        </h1>
-        <p className="page-subtitle">
-          Rank and analyze uploaded resumes against job requirements using AI-powered screening
-        </p>
-      </div>
+      <ParallaxHero
+        title="Resume Dashboard"
+        subtitle="Rank and analyze uploaded resumes against job requirements"
+      />
 
       {/* Job Description Card */}
       <div className="row mb-4">
         <div className="col-12">
-          <div className="custom-card">
+          <GlassCard>
             <h4 className="mb-3" style={{color: 'var(--text-primary)'}}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="me-2" style={{color: 'var(--accent-primary)'}}>
                 <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
@@ -72,7 +77,7 @@ const Dashboard = () => {
                 resize: 'vertical'
               }}
             />
-            <div className="d-flex gap-3 flex-wrap">
+            <div className="d-flex gap-3 flex-wrap align-items-center">
               <button
                 className="btn btn-custom-primary"
                 onClick={handleRank}
@@ -80,8 +85,8 @@ const Dashboard = () => {
               >
                 {isRanking ? (
                   <>
-                    <span className="loading-spinner me-2"></span>
-                    Ranking Resumes...
+                    <Loader size={24} />
+                    <span className="ms-2">Ranking Resumes...</span>
                   </>
                 ) : (
                   <>
@@ -92,30 +97,29 @@ const Dashboard = () => {
                   </>
                 )}
               </button>
-              
               <button
                 className="btn btn-custom-secondary"
                 onClick={() => downloadReport("excel")}
                 disabled={ranked.length === 0}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="me-2">
-                  <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20M8,13H16V15H8V13Z" />
-                </svg>
                 Export Excel
               </button>
-              
+              <button
+                className="btn btn-custom-secondary"
+                onClick={() => downloadReport("csv")}
+                disabled={ranked.length === 0}
+              >
+                Export CSV
+              </button>
               <button
                 className="btn btn-custom-secondary"
                 onClick={() => downloadReport("pdf")}
                 disabled={ranked.length === 0}
               >
-                <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="me-2">
-                  <path d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z" />
-                </svg>
                 Export PDF
               </button>
             </div>
-          </div>
+          </GlassCard>
         </div>
       </div>
 
@@ -125,41 +129,41 @@ const Dashboard = () => {
           {/* Statistics Cards */}
           <div className="row mb-4">
             <div className="col-md-4">
-              <div className="custom-card text-center">
+              <GlassCard className="text-center">
                 <h3 className="mb-2" style={{color: 'var(--accent-primary)'}}>
                   {ranked.length}
                 </h3>
                 <p className="mb-0" style={{color: 'var(--text-secondary)'}}>
                   Resumes Analyzed
                 </p>
-              </div>
+              </GlassCard>
             </div>
             <div className="col-md-4">
-              <div className="custom-card text-center">
+              <GlassCard className="text-center">
                 <h3 className="mb-2" style={{color: 'var(--accent-success)'}}>
                   {ranked.filter(r => r.score >= 80).length}
                 </h3>
                 <p className="mb-0" style={{color: 'var(--text-secondary)'}}>
                   High Match (80%+)
                 </p>
-              </div>
+              </GlassCard>
             </div>
             <div className="col-md-4">
-              <div className="custom-card text-center">
+              <GlassCard className="text-center">
                 <h3 className="mb-2" style={{color: 'var(--accent-warning)'}}>
                   {Math.round(ranked.reduce((sum, r) => sum + r.score, 0) / ranked.length)}%
                 </h3>
                 <p className="mb-0" style={{color: 'var(--text-secondary)'}}>
                   Average Score
                 </p>
-              </div>
+              </GlassCard>
             </div>
           </div>
 
           {/* Ranked Results Table */}
           <div className="row mb-4">
             <div className="col-12">
-              <div className="custom-card">
+              <GlassCard>
                 <h4 className="mb-4" style={{color: 'var(--text-primary)'}}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="me-2" style={{color: 'var(--accent-primary)'}}>
                     <path d="M3,3H21V5H3V3M4,6H20V8H4V6M5,9H19V11H5V9M6,12H18V14H6V12M7,15H17V17H7V15M8,18H16V20H8V18Z" />
@@ -167,14 +171,14 @@ const Dashboard = () => {
                   Ranked Results
                 </h4>
                 <ResultsTable resumes={ranked} />
-              </div>
+              </GlassCard>
             </div>
           </div>
 
           {/* Insights Chart */}
           <div className="row">
             <div className="col-12">
-              <div className="custom-card">
+              <GlassCard>
                 <h4 className="mb-4" style={{color: 'var(--text-primary)'}}>
                   <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="me-2" style={{color: 'var(--accent-primary)'}}>
                     <path d="M22,21H2V3H4V19H6V17H10V19H12V16H16V19H18V17H22V21Z" />
@@ -182,7 +186,7 @@ const Dashboard = () => {
                   Insights & Analytics
                 </h4>
                 <InsightsChart />
-              </div>
+              </GlassCard>
             </div>
           </div>
         </>

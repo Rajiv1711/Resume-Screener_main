@@ -2,10 +2,11 @@
 import os
 import time
 from typing import Optional
-from fastapi import APIRouter, Depends, HTTPException, status
+from fastapi import APIRouter, Depends, HTTPException, status, Request
 from fastapi.security import OAuth2PasswordRequestForm
 from pydantic import BaseModel
 import jwt  # PyJWT
+from app.services.guest_auth import guest_session_manager
 
 # Secret for signing tokens (in production use a secure secret or Key Vault)
 JWT_SECRET = os.getenv("JWT_SECRET", "change_this_secret_for_dev")
@@ -19,6 +20,22 @@ class TokenResponse(BaseModel):
     access_token: str
     token_type: str = "bearer"
     expires_at: int
+
+
+class GuestTokenResponse(BaseModel):
+    access_token: str
+    token_type: str = "guest"
+    expires_at: str  # ISO format datetime string
+    remaining_seconds: int
+    session_type: str = "guest"
+
+
+class GuestSessionInfo(BaseModel):
+    ip_address: str
+    created_at: str
+    expires_at: str
+    remaining_seconds: int
+    is_active: bool
 
 
 @router.post("/login", response_model=TokenResponse)
@@ -76,3 +93,112 @@ def get_current_user(authorization: Optional[str] = None):
         token = authorization
 
     return verify_token(token)
+
+
+# Helper function to get client IP
+def get_client_ip(request: Request) -> str:
+    """
+    Extract the real client IP address from the request.
+    Checks X-Forwarded-For header first (for reverse proxies), then falls back to client host.
+    """
+    forwarded_for = request.headers.get("X-Forwarded-For")
+    if forwarded_for:
+        # X-Forwarded-For can contain multiple IPs, take the first one
+        return forwarded_for.split(",")[0].strip()
+    
+    real_ip = request.headers.get("X-Real-IP")
+    if real_ip:
+        return real_ip.strip()
+    
+    # Fallback to client host
+    client_host = request.client.host if request.client else "unknown"
+    return client_host
+
+
+@router.post("/guest-login", response_model=GuestTokenResponse)
+def guest_login(request: Request):
+    """
+    Create a guest session for the client's IP address.
+    Allows 3-minute access without authentication.
+    """
+    client_ip = get_client_ip(request)
+    
+    if not client_ip or client_ip == "unknown":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Unable to determine client IP address"
+        )
+    
+    try:
+        token, expires_at = guest_session_manager.create_guest_session(client_ip)
+        
+        # Calculate remaining seconds
+        remaining_seconds = int((expires_at.timestamp() - time.time()))
+        
+        return GuestTokenResponse(
+            access_token=token,
+            expires_at=expires_at.isoformat(),
+            remaining_seconds=remaining_seconds
+        )
+        
+    except Exception as e:
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to create guest session: {str(e)}"
+        )
+
+
+@router.get("/guest-status", response_model=GuestSessionInfo)
+def get_guest_status(request: Request):
+    """
+    Check the status of the current guest session for this IP address.
+    """
+    client_ip = get_client_ip(request)
+    
+    if not client_ip or client_ip == "unknown":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Unable to determine client IP address"
+        )
+    
+    # We need to get the token from the Authorization header to validate
+    auth_header = request.headers.get("Authorization")
+    if not auth_header or not auth_header.startswith("Bearer "):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Missing or invalid authorization header"
+        )
+    
+    token = auth_header.split(" ", 1)[1]
+    session_info = guest_session_manager.validate_guest_token(token, client_ip)
+    
+    if not session_info:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid or expired guest session"
+        )
+    
+    return GuestSessionInfo(
+        ip_address=session_info["ip_address"],
+        created_at=session_info["created_at"].isoformat(),
+        expires_at=session_info["expires_at"].isoformat(),
+        remaining_seconds=session_info["remaining_seconds"],
+        is_active=True
+    )
+
+
+@router.post("/guest-logout")
+def guest_logout(request: Request):
+    """
+    Revoke/logout from the guest session for this IP address.
+    """
+    client_ip = get_client_ip(request)
+    
+    if not client_ip or client_ip == "unknown":
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Unable to determine client IP address"
+        )
+    
+    guest_session_manager.revoke_guest_session(client_ip)
+    return {"message": "Guest session revoked successfully"}

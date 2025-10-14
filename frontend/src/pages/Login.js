@@ -1,12 +1,13 @@
 // frontend/src/pages/Login.js
-import React from "react";
+import React, { useState } from "react";
 import { useMsal } from "@azure/msal-react";
-import { loginPopup } from "../services/api";
+import { loginPopup, guestLogin, setGuestToken } from "../services/api";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const { instance, accounts } = useMsal();
   const navigate = useNavigate();
+  const [isGuestLoading, setIsGuestLoading] = useState(false);
 
   const handleLogin = async () => {
     try {
@@ -15,6 +16,25 @@ const Login = () => {
     } catch (err) {
       console.error("Login error", err);
       alert("Login failed");
+    }
+  };
+
+  const handleGuestLogin = async () => {
+    setIsGuestLoading(true);
+    try {
+      const response = await guestLogin();
+      const { access_token, expires_at } = response.data;
+      
+      // Store guest token
+      setGuestToken(access_token, expires_at);
+      
+      // Navigate to dashboard
+      navigate("/dashboard");
+    } catch (err) {
+      console.error("Guest login error", err);
+      alert("Guest login failed. Please try again.");
+    } finally {
+      setIsGuestLoading(false);
     }
   };
 
@@ -91,6 +111,38 @@ const Login = () => {
                   Sign in with Microsoft
                 </button>
                 
+                <div className="text-center my-3">
+                  <span className="px-3" style={{color: 'var(--text-secondary)', backgroundColor: 'var(--bg-primary)'}}>
+                    OR
+                  </span>
+                  <hr style={{marginTop: '-12px', borderColor: 'var(--border-primary)'}} />
+                </div>
+                
+                <button 
+                  className="btn btn-outline-secondary btn-lg w-100 mb-3"
+                  onClick={handleGuestLogin}
+                  disabled={isGuestLoading}
+                  style={{
+                    borderColor: 'var(--border-primary)',
+                    color: 'var(--text-primary)',
+                    backgroundColor: 'transparent'
+                  }}
+                >
+                  {isGuestLoading ? (
+                    <>
+                      <span className="loading-spinner me-2"></span>
+                      Creating Guest Session...
+                    </>
+                  ) : (
+                    <>
+                      <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="me-2">
+                        <path d="M12,4A4,4 0 0,1 16,8A4,4 0 0,1 12,12A4,4 0 0,1 8,8A4,4 0 0,1 12,4M12,14C16.42,14 20,15.79 20,18V20H4V18C4,15.79 7.58,14 12,14Z" />
+                      </svg>
+                      Continue as Guest (3 min)
+                    </>
+                  )}
+                </button>
+                
                 <div className="alert alert-info" style={{
                   backgroundColor: 'rgba(88, 166, 255, 0.1)',
                   borderColor: 'var(--accent-primary)',
@@ -101,8 +153,8 @@ const Login = () => {
                     <path d="M11,9H13V7H11M12,20C7.59,20 4,16.41 4,12C4,7.59 7.59,4 12,4C16.41,4 20,7.59 20,12C20,16.41 16.41,20 12,20M12,2A10,10 0 0,0 2,12A10,10 0 0,0 12,22A10,10 0 0,0 22,12A10,10 0 0,0 12,2M11,17H13V11H11V17Z" />
                   </svg>
                   <small>
-                    This application uses Microsoft Entra ID (Azure AD) for authentication. 
-                    Ensure proper app registration and API scopes are configured.
+                    <strong>Microsoft Account:</strong> Full access with secure authentication via Azure AD.<br/>
+                    <strong>Guest Access:</strong> 3-minute trial access without registration. Limited to your IP address.
                   </small>
                 </div>
               </>

@@ -1,0 +1,60 @@
+Kunal Bose                                                                 📱 +91 7457037159 | Email | LinkedIn  | GitHub  | Portfolio   
+ 
+SUMMARY:  
+Computer Science & Engineering student with a strong foundation in front -end and full -stack development, and in -depth 
+knowledge of cloud technologies and DevOps practices. Skilled in building scalable applications and automating infrastructure  
+using modern  development workflows.  
+ 
+TECHNICAL SKILLS:  
+• Languages  : Python, JavaScript, TypeScript, C++  
+• Frontend  : React, Nextjs 13, Tailwind CSS  
+• Backend  : Python, Nodejs  
+• Version Control  : Git, GitHub  
+• DevOps /Cloud  : Docker, AWS, Jenkins , Terraform, Bash Scripting , Git 
+• Database  : MySQL, MongoDB   
+• Coursework  : Object -Object -Oriented Programming, D atabase Management System , Operating  Systems      
+Computer Networks,  Artificial Intelligence  
+ 
+EXPERIENCE:  
+IT INTERN: TruKKer  | June 2023 - December 2023  
+• Engineered an insightful asset analysis software using various libraries of Python, which helped in better managed data 
+details for the company  
+• Designed a dashboard for the company’s internal usage using Reactjs  
+• Worked on daily basis tasks given by the POC  
+College Level Activities:  
+• Worked as the Multimedia Head at CerebrumB U 
+• Worked as the Head of Design at DevOps BU  
+• Research Papers:  
+▪ Fraud Detection using Natural Language Processing – Explored NLP techniques for identifying fraudulent 
+activities.  
+▪ Unveiling the Core of DevOps – Analysed  key principles and practices shaping modern DevOps methodologies.  
+ 
+PROJECTS:  
+[Link ]StackForge -Terraform -Infra – DevOps  
+Tech Stack: Terraform,  EKS,  AWS , Jenkins, Shell Scripting  
+• Production -ready AWS infrastructure built using Terraform, featuring modular EKS architecture, Jenkins -based CI/CD 
+automation, and Shell scripting for deployment orchestration.  
+[Link ]StackForge -k8s-Deploymenet – DevOps  
+Tech Stack: Kubernetes , EKS,  AWS , Jenkins, Shell Scripting , Reatjs, Nodejs, Redis, PostgresSQL  
+• Robust full -stack deployment on AWS EKS using Kubernetes with production -grade practices like StatefulSets, Secrets, 
+and network policies. CI/CD automated via Jenkins and Shell scripting for React, Node.js, Redis, and PostgreSQL stack.  
+[Link ]AWS -Architecture -Multiregional – DevOps  
+Tech Stack: AWS, Terraform, Jenkins, Shell Scripting  
+• an active -active AWS multi -region architecture using Terraform. It includes modular infrastructure, automated Jenkins 
+installation, and a CI/CD pipeline for seamless deployment.  
+ [Link ]Shoppy  - Front End   
+Tech Stack: Reactjs, React Context APIs, Syncfusion, Tailwind CSS  
+• Fully responsive and customisable Admin dashboard created using advanced Reactjs, React Context APIs, Syncfusion and 
+Tailwind CSS   
+• Theme customisation with light and dark mode, it includes 1 dashboard, 3 pages, 4 apps, 7 fully function  charts  
+[Link ] Terraform -CI-CD-Pipeline -Azure  - Devops  
+• Tech Stack: Azure , Terraform , Shell Scripting  
+The terraform -CICD repository automates infrastructure deployment with Terraform by defining network resources as 
+code, ensuring consistency, scalability, and efficient CI/CD workflows while minimizing manual effort.  
+[Link ]Credit Card Fraud Detector  - Analysis   
+Tech Stack: Python, Pandas, NumPy, Scikit -learn, Seaborn  
+• Prediction model which predicts the safety of the transaction with some user input.  
+ 
+EDUCATION:  
+Bennett University, Greater Noida  Bachelor’s in Computer Science and Engineering [2022 -2026] |                                                    
+Army Public School Noida Class 12th [2021 -2022]and Class 10th [2019 -2020] | 

@@ -1,21 +1,38 @@
 // frontend/src/components/LogoutButton.js
 import React from "react";
 import { useMsal } from "@azure/msal-react";
-import { logout } from "../services/api";
+import { logout, guestLogout, clearGuestToken, isAuthenticated } from "../services/api";
+import { useNavigate } from "react-router-dom";
 
 const LogoutButton = () => {
   const { instance } = useMsal();
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
-      // MSAL logout (redirect flow)
-      await logout();
+      const authStatus = isAuthenticated();
+      
+      if (authStatus && authStatus.type === 'guest') {
+        // Guest logout
+        try {
+          await guestLogout();
+        } catch (err) {
+          console.warn('Guest logout API call failed:', err);
+        }
+        clearGuestToken();
+        navigate('/login');
+      } else {
+        // Azure AD logout (redirect flow)
+        await logout();
+      }
+      
       // fallback: clear localStorage if any legacy token stored
       localStorage.removeItem("access_token");
     } catch (err) {
       console.error("Logout error", err);
       // clear local storage fallback
       localStorage.removeItem("access_token");
+      clearGuestToken();
     }
   };
 

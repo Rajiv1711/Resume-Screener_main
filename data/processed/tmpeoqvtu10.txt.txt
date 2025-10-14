@@ -1,0 +1,41 @@
+SARAH JOHNSON
+Email: sarah.johnson@email.com
+Phone: (555) 987-6543
+
+OBJECTIVE
+Data Scientist seeking opportunities to apply machine learning expertise in business intelligence and predictive modeling.
+
+TECHNICAL SKILLS
+- Programming: Python, R, SQL, MATLAB
+- Machine Learning: Scikit-learn, TensorFlow, PyTorch, Keras
+- Data Visualization: Matplotlib, Seaborn, Plotly, Tableau
+- Big Data: Spark, Hadoop, Hive
+- Databases: PostgreSQL, MySQL, MongoDB
+- Cloud: AWS, GCP
+- Statistical Analysis: Regression, Classification, Clustering
+
+WORK EXPERIENCE
+
+Data Scientist | Analytics Corp | 2020 - Present
+- Developed predictive models for customer churn analysis using Python and scikit-learn
+- Built recommendation systems improving user engagement by 25%
+- Created automated reporting dashboards using Tableau
+- Collaborated with business stakeholders to define KPIs and metrics
+
+Junior Data Analyst | Market Research Inc. | 2018 - 2020
+- Performed statistical analysis on market research data
+- Generated insights using SQL queries and Python scripts
+- Created visualizations for executive presentations
+- Maintained data pipelines and ETL processes
+
+EDUCATION
+Master of Science in Data Science
+Tech University | 2016 - 2018
+
+Bachelor of Science in Statistics  
+State College | 2012 - 2016
+
+PROJECTS
+- Customer Segmentation Analysis: Used clustering algorithms to segment customer base
+- Fraud Detection System: Built machine learning model to detect fraudulent transactions
+- Sales Forecasting: Developed time series models for quarterly sales predictions

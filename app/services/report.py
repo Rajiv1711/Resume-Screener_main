@@ -1,6 +1,7 @@
 import os
 import json
 from openpyxl import Workbook
+import csv
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
@@ -11,6 +12,18 @@ REPORTS_DIR = "reports"
 os.makedirs(REPORTS_DIR, exist_ok=True)
 
 
+def _normalize_row(resume, idx):
+    parsed = resume.get("parsed", {}) or {}
+    name = parsed.get("name") or resume.get("file", f"Candidate {idx}")
+    email = parsed.get("email", "N/A")
+    skills = resume.get("skills", []) or []
+    # Prefer 'score' if already computed; else derive from hybrid_score
+    score_val = resume.get("score")
+    if score_val is None:
+        score_val = round(float(resume.get("hybrid_score", 0)) * 100, 2)
+    return name, email, score_val, skills
+
+
 def generate_excel_report(ranked_results):
     """
     Generate Excel report of ranked resumes.
@@ -19,19 +32,19 @@ def generate_excel_report(ranked_results):
     ws = wb.active
     ws.title = "Ranked Resumes"
 
-    headers = ["Rank", "Candidate Name", "Email", "File", "Score", "Top Skills"]
+    headers = ["Rank", "Candidate Name", "Email", "File", "Score (%)", "Top Skills"]
     ws.append(headers)
 
     # Populate rows
     for idx, resume in enumerate(ranked_results, start=1):
-        parsed = resume.get("parsed", {})
+        name, email, score_val, skills = _normalize_row(resume, idx)
         ws.append([
             idx,
-            parsed.get("name", "N/A"),
-            parsed.get("email", "N/A"),
+            name,
+            email,
             resume.get("file", "N/A"),
-            resume.get("score", 0),
-            ", ".join(resume.get("skills", []))
+            score_val,
+            ", ".join(skills)
         ])
 
     excel_path = os.path.join(REPORTS_DIR, "ranked_resumes.xlsx")
@@ -54,17 +67,11 @@ def generate_pdf_report(ranked_results):
     elements.append(Spacer(1, 12))
 
     # Table Data
-    table_data = [["Rank", "Candidate", "Email", "Score", "Top Skills"]]
+    table_data = [["Rank", "Candidate", "Email", "Score (%)", "Top Skills"]]
 
     for idx, resume in enumerate(ranked_results, start=1):
-        parsed = resume.get("parsed", {})
-        row = [
-            idx,
-            parsed.get("name", "N/A"),
-            parsed.get("email", "N/A"),
-            round(resume.get("score", 0), 3),
-            ", ".join(resume.get("skills", []))
-        ]
+        name, email, score_val, skills = _normalize_row(resume, idx)
+        row = [idx, name, email, score_val, ", ".join(skills)]
         table_data.append(row)
 
     table = Table(table_data, repeatRows=1)
@@ -85,6 +92,20 @@ def generate_pdf_report(ranked_results):
     return pdf_path
 
 
+def generate_csv_report(ranked_results):
+    """
+    Generate CSV report of ranked resumes.
+    """
+    csv_path = os.path.join(REPORTS_DIR, "ranked_resumes.csv")
+    with open(csv_path, "w", newline="", encoding="utf-8") as f:
+        writer = csv.writer(f)
+        writer.writerow(["Rank", "Candidate Name", "Email", "File", "Score (%)", "Top Skills"])
+        for idx, resume in enumerate(ranked_results, start=1):
+            name, email, score_val, skills = _normalize_row(resume, idx)
+            writer.writerow([idx, name, email, resume.get("file", "N/A"), score_val, ", ".join(skills)])
+    return csv_path
+
+
 def generate_reports():
     """
     Read the ranked JSON file and generate both Excel and PDF reports.
@@ -98,10 +119,12 @@ def generate_reports():
         ranked_results = json.load(f)
 
     excel_path = generate_excel_report(ranked_results)
+    csv_path = generate_csv_report(ranked_results)
     pdf_path = generate_pdf_report(ranked_results)
 
     return {
         "excel_report": excel_path,
+        "csv_report": csv_path,
         "pdf_report": pdf_path
     }
 
@@ -124,6 +147,7 @@ def generate_reports_from_blob():
             ranked_results = json.load(f)
 
     excel_path = generate_excel_report(ranked_results)
+    csv_path = generate_csv_report(ranked_results)
     pdf_path = generate_pdf_report(ranked_results)
     
     # Upload reports to blob storage
@@ -135,9 +159,16 @@ def generate_reports_from_blob():
         pdf_content = f.read()
     blob_storage.upload_file(pdf_content, f"reports/{os.path.basename(pdf_path)}")
 
+    # Upload CSV as well
+    with open(csv_path, "rb") as f:
+        csv_content = f.read()
+    blob_storage.upload_file(csv_content, f"reports/{os.path.basename(csv_path)}")
+
     return {
         "excel_report": excel_path,
+        "csv_report": csv_path,
         "pdf_report": pdf_path,
         "excel_blob": f"reports/{os.path.basename(excel_path)}",
+        "csv_blob": f"reports/{os.path.basename(csv_path)}",
         "pdf_blob": f"reports/{os.path.basename(pdf_path)}"
     }

@@ -1,11 +1,12 @@
-import openai
 from typing import List, Dict
+from openai import AzureOpenAI
 
-# Configure Azure OpenAI
-openai.api_type = "azure"
-openai.api_key = "CYAwdpz6QRguMec53YUv1imw8Asf1s97jz1HwpuCUNPIsylrqkwnJQQJ99BJAC77bzfXJ3w3AAABACOGZ5GD"
-openai.api_base = "https://embedderresume.openai.azure.com/"
-openai.api_version = "2024-12-01-preview"
+# Configure Azure OpenAI (Embeddings)
+client = AzureOpenAI(
+    api_key="CYAwdpz6QRguMec53YUv1imw8Asf1s97jz1HwpuCUNPIsylrqkwnJQQJ99BJAC77bzfXJ3w3AAABACOGZ5GD",
+    api_version="2024-12-01-preview",
+    azure_endpoint="https://embedderresume.openai.azure.com/"
+)
 
 
 def get_text_embedding(text: str, model: str = "text-embedding-3-large") -> List[float]:
@@ -15,12 +16,12 @@ def get_text_embedding(text: str, model: str = "text-embedding-3-large") -> List
     if not text or len(text.strip()) == 0:
         return []
 
-    response = openai.Embedding.create(
+    response = client.embeddings.create(
         input=text,
-        engine=model  # use the name of your Azure deployment
+        model=model  # Azure deployment name for embeddings
     )
 
-    embedding_vector = response["data"][0]["embedding"]
+    embedding_vector = response.data[0].embedding
     return embedding_vector
 
 
