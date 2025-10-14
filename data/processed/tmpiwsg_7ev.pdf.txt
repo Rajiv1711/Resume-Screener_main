@@ -1,0 +1,31 @@
+RajivRanjan 
+ 21SCSE1011111@galgotiasuniversity.edu.in | +918920615221 | C-1301 expressparkview, ChiV, GreaterNoida, 201310, IndiaEducationFIITJEEWorldSchoolHyderabad, IndiaDegreeinMatriculationMarch 2017 - March 2018
+ CGPA: 9.46 
+ M.D.J. PublicSchoolAra, IndiaDegreeinIntermediateMarch 2018 - March 2020
+ Percentage: 76.4% 
+ GalgotiasuniversityGreaterNoida, IndiaCSEB.TechJuly 2021 - July 2025
+ CGPA: 8.53 
+ 
+ SkillsprogrammingLanguages: Python, C, C++, HTML, CSS, JQuery, JavaScriptLibraries/Frameworks: BootStrap, React, TensorFlow, Pandas, Numpy, NLTKDatabases: MongoDBProjects / Open-SourceTwittersentimentAnalysisPython 
+ (cid:136) 
+ TheProjectaimstoperformsentimentanalysisonTwitterdatausingLongShort-TermMemory
+ (LSTM) neuralnetworks. 
+ (cid:136) 
+ Itpreprocessestextdatabytokenizingtweets, convertingwordstowordvectors, andpaddingsequencesforuniformity. 
+ (cid:136) 
+ TheLSTMmodelisdesignedtolearnfromwordembeddingstopredictsentimentlabels (positiveornegative) fortweets. 
+ (cid:136) 
+ Themodelistrainedona portionofthedataset, validatedonanotherportion, andevaluatedona testsettoassessitsperformance. 
+ ’ 
+ Drivers DrowsinessSensorC, EmbeddedTechnology 
+ (cid:136) 
+ TheProjectisdesignedtodetectdriverdrowsinessusinganinfrared (IR) sensorandalertthedriverusinga buzzer. 
+ (cid:136) ’ 
+ TheIRsensormonitorsthedrivers eyemovementsorfacialexpressionstodeterminedrowsinesslevels.
+ (cid:136) 
+ Whensignsofdrowsinessaredetected, suchasprolongedeyeclosureorheadnodding, thebuzzerisactivatedtoalertthedriverandpreventpotentialaccidents. 
+ (cid:136) 
+ Thissystemaimstoenhanceroadsafetybyprovidingreal-timemonitoringofdriverfatigueduringlongjourneysorlate-nightdriving. 
+ Certifications 
+ (cid:136) 
+ CyberSecurityVirtualInternship - AICTE

@@ -1,0 +1,33 @@
+OmRaghuvanshiNewDelhi | omraghuvanshi1010@gmail.com | 7838 700 999 | 
+ linkedin.com/in/omraghuvanshi4061/ | github.com/omraghuvanshiEducationGautamBuddhauniversity, BTechinInformationTechnologySept 2021 – June 2025
+ • GPA: 8.4/10 
+ 
+ ExperienceAI/MLTrainee, SamsungInnovationCampus – Noida, IndiaJune 2024 – Aug 2024
+ • Constructeda housepricingmodel, trainedona datasetof 10,000+ propertyrecords, achievinganR2 scoreof 89.21,
+ whilebuildinga datapipelineforseamlessdataupdates. 
+ • Engineereda diabetespredictionmodelusingXGBoostandScikit-Learn, attaining 81% accuracyacross 768 patientrecordsanddiminishingfalsenegativesby 15%. 
+ • Collaboratedwitha 4-memberteamtobuildanNLP-basedtextsummarizationsystemusingPythonlibrarieslikeNLTK, SpaCy, andGensim. Processed 1GB+ oftextualdatatogenerateconcisesummaries, reducingtextsizesby 60%
+ withoutcompromisingcriticalinformation. 
+ ProjectIntern, LinuxWorldInformatics – Jaipur, IndiaJune 2023 – Sept 2023
+ • EngineeredanNLP-poweredchatbotbyintegratingGPT-3 andGPT-4, enhancingconversationalAIcapabilities.
+ • AutomatedAWSEC2 andS3 operationsusingBoto3, deployingAWSLambdatriggersforreal-timemonitoringviaAWSSNS. 
+ • DevelopedanAI-drivenhandgesturerecognitionsystemusingOpenCVandMediaPipe, enablingreal-timevolumecontrolviawebcam. 
+ • ImplementedLangChainandSerpAPIforintelligentsearchautomationandOpenWeatherAPIforreal-timeweatheranalysis. 
+ ProjectsGesture-ControlledOSLaunchTool 
+ • EngineeredanAI-poweredsystemintegratinghandgesturerecognitionwithAWSBoto3 toautomatethedeploymentofEC2 instances, streamliningcloudresourcemanagement. 
+ • Developeda computervisionpipelinetoenhancesystemresponsiveness, reducingexecutiontimeforlaunchingvirtualmachines. 
+ • Architecteda scalableandinteractivecontrolinterfaceleveragingPython, AWSSDK, andMachineLearning.
+ IntelligentMultifunctionApplication 
+ • DesignedanAI-drivenmulti-functionalapplicationintegratingcloudcomputing, imageprocessing, voiceassistance,
+ andreal-timedataretrieval. 
+ • ImplementedAWSCloud, OpenCV, andSERPAPItoenableautomatedcloudoperations, intelligentsearchcapabilities,
+ anddynamicGUIelements. 
+ • OptimizedsystemefficiencybydeployingGenerativeAI, WeatherAPIs, andSEO-basedAPIqueriestogeneratereal-time, data-driveninsights. 
+ DocAI, AI-PoweredMedicalChatbot 
+ • Designedandimplementeda medicalchatbotleveragingLangChain, FAISS, andHuggingFacemodels, enablingcontextualmedicalqueryhandlingandpreciseresponsesbasedonstoredknowledge
+ • Integrateda fine-tuned ”Mistral-7B-Instruct” LLMendpointtohandleupto 512-tokenuserquerieswitha latencyofunder 2 seconds. 
+ • Employeda sentence-transformermodel (”all-MiniLM-L6-v2”) forembeddings, facilitatingefficientdocumentchunkingandsimilarity-basedretrievalfroma FAISSvectordatabase. 
+ TechnologiesLanguages: Python, Java, Linux, SQLSkills: Regression, Classification, DimensionalityReduction, AnomalyDetection, DeepLearning, ImageClassification, ObjectDetection, NLP, OpenAIIntegration, scikit-learn, numpy, pandas, tensorflow, matplotlib, GenerativeAI, SQL, OpenCV,
+ MediaPipe, Boto3, AWS, SERPAPI, Pinecone, FlutterFlow, PromptEngineering, CloudEventTriggersAccomplishments 
+ • Leda teamof 5 todesignanddevelopanMVP, establishinga scalablebusinessmodelanddeliveringa successfulinvestorpitchata publicevent. 
+ • Co-organizeda 24-hourhackathonwith 1200+ participants, leadingpromotion, securingsponsorships, anddrivingengagementacross 20+ colleges, resultingin 250+ innovativetechsolutionsanda INR 2 lakhsprizepool.

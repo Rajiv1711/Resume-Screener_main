@@ -1,0 +1,37 @@
+Chandan 
+ (+91) 8700737019 | aryachandan1947@gmail.com | LinkedIn | GitHubSummaryAspiringMachineLearningEngineerwithexperienceinbuildingreal-worldAI/MLapplications. Skilledindeeplearning, computervision, andnaturallanguageprocessingusingPython, TensorFlow, scikit-learn, andmodernLLMtools. Passionateaboutusingdatatosolveimpactfulproblemsthroughmodeldevelopmentandexperimentation. 
+ 
+ EducationDegree/ExamYearInstitutionScoreB.TechCSE-IOT 2021–2025 NetajiSubhasuniversityofTechnology 6.88 CGPACBSE (ClassXII) 2021 RajkiyaPratibhaVikasVidyalaya 89.2% 
+ CBSE (ClassX) 2019 RajkiyaPratibhaVikasVidyalaya 85.5% 
+ 
+ ExperienceResearch & DevelopmentInternJune–August 2024 
+ 
+ • ContributedtothedevelopmentofanIoT-basedautomationsystem. 
+ • DesignedandimplementedwebuserinterfacesandPythonTkinterapplications.
+ • ProgrammedSTM-basedcontrollerfirmwareinC. 
+ • Documentedprocessesandcollaboratedwithcross-functionalteams. 
+ ProjectsCreditCardRecommendationSystem [GitHub] [Demo] 
+ 
+ • AI-poweredwebapprecommendingcreditcardsusinghybridembeddings (text + numericfeatures) andLLMsforpersonalizedexplanations. BuiltwithPython, Streamlit, HuggingFace; deployedonStreamlitCloud.
+ • Engineereddatapipeline: extracted, cleaned, andnormalizedfinancialdata; implementedvectorsimilarityforrecommendations. Integrateduserpreferenceinput, rewardsimulations, andsecureAPItokenmanagement.
+ SentinelSecure [GitHub] 
+ 
+ • Real-timeobjectdetectionandalertingsystemforCCTVusingYOLOv8 andPython.
+ • Automatedthreatdetectionandnotificationforenhancedsecuritymonitoring.
+ 
+ Skillsprogramming: Python, SQL, JavaScript, C | Frameworks: React.js, Next.js | DataAnalysis: Pandas,
+ NumPy, Matplotlib, Seaborn, Tableau | Tools: OpenCV, Excel, PowerBI, Git, JupyterNotebook, MySQL,
+ PostgreSQLLeadership & ActivitiesTATSAM, TheHindiSocietyofNSUT (2022–present): PRHead (2023–24), ledPR, content, andeventpromotion. 
+ NationalServiceScheme (NSS), NSUT (Volunteer, 2022–24): Organizedandparticipatedincommunityserviceinitiatives. 
+ NationalCadetCorps, 5 DelhiBattalion (CHM) (2019–20): CompanyHavildarMajor; developedleadershipandteamworkskills. 
+ 
+ Achievements 
+ 
+ • Top 15 outof 1500+ teams, HackWithIndiaHackathon. 
+ • GoldMedal, State-levelScienceandMathematicsExhibition (2016–2019). 
+ • RepresentedschoolatNorthernIndiaScienceExhibitionwithproject “TEG & TEC”.
+ • BestCadetAward, NCC 5 DBN (2019). 
+ 
+ 1 
+Degree/Exam | Year | Institution | ScoreB.TechCSE-IOT | 2021–2025 | NetajiSubhasuniversityofTechnology | 6.88 CGPACBSE (ClassXII) | 2021 | RajkiyaPratibhaVikasVidyalaya | 89.2%
+CBSE (ClassX) | 2019 | RajkiyaPratibhaVikasVidyalaya | 85.5%

@@ -2,6 +2,7 @@ import numpy as np
 from typing import List, Dict
 from app.services.embeddings import generate_resume_embedding, get_text_embedding
 from ml.hybrid_ranker import TfidfHybridScorer, combine_hybrid_scores
+from app.services.llm_based_ranker import llm_ranker
 
 
 def cosine_similarity(vec1: List[float], vec2: List[float]) -> float:
@@ -14,12 +15,33 @@ def cosine_similarity(vec1: List[float], vec2: List[float]) -> float:
     return float(np.dot(v1, v2) / (np.linalg.norm(v1) * np.linalg.norm(v2)))
 
 
-def rank_resumes(resume_list: List[Dict], job_description: str, alpha: float = 0.7) -> List[Dict]:
+def rank_resumes(resume_list: List[Dict], job_description: str, alpha: float = 0.3) -> List[Dict]:
     """
-    Rank resumes using hybrid scoring: alpha*embedding + (1-alpha)*TF-IDF.
-    Each resume is expected to contain preprocessed text.
+    Rank resumes using advanced LLM-based evaluation (70%) + keyword matching (30%).
+    
+    Args:
+        resume_list: List of parsed resume dictionaries
+        job_description: Job description to rank against
+        alpha: Weight for keyword matching (default 0.3, LLM gets 0.7)
+    
+    Returns:
+        List of ranked resumes with detailed LLM-based insights
     """
+    try:
+        # Use LLM-based ranker for comprehensive evaluation
+        return llm_ranker.rank_resumes(resume_list, job_description, keyword_weight=alpha)
+    
+    except Exception as e:
+        print(f"LLM ranking failed, falling back to traditional method: {str(e)}")
+        
+        # Fallback to original hybrid scoring if LLM fails
+        return rank_resumes_fallback(resume_list, job_description, alpha=0.7)
 
+
+def rank_resumes_fallback(resume_list: List[Dict], job_description: str, alpha: float = 0.7) -> List[Dict]:
+    """
+    Fallback ranking using traditional hybrid scoring: alpha*embedding + (1-alpha)*TF-IDF.
+    """
     # Step 1: Generate embedding for job description
     job_embedding = get_text_embedding(job_description)
 
@@ -71,7 +93,9 @@ def rank_resumes(resume_list: List[Dict], job_description: str, alpha: float = 0
     for r, h, t in zip(ranked_results, hybrid_scores, tfidf_scores):
         r["tfidf_score"] = round(float(t), 4)
         r["hybrid_score"] = round(float(h), 4)
+        r["final_score"] = round(float(h), 4)  # For consistency with LLM ranker
+        r["recommendation"] = "Traditional Scoring"  # Indicate fallback method
 
     # Step 5: Sort results in descending order by hybrid_score
-    ranked_results.sort(key=lambda x: x.get("hybrid_score", 0), reverse=True)
+    ranked_results.sort(key=lambda x: x.get("final_score", 0), reverse=True)
     return ranked_results

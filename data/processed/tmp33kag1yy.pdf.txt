@@ -1,0 +1,53 @@
+KunalBose 
+ 📱 +91 7457037159 | Email | LinkedIn | GitHub | PortfolioSUMMARY: 
+ ComputerScience & Engineeringstudentwitha strongfoundationinfront-endandfull-stackdevelopment, andin-depthknowledgeofcloudtechnologiesandDevOpspractices. Skilledinbuildingscalableapplicationsandautomatinginfrastructureusingmoderndevelopmentworkflows. 
+ 
+ TECHNICALSKILLS: 
+ • Languages : Python, JavaScript, TypeScript, C++ 
+ • Frontend : React, Nextjs13, TailwindCSS 
+ • Backend : Python, Nodejs 
+ • VersionControl : Git, GitHub 
+ • DevOps/Cloud : Docker, AWS, Jenkins, Terraform, BashScripting, Git 
+ • Database : MySQL, MongoDB 
+ • Coursework : Object -Object-Orientedprogramming, DatabaseManagementSystem, OperatingSystemsComputerNetworks, ArtificialIntelligenceEXPERIENCE: 
+ ITINTERN: TruKKer | June 2023 - December 2023 
+ • EngineeredaninsightfulassetanalysissoftwareusingvariouslibrariesofPython, whichhelpedinbettermanageddatadetailsforthecompany 
+ • Designeda dashboardforthecompany’sinternalusageusingReactjs 
+ • WorkedondailybasistasksgivenbythePOCCollegeLevelActivities: 
+ • WorkedastheMultimediaHeadatCerebrumBU 
+ • WorkedastheHeadofDesignatDevOpsBU 
+ • ResearchPapers: 
+ ▪ FraudDetectionusingNaturalLanguageProcessing – ExploredNLPtechniquesforidentifyingfraudulentactivities. 
+ ▪ UnveilingtheCoreofDevOps – AnalysedkeyprinciplesandpracticesshapingmodernDevOpsmethodologies.
+ PROJECTS: 
+ [Link]StackForge-Terraform-Infra – DevOpsTechStack: Terraform, EKS, AWS, Jenkins, ShellScripting 
+ • Production-readyAWSinfrastructurebuiltusingTerraform, featuringmodularEKSarchitecture, Jenkins-basedCI/CDautomation, andShellscriptingfordeploymentorchestration. 
+ [Link]StackForge-k8s-Deploymenet – DevOpsTechStack: Kubernetes, EKS, AWS, Jenkins, ShellScripting, Reatjs, Nodejs, Redis, PostgresSQL
+ • Robustfull-stackdeploymentonAWSEKSusingKuberneteswithproduction-gradepracticeslikeStatefulSets, Secrets,
+ andnetworkpolicies. CI/CDautomatedviaJenkinsandShellscriptingforReact, Node.js, Redis, andPostgreSQLstack.
+ [Link]AWS-Architecture-Multiregional – DevOpsTechStack: AWS, Terraform, Jenkins, ShellScripting 
+ • anactive-activeAWSmulti-regionarchitectureusingTerraform. Itincludesmodularinfrastructure, automatedJenkinsinstallation, anda CI/CDpipelineforseamlessdeployment. 
+ [Link]Shoppy - FrontEndTechStack: Reactjs, ReactContextAPIs, Syncfusion, TailwindCSS 
+ • FullyresponsiveandcustomisableAdmindashboardcreatedusingadvancedReactjs, ReactContextAPIs, SyncfusionandTailwindCSS 
+ • Themecustomisationwithlightanddarkmode, itincludes 1 dashboard, 3 pages, 4 apps, 7 fullyfunctioncharts
+ [Link] Terraform-CI-CD-Pipeline-Azure - Devops 
+ • TechStack: Azure, Terraform, ShellScriptingTheterraform-CICDrepositoryautomatesinfrastructuredeploymentwithTerraformbydefiningnetworkresourcesascode, ensuringconsistency, scalability, andefficientCI/CDworkflowswhileminimizingmanualeffort.
+ [Link]CreditCardFraudDetector - AnalysisTechStack: Python, Pandas, NumPy, Scikit-learn, Seaborn 
+ • Predictionmodelwhichpredictsthesafetyofthetransactionwithsomeuserinput.
+ EDUCATION: 
+ Bennettuniversity, GreaterNoidaBachelor’sinComputerScienceandEngineering [2022-2026] |
+ ArmyPublicSchoolNoidaClass 12th [2021-2022]andClass 10th [2019-2020]| 
+ 
+ComputerScience & Engineeringstudentwitha strongfoundationinfront-endandfull-stackdevelopment, andin-depthknowledgeofcloudtechnologiesandDevOpspractices. Skilledinbuildingscalableapplicationsandautomatinginfrastructureusingmoderndevelopmentworkflows.
+EngineeredaninsightfulassetanalysissoftwareusingvariouslibrariesofPython, whichhelpedinbettermanageddatdetailsforthecompanyDesigneda dashboardforthecompany’sinternalusageusingReactjsWorkedondailybasistasksgivenbythePOFraudDetectionusingNaturalLanguageProcessing – ExploredNLPtechniquesforidentifyingfraudulentactivities.
+UnveilingtheCoreofDevOps – AnalysedkeyprinciplesandpracticesshapingmodernDevOpsmethodologies.
+PROJECTS:
+[Link]StackForge-Terraform-Infra – DevOpsTechStack: Terraform, EKS, AWS, Jenkins, ShellScriptingProduction-readyAWSinfrastructurebuiltusingTerraform, featuringmodularEKSarchitecture, Jenkins-basedCI/CDautomation, andShellscriptingfordeploymentorchestration.
+[Link]StackForge-k8s-Deploymenet – DevOpsTechStack: Kubernetes, EKS, AWS, Jenkins, ShellScripting, Reatjs, Nodejs, Redis, PostgresSQL
+[Link]AWS-Architecture-Multiregional – DevOpsTechStack: AWS, Terraform, Jenkins, ShellScriptinganactive-activeAWSmulti-regionarchitectureusingTerraform. Itincludesmodularinfrastructure, automatedJenkinsinstallation, anda CI/CDpipelineforseamlessdeployment.
+[Link]Shoppy - FrontEndTechStack: Reactjs, ReactContextAPIs, Syncfusion, TailwindCSSFullyresponsiveandcustomisableAdmindashboardcreatedusingadvancedReactjs, ReactContextAPIs, SyncfusionandTailwindCSSThemecustomisationwithlightanddarkmode, itincludes 1 dashboard, 3 pages, 4 apps, 7 fullyfunctioncharts
+[Link] | Terraform-CI-CD-Pipeline-Azure - DevopsTechStack: Azure, Terraform, ShellScriptingTheterraform-CICDrepositoryautomatesinfrastructuredeploymentwithTerraformbydefiningnetworkresourcesa
+code, ensuringconsistency, scalability, andefficientCI/CDworkflowswhileminimizingmanualeffort.
+[Link]CreditCardFraudDetector - AnalysisTechStack: Python, Pandas, NumPy, Scikit-learn, SeabornEDUCATION:
+Bennettuniversity, GreaterNoidaBachelor’sinComputerScienceandEngineering [2022-2026] |
+ArmyPublicSchoolNoidaClass 12th [2021-2022]andClass 10th [2019-2020]|

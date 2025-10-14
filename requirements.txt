@@ -19,6 +19,10 @@ python-docx==1.1.2
 docx2txt==0.8
 regex==2025.9.18
 
+# Enhanced PDF Processing
+pdfplumber==0.11.7
+pymupdf==1.26.5
+
 # ─────────────────────────────
 # Machine Learning / AI
 # ─────────────────────────────

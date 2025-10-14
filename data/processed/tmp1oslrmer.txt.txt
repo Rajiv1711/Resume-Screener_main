@@ -1,0 +1,22 @@
+JOHNSMITHEmail: john.smith@email.comPhone: (555) 123-4567
+LinkedIn: linkedin.com/in/johnsmithPROFESSIONALSUMMARYExperiencedSoftwareDeveloperwith 5 yearsinfull-stackdevelopment, specializinginPython, React, andcloudtechnologies. Strongbackgroundinmachinelearninganddataanalysis.
+TECHNICALSKILLS
+- programmingLanguages: Python, JavaScript, Java, SQL
+- WebTechnologies: React, HTML, CSS, Node.js, Express
+- Databases: MySQL, MongoDB, PostgreSQL
+- CloudPlatforms: Azure, AWS
+- ML/AI: Scikit-learn, TensorFlow, Pandas, NumPy
+- Tools: Git, Docker, Kubernetes, JiraWORKEXPERIENCESeniorSoftwareDeveloper | TechSolutionsInc. | 2021 - Present
+- DevelopedandmaintainedwebapplicationsusingReactandPythonFlask
+- Implementedmachinelearningmodelsforpredictiveanalytics
+- Collaboratedwithcross-functionalteamsinAgileenvironment
+- Optimizedapplicationperformanceresultingin 40% fasterloadtimesSoftwareDeveloper | DigitalInnovationsLLC | 2019 - 2021
+- BuiltRESTAPIsusingPythonandFastAPI
+- IntegratedAzureservicesforclouddeployment
+- Participatedincodereviewsandmentoredjuniordevelopers
+- ContributedtoCI/CDpipelineimprovementsEDUCATIONBachelorofScienceinComputerScienceStateuniversity | 2015 - 2019
+CERTIFICATIONS
+- AzureFundamentals (AZ-900)
+- AWSSolutionsArchitectAssociatePROJECTS
+- ResumeScreeningSystem: BuiltML-poweredresumescreeningapplicationusingNLP
+- E-commercePlatform: Developedfull-stacke-commercesolutionwithReactandPython

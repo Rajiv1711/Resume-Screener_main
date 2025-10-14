@@ -9,6 +9,7 @@ import io
 
 from ml.preprocessing import preprocess_resume_text
 from app.services.blob_storage import blob_storage
+from app.services.enhanced_text_extractor import enhanced_extractor
 
 # Configure OpenAI / Azure OpenAI
 from openai import AzureOpenAI
@@ -23,28 +24,35 @@ UPLOAD_DIR = "data/processed"
 
 
 def extract_text(file_path: str) -> str:
-    """Extract raw text from PDF, DOCX, or TXT."""
-    text = ""
-    ext = os.path.splitext(file_path)[1].lower()
+    """Extract raw text from PDF, DOCX, or TXT using enhanced extraction."""
+    try:
+        # Use enhanced text extractor
+        extraction_result = enhanced_extractor.extract_text(file_path)
+        return extraction_result['raw_text']
+    except Exception as e:
+        # Fallback to original method if enhanced extraction fails
+        print(f"Enhanced extraction failed, using fallback: {str(e)}")
+        
+        text = ""
+        ext = os.path.splitext(file_path)[1].lower()
 
-    if ext == ".pdf":
-        with open(file_path, "rb") as f:
-            reader = PyPDF2.PdfReader(f)
-            text = " ".join([page.extract_text() for page in reader.pages if page.extract_text()])
-    elif ext == ".docx":
-        text = docx2txt.process(file_path)
-    elif ext == ".txt":
-        with open(file_path, "r", encoding="utf-8") as f:
-            text = f.read()
-    else:
-        raise ValueError(f"Unsupported file format: {ext}")
+        if ext == ".pdf":
+            with open(file_path, "rb") as f:
+                reader = PyPDF2.PdfReader(f)
+                text = " ".join([page.extract_text() for page in reader.pages if page.extract_text()])
+        elif ext == ".docx":
+            text = docx2txt.process(file_path)
+        elif ext == ".txt":
+            with open(file_path, "r", encoding="utf-8") as f:
+                text = f.read()
+        else:
+            raise ValueError(f"Unsupported file format: {ext}")
 
-    return text
+        return text
 
 
 def extract_text_from_blob(blob_name: str, user_id: str = None) -> str:
-    """Extract raw text from a blob in Azure Blob Storage."""
-    text = ""
+    """Extract raw text from a blob in Azure Blob Storage using enhanced extraction."""
     ext = os.path.splitext(blob_name)[1].lower()
     
     # Download blob content to memory
@@ -52,27 +60,37 @@ def extract_text_from_blob(blob_name: str, user_id: str = None) -> str:
         file_content = blob_storage.download_file_user(blob_name, user_id)
     else:
         file_content = blob_storage.download_file(blob_name)
-    file_stream = io.BytesIO(file_content)
-
-    if ext == ".pdf":
-        reader = PyPDF2.PdfReader(file_stream)
-        text = " ".join([page.extract_text() for page in reader.pages if page.extract_text()])
-    elif ext == ".docx":
-        # For docx, we need to save to a temporary file since docx2txt.process expects a file path
-        with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as temp_file:
-            temp_file.write(file_content)
-            temp_path = temp_file.name
+    
+    try:
+        # Use enhanced text extractor
+        extraction_result = enhanced_extractor.extract_text_from_bytes(file_content, ext)
+        return extraction_result['raw_text']
+    except Exception as e:
+        # Fallback to original method if enhanced extraction fails
+        print(f"Enhanced blob extraction failed, using fallback: {str(e)}")
         
-        try:
-            text = docx2txt.process(temp_path)
-        finally:
-            os.unlink(temp_path)
-    elif ext == ".txt":
-        text = file_content.decode('utf-8')
-    else:
-        raise ValueError(f"Unsupported file format: {ext}")
+        text = ""
+        file_stream = io.BytesIO(file_content)
 
-    return text
+        if ext == ".pdf":
+            reader = PyPDF2.PdfReader(file_stream)
+            text = " ".join([page.extract_text() for page in reader.pages if page.extract_text()])
+        elif ext == ".docx":
+            # For docx, we need to save to a temporary file since docx2txt.process expects a file path
+            with tempfile.NamedTemporaryFile(delete=False, suffix=ext) as temp_file:
+                temp_file.write(file_content)
+                temp_path = temp_file.name
+            
+            try:
+                text = docx2txt.process(temp_path)
+            finally:
+                os.unlink(temp_path)
+        elif ext == ".txt":
+            text = file_content.decode('utf-8')
+        else:
+            raise ValueError(f"Unsupported file format: {ext}")
+
+        return text
 
 
 def parse_resume_with_gpt(text: str) -> dict:

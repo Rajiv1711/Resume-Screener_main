@@ -1,0 +1,19 @@
+MICHAELCHENEmail: michael.chen@email.comPhone: (555) 456-7890
+PROFILEFrontendDeveloperwith 3 yearsofexperienceinReact, JavaScript, andmodernwebdevelopment. Passionateaboutcreatinguser-friendlyinterfacesandresponsivedesigns.
+SKILLS
+- Frontend: React, JavaScript, HTML5, CSS3, TypeScript
+- UI/UX: Bootstrap, Material-UI, Styled-components
+- Testing: Jest, ReactTestingLibrary, Cypress
+- Tools: Git, Webpack, NPM, VSCode
+- BasicBackend: Node.js, ExpressEXPERIENCEFrontendDeveloper | WebDevStudio | 2021 - Present
+- DevelopedresponsivewebapplicationsusingReactandTypeScript
+- CollaboratedwithUXdesignerstoimplementpixel-perfectdesigns
+- Improvedapplicationperformancethroughcodeoptimization
+- ParticipatedincodereviewsandteammeetingsJuniorWebDeveloper | StartupXYZ | 2020 - 2021 
+- BuiltlandingpagesandmarketingwebsitesusingHTML, CSS, andJavaScript
+- Maintainedandupdatedexistingwebapplications
+- WorkedcloselywithmarketingteamtoimplementtrackingandanalyticsEDUCATIONBachelorofArtsinComputerScienceCommunityCollege | 2018 - 2020
+PROJECTS
+- PersonalPortfolioWebsite: BuiltusingReactanddeployedonNetlify
+- TodoApplication: Full-stackappwithReactfrontendandNode.jsbackend
+- WeatherApp: Reactapplicationconsumingthird-partyAPI
