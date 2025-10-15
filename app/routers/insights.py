@@ -53,7 +53,15 @@ async def get_insights(
         
         # Calculate insights
         total_resumes = len(ranked_data)
-        scores = [resume.get("score", 0) for resume in ranked_data]
+        # Handle both 'score' (percentage) and 'final_score' (0-1 scale) fields
+        scores = []
+        for resume in ranked_data:
+            score = resume.get("score")
+            if score is None:
+                # Try final_score from LLM ranker (0-1 scale, convert to percentage)
+                final_score = resume.get("final_score", 0)
+                score = final_score * 100
+            scores.append(score)
         average_score = sum(scores) / len(scores) if scores else 0
         
         # Score categories
@@ -64,7 +72,13 @@ async def get_insights(
         # Skills distribution (simplified)
         skills_count = {}
         for resume in ranked_data:
+            # Check both direct skills and parsed.skills
             skills = resume.get("skills", [])
+            if not skills:
+                parsed = resume.get("parsed", {})
+                if parsed:
+                    skills = parsed.get("skills", [])
+            
             if isinstance(skills, list):
                 for skill in skills:
                     if isinstance(skill, str):

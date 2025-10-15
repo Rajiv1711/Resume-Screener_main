@@ -58,10 +58,16 @@ class LLMBasedRanker:
                 final_score = (keyword_weight * keyword_score + 
                               (1 - keyword_weight) * llm_evaluation['overall_score'])
                 
+                # Extract skills from parsed data
+                parsed = resume.get('parsed', {}) or {}
+                skills = parsed.get('skills', [])
+                if not isinstance(skills, list):
+                    skills = []
+                
                 result = {
                     'file': resume.get('file', 'Unknown'),
-                    'candidate_name': resume.get('parsed', {}).get('name', 'Unknown'),
-                    'email': resume.get('parsed', {}).get('email', ''),
+                    'candidate_name': parsed.get('name', 'Unknown'),
+                    'email': parsed.get('email', ''),
                     'final_score': round(final_score, 4),
                     'keyword_score': round(keyword_score, 4),
                     'llm_score': round(llm_evaluation['overall_score'], 4),
@@ -84,7 +90,10 @@ class LLMBasedRanker:
                     # Additional metadata
                     'total_experience': llm_evaluation.get('total_experience', 'Not specified'),
                     'education_level': llm_evaluation.get('education_level', 'Not specified'),
-                    'key_achievements': llm_evaluation.get('key_achievements', [])
+                    'key_achievements': llm_evaluation.get('key_achievements', []),
+                    
+                    # Skills from parsed resume
+                    'skills': skills
                 }
                 
                 ranked_results.append(result)

@@ -13,14 +13,29 @@ os.makedirs(REPORTS_DIR, exist_ok=True)
 
 
 def _normalize_row(resume, idx):
+    # Extract candidate name - check multiple possible locations
     parsed = resume.get("parsed", {}) or {}
-    name = parsed.get("name") or resume.get("file", f"Candidate {idx}")
-    email = parsed.get("email", "N/A")
-    skills = resume.get("skills", []) or []
-    # Prefer 'score' if already computed; else derive from hybrid_score
+    name = resume.get("candidate_name") or parsed.get("name") or resume.get("file", f"Candidate {idx}")
+    
+    # Extract email
+    email = resume.get("email") or parsed.get("email", "N/A")
+    
+    # Extract skills - check both direct and parsed locations
+    skills = resume.get("skills", []) or parsed.get("skills", []) or []
+    if not isinstance(skills, list):
+        skills = []
+    
+    # Extract score - handle different field names and formats
     score_val = resume.get("score")
     if score_val is None:
-        score_val = round(float(resume.get("hybrid_score", 0)) * 100, 2)
+        # Try final_score from LLM ranker (0-1 scale)
+        final_score = resume.get("final_score")
+        if final_score is not None:
+            score_val = round(float(final_score) * 100, 2)
+        else:
+            # Fallback to hybrid_score
+            score_val = round(float(resume.get("hybrid_score", 0)) * 100, 2)
+    
     return name, email, score_val, skills
 
 

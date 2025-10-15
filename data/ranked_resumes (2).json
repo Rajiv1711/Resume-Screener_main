@@ -1,0 +1,285 @@
+[
+    {
+        "file": "sample_resume_2.txt",
+        "candidate_name": "SARAH JOHNSON",
+        "email": "sarah.johnson@email.com",
+        "final_score": 0.6405,
+        "keyword_score": 0.0351,
+        "llm_score": 0.9,
+        "experience_score": 0.9,
+        "skills_score": 0.9,
+        "education_score": 0.9,
+        "projects_score": 0.85,
+        "career_progression_score": 0.9,
+        "cultural_fit_score": 0.85,
+        "strengths": [
+            "Strong experience in data science and machine learning",
+            "Relevant responsibilities align with job description",
+            "Solid educational background in Data Science and Statistics",
+            "Experience with Python, scikit-learn, SQL, and data visualization tools",
+            "Proven track record of developing predictive models and recommendation systems",
+            "Collaborative skills demonstrated through stakeholder engagement"
+        ],
+        "concerns": [],
+        "missing_skills": [
+            "Experience with FastAPI, Flask, TensorFlow Serving, Azure ML, AWS SageMaker",
+            "Exposure to MLOps, cloud deployment, Docker",
+            "Knowledge of NLP, computer vision projects"
+        ],
+        "recommendation": "Strong Hire",
+        "reasoning": "Sarah is a standout candidate for the Machine Learning Engineer role. With a Master's in Data Science and relevant work experience in developing ML models, she possesses the necessary skills and knowledge required for the position. Her track record of developing predictive models and collaborating with stakeholders demonstrates her ability to excel in this role.",
+        "total_experience": "5+ years in data science and analytics",
+        "education_level": "Master of Science in Data Science",
+        "key_achievements": [
+            "Developed predictive models for customer churn analysis",
+            "Improved user engagement by 25% through recommendation systems",
+            "Collaborated with business stakeholders to define KPIs and metrics"
+        ],
+        "rank": 1
+    },
+    {
+        "file": "sample_resume_1.txt",
+        "candidate_name": "JOHN SMITH",
+        "email": "john.smith@email.com",
+        "final_score": 0.6187,
+        "keyword_score": 0.0789,
+        "llm_score": 0.85,
+        "experience_score": 0.9,
+        "skills_score": 0.9,
+        "education_score": 0.9,
+        "projects_score": 0.85,
+        "career_progression_score": 0.85,
+        "cultural_fit_score": 0.8,
+        "strengths": [
+            "Strong experience in software development with machine learning integration",
+            "Relevant technical skills in Python, NumPy, Pandas, Scikit-learn, and TensorFlow",
+            "Experience in developing and deploying ML models in production environments",
+            "Proven track record of optimizing application performance and collaborating in Agile teams",
+            "Consistent career progression with leadership and mentoring experience"
+        ],
+        "concerns": [],
+        "missing_skills": [
+            "Experience with FastAPI, Flask, TensorFlow Serving, Azure ML, AWS SageMaker",
+            "Exposure to MLOps practices and cloud deployment",
+            "Specific experience with NLP, computer vision projects"
+        ],
+        "recommendation": "Strong Hire",
+        "reasoning": "John is a strong candidate for the Machine Learning Engineer role. His experience in software development, particularly integrating machine learning models, aligns well with the job requirements. He possesses the necessary technical skills and has demonstrated the ability to optimize performance and collaborate effectively. While he may need some additional exposure to specific tools and projects, his overall profile indicates a strong fit for the position.",
+        "total_experience": "6 years in software development with machine learning integration",
+        "education_level": "Bachelor of Science in Computer Science",
+        "key_achievements": [
+            "Optimized application performance resulting in 40% faster load times",
+            "Implemented machine learning models for predictive analytics",
+            "Collaborated with cross-functional teams in Agile environment",
+            "Contributed to CI/CD pipeline improvements"
+        ],
+        "rank": 2
+    },
+    {
+        "file": "resume_ai.pdf",
+        "candidate_name": "Om Raghuvanshi",
+        "email": "omraghuvanshi1010@gmail.com",
+        "final_score": 0.6003,
+        "keyword_score": 0.0175,
+        "llm_score": 0.85,
+        "experience_score": 0.9,
+        "skills_score": 0.85,
+        "education_score": 0.9,
+        "projects_score": 0.9,
+        "career_progression_score": 0.85,
+        "cultural_fit_score": 0.8,
+        "strengths": [
+            "Relevant internship experience in AI/ML projects",
+            "Hands-on experience with NLP, chatbots, and AI systems",
+            "Strong academic background in Information Technology",
+            "Achieved high GPA in BTech program",
+            "Collaborative team player with project contributions",
+            "Demonstrated ability to build ML models with high accuracy"
+        ],
+        "concerns": [],
+        "missing_skills": [
+            "Experience with FastAPI, Flask, TensorFlow Serving, Azure ML, AWS SageMaker",
+            "Exposure to MLOps practices and cloud deployment",
+            "Familiarity with SQL, Git, and API integration"
+        ],
+        "recommendation": "Consider",
+        "reasoning": "Om has solid experience in AI/ML projects during internships, showcasing practical skills in NLP, chatbots, and AI systems. His academic background in Information Technology and high GPA demonstrate strong technical foundation. However, he lacks direct experience with some of the specific tools and platforms mentioned in the job description. With his demonstrated ability to build accurate ML models and collaborative nature, he could be a strong candidate with some additional training or exposure to required technologies.",
+        "total_experience": "1 year of internship experience in AI/ML projects",
+        "education_level": "BTech in Information Technology",
+        "key_achievements": [
+            "Achieved R2 score of 89.21 in house pricing model",
+            "Engineered diabetes prediction model with 81% accuracy",
+            "Developed NLP-based text summarization system",
+            "Built NLP-powered chatbot and AI-driven hand gesture recognition system"
+        ],
+        "rank": 3
+    },
+    {
+        "file": "Rajiv_Ranjan_Resume.pdf",
+        "candidate_name": "Rajiv Ranjan",
+        "email": "21SCSE1011111@galgotiasuniversity.edu.in",
+        "final_score": 0.3176,
+        "keyword_score": 0.0088,
+        "llm_score": 0.45,
+        "experience_score": 0.2,
+        "skills_score": 0.3,
+        "education_score": 0.8,
+        "projects_score": 0.0,
+        "career_progression_score": 0.1,
+        "cultural_fit_score": 0.2,
+        "strengths": [
+            "Solid educational background in Computer Science",
+            "Good GPA in B.Tech program",
+            "Basic programming skills likely acquired during education"
+        ],
+        "concerns": [
+            "Lack of relevant work experience in machine learning or related fields",
+            "No mention of specific technical skills like Python, NumPy, Pandas, Scikit-learn, TensorFlow/PyTorch",
+            "No project portfolio demonstrating practical application of skills",
+            "Limited career progression or professional experience"
+        ],
+        "missing_skills": [
+            "Python",
+            "NumPy",
+            "Pandas",
+            "Scikit-learn",
+            "TensorFlow/PyTorch",
+            "SQL",
+            "Git",
+            "API integration",
+            "MLOps",
+            "Cloud deployment",
+            "Docker"
+        ],
+        "recommendation": "Consider",
+        "reasoning": "Rajiv has a strong educational foundation in Computer Science with a good GPA. However, he lacks practical experience in machine learning and related technologies. The resume does not demonstrate the required technical skills or project experience. While his education is promising, he would benefit from gaining hands-on experience or projects in the specified technologies.",
+        "total_experience": "Limited practical experience in the field",
+        "education_level": "B.Tech in Computer Science",
+        "key_achievements": [],
+        "rank": 4
+    },
+    {
+        "file": "Kunal Bose Resume.pdf",
+        "candidate_name": "Kunal Bose",
+        "email": "email not provided",
+        "final_score": 0.2582,
+        "keyword_score": 0.0439,
+        "llm_score": 0.35,
+        "experience_score": 0.4,
+        "skills_score": 0.3,
+        "education_score": 0.6,
+        "projects_score": 0.4,
+        "career_progression_score": 0.2,
+        "cultural_fit_score": 0.3,
+        "strengths": [
+            "Hands-on experience in developing asset analysis software using Python",
+            "Worked on Reactjs for dashboard design",
+            "Recent internship in IT industry"
+        ],
+        "concerns": [
+            "Limited experience in machine learning and data science",
+            "No specific mention of ML model development or deployment",
+            "Lack of detailed project descriptions",
+            "Limited career progression details"
+        ],
+        "missing_skills": [
+            "Machine learning model development and deployment",
+            "Experience with NumPy, Pandas, Scikit-learn, TensorFlow/PyTorch",
+            "Data preprocessing and feature engineering",
+            "SQL, Git, API integration"
+        ],
+        "recommendation": "Consider",
+        "reasoning": "Kunal shows potential with his recent internship experience in the IT industry and hands-on work with Python and Reactjs. However, he lacks specific experience in machine learning model development and deployment, which are key requirements for the role. Further training or projects in machine learning would strengthen his profile.",
+        "total_experience": "Internship in IT industry (June 2023 - December 2023)",
+        "education_level": "Bachelor\u2019s in Computer Science and Engineering",
+        "key_achievements": [
+            "Developed asset analysis software using Python",
+            "Designed a dashboard using Reactjs"
+        ],
+        "rank": 5
+    },
+    {
+        "file": "CV_AIML_8e49d5917f.pdf",
+        "candidate_name": "Chandan",
+        "email": "aryachandan1947@gmail.com",
+        "final_score": 0.245,
+        "keyword_score": 0.0,
+        "llm_score": 0.35,
+        "experience_score": 0.2,
+        "skills_score": 0.4,
+        "education_score": 0.6,
+        "projects_score": 0.3,
+        "career_progression_score": 0.1,
+        "cultural_fit_score": 0.4,
+        "strengths": [
+            "Relevant internship experience in IoT and automation",
+            "Programming skills and familiarity with Python",
+            "Exposure to web development and firmware programming",
+            "Decent academic performance in B.Tech CSE-IOT"
+        ],
+        "concerns": [
+            "Limited experience directly related to machine learning",
+            "No specific mention of ML model development or deployment",
+            "Lack of experience with key ML libraries like NumPy, Pandas, Scikit-learn, TensorFlow/PyTorch",
+            "Limited project details and achievements"
+        ],
+        "missing_skills": [
+            "Machine learning libraries (NumPy, Pandas, Scikit-learn, TensorFlow/PyTorch)",
+            "Data preprocessing and model evaluation techniques",
+            "SQL for data manipulation",
+            "Experience with ML deployment tools like FastAPI, Flask, TensorFlow Serving, Azure ML, AWS SageMaker",
+            "Understanding of MLOps and cloud deployment"
+        ],
+        "recommendation": "Consider",
+        "reasoning": "Chandan shows potential with relevant internship experience in IoT and automation, programming skills, and a decent academic background. However, there are significant gaps in machine learning-specific skills and experience required for the role. Further training and hands-on projects in ML are recommended to strengthen the profile.",
+        "total_experience": "Internship experience in IoT and automation",
+        "education_level": "B.Tech CSE-IOT",
+        "key_achievements": [
+            "Contributed to the development of an IoT-based automation system",
+            "Designed and implemented web user interfaces and Python Tkinter applications"
+        ],
+        "rank": 6
+    },
+    {
+        "file": "sample_resume_3.txt",
+        "candidate_name": "MICHAEL CHEN",
+        "email": "michael.chen@email.com",
+        "final_score": 0.1803,
+        "keyword_score": 0.0175,
+        "llm_score": 0.25,
+        "experience_score": 0.2,
+        "skills_score": 0.15,
+        "education_score": 0.4,
+        "projects_score": 0.0,
+        "career_progression_score": 0.1,
+        "cultural_fit_score": 0.3,
+        "strengths": [
+            "Experience in frontend development using React and TypeScript",
+            "Collaborative work with UX designers",
+            "Participation in code reviews and team meetings",
+            "Bachelor's degree in Computer Science"
+        ],
+        "concerns": [
+            "Lack of relevant experience in machine learning or data science",
+            "Limited backend development experience",
+            "No projects or skills related to ML, Python, or data manipulation",
+            "Limited career progression in terms of roles or responsibilities"
+        ],
+        "missing_skills": [
+            "Python",
+            "Machine learning frameworks (Scikit-learn, TensorFlow, PyTorch)",
+            "Data preprocessing and model evaluation techniques",
+            "SQL",
+            "MLOps and cloud deployment"
+        ],
+        "recommendation": "Consider",
+        "reasoning": "Michael has a background in frontend development and a degree in Computer Science, which provides a good foundation. However, he lacks the specific skills and experience required for the Machine Learning Engineer role. There is a significant gap in machine learning, Python, and data manipulation skills. While his collaborative and analytical skills are valuable, additional training or experience in ML is needed.",
+        "total_experience": "3 years in web development",
+        "education_level": "Bachelor of Arts in Computer Science",
+        "key_achievements": [
+            "Developed responsive web applications using React and TypeScript",
+            "Collaborated with UX designers for implementation"
+        ],
+        "rank": 7
+    }
+]

@@ -22,12 +22,35 @@ const Dashboard = ({ pushToast }) => {
     try {
       const res = await rankResumes(jobDescription);
       const ranked = Array.isArray(res.data?.ranked_resumes) ? res.data.ranked_resumes : [];
-      const mapped = ranked.map((r, i) => ({
-        ...r,
-        score: Math.round(((r?.hybrid_score ?? 0) * 100)),
-        name: (r?.parsed && r.parsed.name) ? r.parsed.name : (r?.file || `Candidate ${i + 1}`),
-        skills: Array.isArray(r?.skills) ? r.skills : []
-      }));
+      const mapped = ranked.map((r, i) => {
+        // Extract score - handle both final_score (0-1 from LLM) and hybrid_score
+        let score = 0;
+        if (r?.final_score !== undefined) {
+          score = Math.round(r.final_score * 100);
+        } else if (r?.hybrid_score !== undefined) {
+          score = Math.round(r.hybrid_score * 100);
+        } else if (r?.score !== undefined) {
+          score = Math.round(r.score);
+        }
+
+        // Extract name - try candidate_name first, then parsed.name, then file
+        let name = r?.candidate_name || (r?.parsed && r.parsed.name) || r?.file || `Candidate ${i + 1}`;
+        
+        // Extract skills - check multiple locations
+        let skills = [];
+        if (Array.isArray(r?.skills)) {
+          skills = r.skills;
+        } else if (r?.parsed && Array.isArray(r.parsed.skills)) {
+          skills = r.parsed.skills;
+        }
+
+        return {
+          ...r,
+          score,
+          name,
+          skills
+        };
+      });
       setRanked(mapped);
     } catch (err) {
       alert("Error ranking resumes. Please try again.");
