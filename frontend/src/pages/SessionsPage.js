@@ -84,7 +84,7 @@ const SessionsPage = ({ pushToast }) => {
       if (currentData.status === 'success') {
         setCurrentSession(currentData.session_id);
       }
-      } else {
+      else {
         console.log('❌ Sessions API returned non-success status:', data.status);
       }
     } catch (error) {
@@ -175,7 +175,7 @@ const SessionsPage = ({ pushToast }) => {
                   <path d="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z" />
                 </svg>
                 <h5>No Sessions Found</h5>
-                <p>Create your first session using the "New Session" button.</p>
+                <p>{'Create your first session using the "New Session" button.'}</p>
               </div>
             ) : (
               <div className="row">
