@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useMsal } from "@azure/msal-react";
 import { loginPopup, guestLogin, setGuestToken } from "../services/api";
 import { useNavigate } from "react-router-dom";
+import { ensureUserIdInStorage } from "../utils/user";
 
 const Login = () => {
   const { instance, accounts } = useMsal();
@@ -12,6 +13,11 @@ const Login = () => {
   const handleLogin = async () => {
     try {
       await loginPopup(); // shows popup and signs in
+      
+      // Ensure user_id is properly set
+      const userId = ensureUserIdInStorage();
+      console.log('🔐 Azure login successful, user ID:', userId);
+      
       navigate("/dashboard");
     } catch (err) {
       console.error("Login error", err);
@@ -27,6 +33,10 @@ const Login = () => {
       
       // Store guest token
       setGuestToken(access_token, expires_at);
+      
+      // Ensure user_id is properly set
+      const userId = ensureUserIdInStorage();
+      console.log('🔐 Guest login successful, user ID:', userId);
       
       // Navigate to dashboard
       navigate("/dashboard");

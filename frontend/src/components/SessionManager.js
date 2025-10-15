@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import GlassCard from './GlassCard';
+import { getCurrentUserId, getApiBaseUrl, createAuthHeaders, ensureUserIdInStorage } from '../utils/user';
 
 const SessionManager = ({ onSessionChange, pushToast }) => {
   const [sessions, setSessions] = useState([]);
@@ -19,27 +20,49 @@ const SessionManager = ({ onSessionChange, pushToast }) => {
   }, []);
 
   const loadSessions = async () => {
+    console.log('🔄 SessionManager: Loading sessions...');
     try {
-      const response = await fetch('/api/sessions/list', {
-        headers: {
-          'X-User-Id': localStorage.getItem('user_id') || 'guest'
-        }
+      const userId = ensureUserIdInStorage();
+      console.log('👤 SessionManager: User ID:', userId);
+      
+      const apiBaseUrl = getApiBaseUrl();
+      const sessionsUrl = `${apiBaseUrl}/sessions/list`;
+      console.log('📡 SessionManager: Fetching from:', sessionsUrl);
+      
+      const response = await fetch(sessionsUrl, {
+        headers: createAuthHeaders()
       });
+      
+      console.log('📨 SessionManager: Response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
+      console.log('📦 SessionManager: Sessions API response:', data);
+      
       if (data.status === 'success') {
+        console.log('✅ SessionManager: Sessions loaded:', data.sessions.length, 'sessions');
         setSessions(data.sessions);
+      } else {
+        console.log('❌ SessionManager: Non-success status:', data.status);
       }
     } catch (error) {
-      console.error('Failed to load sessions:', error);
+      console.error('❌ SessionManager: Failed to load sessions:', error);
     }
   };
 
   const loadCurrentSession = async () => {
+    console.log('🔄 SessionManager: Loading current session...');
     try {
-      const response = await fetch('/api/sessions/current', {
-        headers: {
-          'X-User-Id': localStorage.getItem('user_id') || 'guest'
-        }
+      const userId = ensureUserIdInStorage();
+      const apiBaseUrl = getApiBaseUrl();
+      const currentUrl = `${apiBaseUrl}/sessions/current`;
+      console.log('📡 SessionManager: Fetching current session from:', currentUrl);
+      
+      const response = await fetch(currentUrl, {
+        headers: createAuthHeaders()
       });
       const data = await response.json();
       if (data.status === 'success') {
@@ -58,12 +81,15 @@ const SessionManager = ({ onSessionChange, pushToast }) => {
 
     setLoading(true);
     try {
-      const response = await fetch('/api/sessions/create', {
+      const userId = ensureUserIdInStorage();
+      const apiBaseUrl = getApiBaseUrl();
+      const createUrl = `${apiBaseUrl}/sessions/create`;
+      
+      const response = await fetch(createUrl, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-User-Id': localStorage.getItem('user_id') || 'guest'
-        },
+        headers: createAuthHeaders({
+          'Content-Type': 'application/json'
+        }),
         body: JSON.stringify({ name: newSessionName })
       });
       
@@ -84,11 +110,12 @@ const SessionManager = ({ onSessionChange, pushToast }) => {
 
   const setActiveSession = async (sessionId) => {
     try {
-      const response = await fetch(`/api/sessions/${sessionId}/set-active`, {
+      const apiBaseUrl = getApiBaseUrl();
+      const setActiveUrl = `${apiBaseUrl}/sessions/${sessionId}/set-active`;
+      
+      const response = await fetch(setActiveUrl, {
         method: 'POST',
-        headers: {
-          'X-User-Id': localStorage.getItem('user_id') || 'guest'
-        }
+        headers: createAuthHeaders()
       });
       
       const data = await response.json();
@@ -110,12 +137,14 @@ const SessionManager = ({ onSessionChange, pushToast }) => {
 
     setLoading(true);
     try {
-      const response = await fetch(`/api/sessions/${renameSessionId}/name`, {
+      const apiBaseUrl = getApiBaseUrl();
+      const renameUrl = `${apiBaseUrl}/sessions/${renameSessionId}/name`;
+      
+      const response = await fetch(renameUrl, {
         method: 'PUT',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-User-Id': localStorage.getItem('user_id') || 'guest'
-        },
+        headers: createAuthHeaders({
+          'Content-Type': 'application/json'
+        }),
         body: JSON.stringify({ name: renameSessionName })
       });
       
@@ -140,11 +169,12 @@ const SessionManager = ({ onSessionChange, pushToast }) => {
     }
 
     try {
-      const response = await fetch(`/api/sessions/${sessionId}`, {
+      const apiBaseUrl = getApiBaseUrl();
+      const deleteUrl = `${apiBaseUrl}/sessions/${sessionId}`;
+      
+      const response = await fetch(deleteUrl, {
         method: 'DELETE',
-        headers: {
-          'X-User-Id': localStorage.getItem('user_id') || 'guest'
-        }
+        headers: createAuthHeaders()
       });
       
       const data = await response.json();

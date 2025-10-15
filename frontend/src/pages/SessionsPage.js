@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import ParallaxHero from '../components/ParallaxHero';
 import GlassCard from '../components/GlassCard';
 import SessionManager from '../components/SessionManager';
+import { getCurrentUserId, getApiBaseUrl, createAuthHeaders, ensureUserIdInStorage } from '../utils/user';
 
 const SessionsPage = ({ pushToast }) => {
   const [sessions, setSessions] = useState([]);
@@ -16,52 +17,83 @@ const SessionsPage = ({ pushToast }) => {
   }, []);
 
   const loadSessionDetails = async () => {
+    console.log('🔄 Loading session details...');
     setLoading(true);
     try {
+      // Ensure user ID is properly set
+      const userId = ensureUserIdInStorage();
+      console.log('👤 User ID:', userId);
+      
       // Load all sessions
-      const response = await fetch('/api/sessions/list', {
-        headers: {
-          'X-User-Id': localStorage.getItem('user_id') || 'guest'
-        }
+      const apiBaseUrl = getApiBaseUrl();
+      const sessionsUrl = `${apiBaseUrl}/sessions/list`;
+      console.log('📡 Fetching sessions from:', sessionsUrl);
+      const response = await fetch(sessionsUrl, {
+        headers: createAuthHeaders()
       });
+      
+      console.log('📨 Response status:', response.status);
+      console.log('📨 Response headers:', response.headers);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
+      console.log('📦 Sessions API response:', data);
+      
       if (data.status === 'success') {
+        console.log('✅ Sessions loaded:', data.sessions.length, 'sessions');
         setSessions(data.sessions);
         
         // Load files for each session
+        console.log('📁 Loading files for', data.sessions.length, 'sessions...');
         const filesData = {};
         for (const session of data.sessions) {
           try {
-            const filesResponse = await fetch(`/api/sessions/${session.session_id}/files`, {
-              headers: {
-                'X-User-Id': localStorage.getItem('user_id') || 'guest'
-              }
+            console.log(`📂 Loading files for session: ${session.session_id}`);
+            const filesUrl = `${apiBaseUrl}/sessions/${session.session_id}/files`;
+            console.log(`📡 Fetching files from: ${filesUrl}`);
+            const filesResponse = await fetch(filesUrl, {
+              headers: createAuthHeaders()
             });
             const filesResult = await filesResponse.json();
+            console.log(`📋 Files response for ${session.session_id}:`, filesResult);
             if (filesResult.status === 'success') {
               filesData[session.session_id] = filesResult.files;
+              console.log(`✅ Loaded ${filesResult.files.length} files for session ${session.session_id}`);
+            } else {
+              console.log(`❌ Files API returned non-success for session ${session.session_id}:`, filesResult.status);
             }
           } catch (error) {
-            console.warn(`Failed to load files for session ${session.session_id}:`, error);
+            console.warn(`⚠️ Failed to load files for session ${session.session_id}:`, error);
             filesData[session.session_id] = [];
           }
         }
+        console.log('📦 Final filesData:', filesData);
         setSessionFiles(filesData);
       }
 
       // Load current session
-      const currentResponse = await fetch('/api/sessions/current', {
-        headers: {
-          'X-User-Id': localStorage.getItem('user_id') || 'guest'
-        }
+      const currentUrl = `${apiBaseUrl}/sessions/current`;
+      console.log('🔄 Fetching current session from:', currentUrl);
+      const currentResponse = await fetch(currentUrl, {
+        headers: createAuthHeaders()
       });
       const currentData = await currentResponse.json();
       if (currentData.status === 'success') {
         setCurrentSession(currentData.session_id);
       }
+      } else {
+        console.log('❌ Sessions API returned non-success status:', data.status);
+      }
     } catch (error) {
-      console.error('Failed to load session details:', error);
-      pushToast?.({ title: 'Error', message: 'Failed to load session details', type: 'error' });
+      console.error('❌ Failed to load session details:', error);
+      console.error('❌ Error details:', {
+        message: error.message,
+        stack: error.stack
+      });
+      pushToast?.({ title: 'Error', message: `Failed to load session details: ${error.message}`, type: 'error' });
     } finally {
       setLoading(false);
     }
