@@ -352,11 +352,8 @@ class BlobStorageService:
         # Extract unique session IDs
         sessions = {}
         for blob in blobs:
-            # Skip metadata files
-            if '.metadata.json' in blob.name:
-                continue
-                
             # blob.name format: user@email.com/session_20250115_103045/raw_resumes/file.pdf
+            # or: user@email.com/session_20250115_103045/.metadata.json
             parts = blob.name[len(user_prefix):].split('/', 1)
             if parts and parts[0].startswith('session_'):
                 session_id = parts[0]
@@ -370,7 +367,10 @@ class BlobStorageService:
                         'created': metadata.get('created', 'Unknown'),
                         'blob_count': 0
                     }
-                sessions[session_id]['blob_count'] += 1
+                
+                # Count non-metadata files only
+                if not '.metadata.json' in blob.name:
+                    sessions[session_id]['blob_count'] += 1
         
         # Sort by creation time (newest first)
         return sorted(sessions.values(), key=lambda x: x['created'], reverse=True)
