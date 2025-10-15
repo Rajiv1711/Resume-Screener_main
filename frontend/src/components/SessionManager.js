@@ -79,11 +79,15 @@ const SessionManager = ({ onSessionChange, pushToast }) => {
       return;
     }
 
+    console.log('🆕 Creating new session:', newSessionName);
     setLoading(true);
     try {
       const userId = ensureUserIdInStorage();
       const apiBaseUrl = getApiBaseUrl();
       const createUrl = `${apiBaseUrl}/sessions/create`;
+      
+      console.log('📤 POST request to:', createUrl);
+      console.log('📝 Request body:', { name: newSessionName });
       
       const response = await fetch(createUrl, {
         method: 'POST',
@@ -93,16 +97,36 @@ const SessionManager = ({ onSessionChange, pushToast }) => {
         body: JSON.stringify({ name: newSessionName })
       });
       
+      console.log('📨 Create session response status:', response.status);
+      
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      
       const data = await response.json();
+      console.log('📦 Create session API response:', data);
+      
       if (data.status === 'success') {
+        console.log('✅ Session created successfully:', data.session_id);
         pushToast?.({ title: 'Success', message: 'New session created', type: 'success' });
         setNewSessionName('');
         setShowModal(false);
+        console.log('🔄 Reloading sessions after creation...');
         await loadSessions();
+        console.log('🎯 Setting new session as active:', data.session_id);
         await setActiveSession(data.session_id);
+      } else {
+        console.log('❌ Create session failed with status:', data.status);
+        console.log('❌ Error details:', data);
+        pushToast?.({ title: 'Error', message: data.message || 'Failed to create session', type: 'error' });
       }
     } catch (error) {
-      pushToast?.({ title: 'Error', message: 'Failed to create session', type: 'error' });
+      console.error('❌ Failed to create session - Error:', error);
+      console.error('❌ Error details:', {
+        message: error.message,
+        stack: error.stack
+      });
+      pushToast?.({ title: 'Error', message: `Failed to create session: ${error.message}`, type: 'error' });
     } finally {
       setLoading(false);
     }

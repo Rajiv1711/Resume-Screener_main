@@ -30,7 +30,12 @@ const initializeApp = async () => {
       <AnimatedBackground />
       <CustomCursor />
       <MsalProvider instance={msalInstance}>
-        <BrowserRouter>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true
+          }}
+        >
           <App />
           <ScrollToTop />
         </BrowserRouter>
