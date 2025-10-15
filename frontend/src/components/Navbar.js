@@ -129,7 +129,7 @@ const Navbar = () => {
           
           <Link 
             to="/dashboard" 
-            className={`nav-link px-3 py-2 rounded ${isActive('/dashboard') ? 'active' : ''}`}
+            className={`nav-link px-3 py-2 rounded me-2 ${isActive('/dashboard') ? 'active' : ''}`}
             style={{
               color: isActive('/dashboard') ? 'var(--accent-primary)' : 'var(--text-secondary)',
               backgroundColor: isActive('/dashboard') ? 'rgba(79, 209, 197, 0.12)' : 'transparent',
@@ -154,6 +154,35 @@ const Navbar = () => {
               <path d="M13,3V9H21V3M13,21H21V11H13M3,21H11V15H3M3,13H11V3H3V13Z" />
             </svg>
             Dashboard
+          </Link>
+
+          <Link 
+            to="/sessions" 
+            className={`nav-link px-3 py-2 rounded ${isActive('/sessions') ? 'active' : ''}`}
+            style={{
+              color: isActive('/sessions') ? 'var(--accent-primary)' : 'var(--text-secondary)',
+              backgroundColor: isActive('/sessions') ? 'rgba(79, 209, 197, 0.12)' : 'transparent',
+              fontWeight: '500',
+              textDecoration: 'none',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              if (!isActive('/sessions')) {
+                e.target.style.color = 'var(--text-primary)';
+                e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isActive('/sessions')) {
+                e.target.style.color = 'var(--text-secondary)';
+                e.target.style.backgroundColor = 'transparent';
+              }
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="me-1">
+              <path d="M19,20H4C2.89,20 2,19.1 2,18V6C2,4.89 2.89,4 4,4H10L12,6H19A2,2 0 0,1 21,8H21L4,8V18L6.14,10H23.21L20.93,18.5C20.7,19.37 19.92,20 19,20Z" />
+            </svg>
+            Sessions
           </Link>
         </div>
 

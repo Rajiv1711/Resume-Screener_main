@@ -79,7 +79,6 @@ const UploadPage = ({ pushToast }) => {
           )}
         </div>
       </div>
-      </div>
 
       <div className="row mt-5">
         <div className="col-12">

@@ -5,6 +5,7 @@ import InsightsChart from "../components/InsightsChart";
 import GlassCard from "../components/GlassCard";
 import Loader from "../components/Loader";
 import ParallaxHero from "../components/ParallaxHero";
+import SessionManager from "../components/SessionManager";
 
 const Dashboard = ({ pushToast }) => {
   const [ranked, setRanked] = useState([]);
@@ -77,9 +78,21 @@ const Dashboard = ({ pushToast }) => {
         subtitle="Rank and analyze uploaded resumes against job requirements"
       />
 
-      {/* Job Description Card */}
       <div className="row mb-4">
-        <div className="col-12">
+        {/* Session Manager Sidebar */}
+        <div className="col-lg-4 mb-4">
+          <SessionManager 
+            onSessionChange={(sessionId) => {
+              console.log('Active session changed to:', sessionId);
+              // Clear current rankings when session changes
+              setRanked([]);
+            }}
+            pushToast={pushToast}
+          />
+        </div>
+
+        {/* Job Description Card */}
+        <div className="col-lg-8 mb-4">
           <GlassCard>
             <h4 className="mb-3" style={{color: 'var(--text-primary)'}}>
               <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" className="me-2" style={{color: 'var(--accent-primary)'}}>
@@ -144,6 +157,7 @@ const Dashboard = ({ pushToast }) => {
             </div>
           </GlassCard>
         </div>
+      </div>
       </div>
 
       {/* Results Section */}

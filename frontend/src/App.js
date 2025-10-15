@@ -2,6 +2,7 @@ import React, { useCallback, useState } from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import UploadPage from "./pages/UploadPage";
 import Dashboard from "./pages/Dashboard";
+import SessionsPage from "./pages/SessionsPage";
 import Login from "./pages/Login";
 import "./App.css";
 import { useIsAuthenticated } from "@azure/msal-react";
@@ -40,6 +41,14 @@ function App() {
             element={
               <ProtectedRoute>
                 <Dashboard pushToast={pushToast} />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/sessions"
+            element={
+              <ProtectedRoute>
+                <SessionsPage pushToast={pushToast} />
               </ProtectedRoute>
             }
           />
