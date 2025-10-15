@@ -58,7 +58,7 @@ class LLMBasedRanker:
                 final_score = (keyword_weight * keyword_score + 
                               (1 - keyword_weight) * llm_evaluation['overall_score'])
                 
-                # Extract skills from parsed data
+                # Extract and preserve parsed data
                 parsed = resume.get('parsed', {}) or {}
                 skills = parsed.get('skills', [])
                 if not isinstance(skills, list):
@@ -93,7 +93,10 @@ class LLMBasedRanker:
                     'key_achievements': llm_evaluation.get('key_achievements', []),
                     
                     # Skills from parsed resume
-                    'skills': skills
+                    'skills': skills,
+                    
+                    # Preserve the entire parsed structure for downstream use
+                    'parsed': parsed
                 }
                 
                 ranked_results.append(result)

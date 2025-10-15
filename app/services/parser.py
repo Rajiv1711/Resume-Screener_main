@@ -98,11 +98,42 @@ def parse_resume_with_gpt(text: str) -> dict:
     few_shot_examples = [
         {
             "role": "system",
-            "content": "You are a resume parser that extracts structured information from resumes in JSON format."
+            "content": """You are an expert resume parser that extracts structured information from resumes.
+
+IMPORTANT: Extract ALL technical skills, programming languages, frameworks, tools, and technologies mentioned anywhere in the resume.
+Look for skills in:
+- Dedicated "Skills" sections
+- Work experience descriptions
+- Project descriptions
+- Education/coursework sections
+- Certifications
+
+Return JSON with these fields:
+- name: Candidate's full name
+- email: Email address
+- phone: Phone number
+- skills: Array of ALL skills found (technical, tools, languages, frameworks, technologies)
+- experience: Array of work experience entries
+- education: Array of education entries"""
         },
         {
             "role": "user",
-            "content": "Extract key details from this resume:\n\nJohn Doe\nEmail: john.doe@example.com\nPhone: 123-456-7890\nSkills: Python, Machine Learning, SQL\nExperience: 2 years at ABC Corp as Data Analyst\nEducation: B.Tech in Computer Science"
+            "content": """Extract key details from this resume:
+
+John Doe
+Email: john.doe@example.com | Phone: 123-456-7890
+
+SKILLS:
+Python, Machine Learning, SQL, TensorFlow, AWS
+
+EXPERIENCE:
+Data Analyst at ABC Corp (2019-2021)
+- Built dashboards using Tableau and Power BI
+- Developed ETL pipelines with Apache Spark
+- Used PostgreSQL for database management
+
+EDUCATION:
+B.Tech in Computer Science | XYZ University | 2019"""
         },
         {
             "role": "assistant",
@@ -110,17 +141,27 @@ def parse_resume_with_gpt(text: str) -> dict:
                 "name": "John Doe",
                 "email": "john.doe@example.com",
                 "phone": "123-456-7890",
-                "skills": ["Python", "Machine Learning", "SQL"],
-                "experience": ["Data Analyst at ABC Corp (2 years)"],
-                "education": ["B.Tech in Computer Science"]
+                "skills": [
+                    "Python", "Machine Learning", "SQL", "TensorFlow", "AWS",
+                    "Tableau", "Power BI", "Apache Spark", "PostgreSQL"
+                ],
+                "experience": [
+                    "Data Analyst at ABC Corp (2019-2021) - Built dashboards, developed ETL pipelines, managed databases"
+                ],
+                "education": [
+                    "B.Tech in Computer Science, XYZ University, 2019"
+                ]
             }, indent=4)
         }
     ]
 
-    # Add the actual resume
+    # Add the actual resume with emphasis on skills
     few_shot_examples.append({
         "role": "user",
-        "content": f"Extract key details from this resume:\n\n{text}"
+        "content": f"""Extract key details from this resume. Make sure to extract ALL skills, technologies, programming languages, frameworks, tools, and platforms mentioned anywhere in the resume.
+
+Resume:
+{text}"""
     })
 
     response = client.chat.completions.create(
