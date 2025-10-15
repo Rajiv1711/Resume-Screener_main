@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import UploadResume from "../components/UploadResume";
 import ParallaxHero from "../components/ParallaxHero";
 import GlassCard from "../components/GlassCard";
+import SessionManager from "../components/SessionManager";
 import { Skeleton, SkeletonRow } from "../components/Skeleton";
 
 const UploadPage = ({ pushToast }) => {
@@ -15,8 +16,20 @@ const UploadPage = ({ pushToast }) => {
         subtitle="Upload single files or ZIP archives for AI-powered screening"
       />
 
-      <div className="row justify-content-center">
-        <div className="col-lg-8 col-xl-6">
+      <div className="row">
+        {/* Session Manager Sidebar */}
+        <div className="col-lg-4 mb-4">
+          <SessionManager 
+            onSessionChange={(sessionId) => {
+              console.log('Active session changed to:', sessionId);
+              // Optionally reload uploads or update UI
+            }}
+            pushToast={pushToast}
+          />
+        </div>
+
+        {/* Upload Area */}
+        <div className="col-lg-8">
           <GlassCard>
             <UploadResume onUploadingChange={setUploading} onUpload={(data) => {
               setUploaded(data);
@@ -65,6 +78,7 @@ const UploadPage = ({ pushToast }) => {
             </div>
           )}
         </div>
+      </div>
       </div>
 
       <div className="row mt-5">
