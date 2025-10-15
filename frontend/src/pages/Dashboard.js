@@ -158,7 +158,6 @@ const Dashboard = ({ pushToast }) => {
           </GlassCard>
         </div>
       </div>
-      </div>
 
       {/* Results Section */}
       {ranked.length > 0 && (
