@@ -115,7 +115,7 @@ const Dashboard = ({ pushToast }) => {
             />
             <div className="d-flex gap-3 flex-wrap align-items-center">
               <button
-                className="btn btn-custom-primary"
+                className="btn btn-custom-primary align-items-center d-flex"
                 onClick={handleRank}
                 disabled={isRanking || !jobDescription.trim()}
               >

@@ -1,597 +1,198 @@
 [
     {
-        "file": "sample_resume_3.txt",
-        "embedding_score": 0.5071,
+        "file": "sample_resume_2.txt",
+        "candidate_name": "SARAH JOHNSON",
+        "email": "sarah.johnson@email.com",
+        "final_score": 0.6432,
+        "keyword_score": 0.0439,
+        "llm_score": 0.9,
+        "experience_score": 0.9,
+        "skills_score": 0.95,
+        "education_score": 0.9,
+        "projects_score": 0.85,
+        "career_progression_score": 0.9,
+        "cultural_fit_score": 0.85,
+        "strengths": [
+            "Strong match in technical skills and experience for the role",
+            "Relevant experience in developing ML models and recommendation systems",
+            "Solid educational background in Data Science and Statistics",
+            "Experience with a wide range of tools and technologies in the ML ecosystem",
+            "Proven track record of creating automated reporting dashboards",
+            "Progressive career growth from Junior Data Analyst to Data Scientist"
+        ],
+        "concerns": [],
+        "missing_skills": [],
+        "recommendation": "Strong Hire",
+        "reasoning": "Sarah is an exceptional candidate for the Machine Learning Engineer role. With a Master's in Data Science and relevant work experience in developing ML models and recommendation systems, she possesses a strong foundation in the required skills and technologies. Her career progression from a Junior Data Analyst to a Data Scientist demonstrates growth and expertise in the field. Sarah's diverse skill set and achievements make her a standout candidate for this position.",
+        "total_experience": "4 years in Data Science and Analytics",
+        "education_level": "Master of Science in Data Science",
+        "key_achievements": [
+            "Developed predictive models and recommendation systems",
+            "Created automated reporting dashboards",
+            "Master's in Data Science with a strong statistical background"
+        ],
         "skills": [
-            "html",
-            "git",
-            "javascript",
-            "css",
-            "react",
-            "typescript"
+            "Python",
+            "R",
+            "SQL",
+            "MATLAB",
+            "Scikit-learn",
+            "TensorFlow",
+            "PyTorch",
+            "Keras",
+            "Matplotlib",
+            "Seaborn",
+            "Plotly",
+            "Tableau",
+            "Spark",
+            "Hadoop",
+            "Hive",
+            "PostgreSQL",
+            "MySQL",
+            "MongoDB",
+            "AWS",
+            "GCP",
+            "Regression",
+            "Classification",
+            "Clustering"
         ],
         "parsed": {
-            "name": "MICHAEL CHEN",
-            "email": "michael.chen@email.com",
-            "phone": "(555) 456-7890",
-            "skills": {
-                "frontend": [
-                    "React",
-                    "JavaScript",
-                    "HTML5",
-                    "CSS3",
-                    "TypeScript"
-                ],
-                "ui_ux": [
-                    "Bootstrap",
-                    "Material-UI",
-                    "Styled-components"
-                ],
-                "testing": [
-                    "Jest",
-                    "React Testing Library",
-                    "Cypress"
-                ],
-                "tools": [
-                    "Git",
-                    "Webpack",
-                    "NPM",
-                    "VS Code"
-                ],
-                "basic_backend": [
-                    "Node.js",
-                    "Express"
-                ]
-            },
-            "experience": [
-                {
-                    "title": "Frontend Developer",
-                    "company": "WebDev Studio",
-                    "duration": "2021 - Present",
-                    "responsibilities": [
-                        "Developed responsive web applications using React and TypeScript",
-                        "Collaborated with UX designers to implement pixel-perfect designs",
-                        "Improved application performance through code optimization",
-                        "Participated in code reviews and team meetings"
-                    ]
-                },
-                {
-                    "title": "Junior Web Developer",
-                    "company": "StartupXYZ",
-                    "duration": "2020 - 2021",
-                    "responsibilities": [
-                        "Built landing pages and marketing websites using HTML, CSS, and JavaScript",
-                        "Maintained and updated existing web applications",
-                        "Worked closely with marketing team to implement tracking and analytics"
-                    ]
-                }
-            ],
-            "education": {
-                "degree": "Bachelor of Arts in Computer Science",
-                "institution": "Community College",
-                "duration": "2018 - 2020"
-            },
-            "projects": [
-                "Personal Portfolio Website: Built using React and deployed on Netlify",
-                "Todo Application: Full-stack app with React frontend and Node.js backend",
-                "Weather App: React application consuming third-party API"
-            ]
-        },
-        "tfidf_score": 0.2077,
-        "hybrid_score": 0.5898
-    },
-    {
-        "file": "sample_resume_1.txt",
-        "embedding_score": 0.4817,
-        "skills": [
-            "azure",
-            "docker",
-            "html",
-            "git",
-            "javascript",
-            "jira",
-            "flask",
-            "mongodb",
-            "java",
-            "css",
-            "nlp",
-            "kubernetes",
-            "python",
-            "sql",
-            "react",
-            "fastapi",
-            "mysql"
-        ],
-        "parsed": {
-            "name": "JOHN SMITH",
-            "email": "john.smith@email.com",
-            "phone": "(555) 123-4567",
-            "linkedin": "linkedin.com/in/johnsmith",
-            "professional_summary": "Experienced Software Developer with 5 years in full-stack development, specializing in Python, React, and cloud technologies. Strong background in machine learning and data analysis.",
-            "technical_skills": {
-                "programming_languages": [
-                    "Python",
-                    "JavaScript",
-                    "Java",
-                    "SQL"
-                ],
-                "web_technologies": [
-                    "React",
-                    "HTML",
-                    "CSS",
-                    "Node.js",
-                    "Express"
-                ],
-                "databases": [
-                    "MySQL",
-                    "MongoDB",
-                    "PostgreSQL"
-                ],
-                "cloud_platforms": [
-                    "Azure",
-                    "AWS"
-                ],
-                "ml_ai": [
-                    "Scikit-learn",
-                    "TensorFlow",
-                    "Pandas",
-                    "NumPy"
-                ],
-                "tools": [
-                    "Git",
-                    "Docker",
-                    "Kubernetes",
-                    "Jira"
-                ]
-            },
-            "work_experience": [
-                {
-                    "title": "Senior Software Developer",
-                    "company": "Tech Solutions Inc.",
-                    "duration": "2021 - Present",
-                    "responsibilities": [
-                        "Developed and maintained web applications using React and Python Flask",
-                        "Implemented machine learning models for predictive analytics",
-                        "Collaborated with cross-functional teams in Agile environment",
-                        "Optimized application performance resulting in 40% faster load times"
-                    ]
-                },
-                {
-                    "title": "Software Developer",
-                    "company": "Digital Innovations LLC",
-                    "duration": "2019 - 2021",
-                    "responsibilities": [
-                        "Built REST APIs using Python and FastAPI",
-                        "Integrated Azure services for cloud deployment",
-                        "Participated in code reviews and mentored junior developers",
-                        "Contributed to CI/CD pipeline improvements"
-                    ]
-                }
-            ],
-            "education": {
-                "degree": "Bachelor of Science in Computer Science",
-                "university": "State University",
-                "duration": "2015 - 2019"
-            },
-            "certifications": [
-                "Azure Fundamentals (AZ-900)",
-                "AWS Solutions Architect Associate"
-            ],
-            "projects": [
-                "Resume Screening System: Built ML-powered resume screening application using NLP",
-                "E-commerce Platform: Developed full-stack e-commerce solution with React and Python"
-            ]
-        },
-        "tfidf_score": 0.0786,
-        "hybrid_score": 0.5422
-    },
-    {
-        "file": "Kunal Bose Resume.pdf",
-        "embedding_score": 0.3951,
-        "skills": [
-            "docker",
-            "mysql",
-            "azure",
-            "git",
-            "javascript",
-            "typescript",
-            "mongodb",
-            "nodejs",
-            "css",
-            "aws",
-            "nlp",
-            "python",
-            "react",
-            "c"
-        ],
-        "parsed": {
-            "name": "Kunal Bose",
-            "phone": "+91 7457037159",
-            "email": "email not provided",
-            "linkedin": "linkedin not provided",
-            "github": "github not provided",
-            "portfolio": "portfolio not provided",
-            "summary": "Computer Science & Engineering student with a strong foundation in front-end and full-stack development, and in-depth knowledge of cloud technologies and DevOps practices. Skilled in building scalable applications and automating infrastructure using modern development workflows.",
-            "technical_skills": {
-                "languages": [
-                    "Python",
-                    "JavaScript",
-                    "TypeScript",
-                    "C++"
-                ],
-                "frontend": [
-                    "React",
-                    "Nextjs 13",
-                    "Tailwind CSS"
-                ],
-                "backend": [
-                    "Python",
-                    "Nodejs"
-                ],
-                "version_control": [
-                    "Git",
-                    "GitHub"
-                ],
-                "devops_cloud": [
-                    "Docker",
-                    "AWS",
-                    "Jenkins",
-                    "Terraform",
-                    "Bash Scripting",
-                    "Git"
-                ],
-                "database": [
-                    "MySQL",
-                    "MongoDB"
-                ],
-                "coursework": [
-                    "Object-Oriented Programming",
-                    "Database Management System",
-                    "Operating Systems",
-                    "Computer Networks",
-                    "Artificial Intelligence"
-                ]
-            },
-            "experience": [
-                {
-                    "title": "IT INTERN",
-                    "company": "TruKKer",
-                    "duration": "June 2023 - December 2023",
-                    "responsibilities": [
-                        "Engineered an insightful asset analysis software using various libraries of Python, which helped in better managed data details for the company",
-                        "Designed a dashboard for the company\u2019s internal usage using Reactjs",
-                        "Worked on daily basis tasks given by the POC"
-                    ]
-                }
-            ],
-            "college_activities": [
-                "Multimedia Head at CerebrumBU",
-                "Head of Design at DevOpsBU"
-            ],
-            "research_papers": [
-                "Fraud Detection using Natural Language Processing \u2013 Explored NLP techniques for identifying fraudulent activities.",
-                "Unveiling the Core of DevOps \u2013 Analysed key principles and practices shaping modern DevOps methodologies."
-            ],
-            "projects": [
-                {
-                    "name": "StackForge -Terraform-Infra-DevOps",
-                    "tech_stack": [
-                        "Terraform",
-                        "EKS",
-                        "AWS",
-                        "Jenkins",
-                        "Shell Scripting"
-                    ],
-                    "description": "Production-ready AWS infrastructure built using Terraform, featuring modular EKS architecture, Jenkins-based CI/CD automation, and Shell scripting for deployment orchestration."
-                },
-                {
-                    "name": "StackForge-k8s-Deployment-DevOps",
-                    "tech_stack": [
-                        "Kubernetes",
-                        "EKS",
-                        "AWS",
-                        "Jenkins",
-                        "Shell Scripting",
-                        "Reactjs",
-                        "Nodejs",
-                        "Redis",
-                        "PostgresSQL"
-                    ],
-                    "description": "Robust full-stack deployment on AWS EKS using Kubernetes with production-grade practices like StatefulSets, Secrets, and network policies. CI/CD automated via Jenkins and Shell scripting for React, Node.js, Redis, and PostgreSQL stack."
-                },
-                {
-                    "name": "AWS-Architecture-Multiregional-DevOps",
-                    "tech_stack": [
-                        "AWS",
-                        "Terraform",
-                        "Jenkins",
-                        "Shell Scripting"
-                    ],
-                    "description": "An active-active AWS multi-region architecture using Terraform. It includes modular infrastructure, automated Jenkins installation, and a CI/CD pipeline for seamless deployment."
-                },
-                {
-                    "name": "Shoppy-Front End",
-                    "tech_stack": [
-                        "Reactjs",
-                        "React Context APIs",
-                        "Syncfusion",
-                        "Tailwind CSS"
-                    ],
-                    "description": "Fully responsive and customizable Admin dashboard created using advanced Reactjs, React Context APIs, Syncfusion, and Tailwind CSS. Theme customization with light and dark mode, it includes 1 dashboard, 3 pages, 4 apps, 7 fully functional charts."
-                },
-                {
-                    "name": "Terraform-CI-CD-Pipeline-Azure-Devops",
-                    "tech_stack": [
-                        "Azure",
-                        "Terraform",
-                        "Shell Scripting"
-                    ],
-                    "description": "The terraform-CICD repository automates infrastructure deployment with Terraform by defining network resources as code, ensuring consistency, scalability, and efficient CI/CD workflows while minimizing manual effort."
-                },
-                {
-                    "name": "Credit Card Fraud Detector-Analysis",
-                    "tech_stack": [
-                        "Python",
-                        "Pandas",
-                        "NumPy",
-                        "Scikit-learn",
-                        "Seaborn"
-                    ],
-                    "description": "Prediction model which predicts the safety of the transaction with some user input."
-                }
-            ],
-            "education": [
-                {
-                    "university": "Bennett University, Greater Noida",
-                    "degree": "Bachelor\u2019s in Computer Science and Engineering",
-                    "duration": "2022 - 2026"
-                },
-                {
-                    "school": "Army Public School Noida",
-                    "degree": "Class 12th",
-                    "duration": "2021 - 2022"
-                },
-                {
-                    "school": "Army Public School Noida",
-                    "degree": "Class 10th",
-                    "duration": "2019 - 2020"
-                }
-            ]
-        },
-        "tfidf_score": 0.0441,
-        "hybrid_score": 0.5015
-    },
-    {
-        "file": "Rajiv_Ranjan_Resume.pdf",
-        "embedding_score": 0.4006,
-        "skills": [
-            "html",
-            "mongodb",
-            "css",
-            "python",
-            "react",
-            "c"
-        ],
-        "parsed": {
-            "name": "Rajiv Ranjan",
-            "email": "21SCSE1011111@galgotiasuniversity.edu.in",
-            "phone": "+918920615221",
-            "address": "C-1301 express park view, Chi V, Greater Noida, 201310, India",
-            "education": [
-                {
-                    "school": "FIITJEE World School",
-                    "location": "Hyderabad, India",
-                    "degree": "Matriculation",
-                    "dates": "March 2017 - March 2018",
-                    "CGPA": "9.46"
-                },
-                {
-                    "school": "M.D.J. Public School",
-                    "location": "Ara, India",
-                    "degree": "Intermediate",
-                    "dates": "March 2018 - March 2020",
-                    "percentage": "76.4%"
-                },
-                {
-                    "school": "Galgotias University",
-                    "location": "Greater Noida, India",
-                    "degree": "CSE B.Tech",
-                    "dates": "July 2021 - July 2025",
-                    "CGPA": "8.53"
-                }
-            ],
-            "skills": {
-                "programming_languages": [
-                    "Python",
-                    "C",
-                    "C++",
-                    "HTML",
-                    "CSS",
-                    "JavaScript"
-                ],
-                "libraries_frameworks": [
-                    "Bootstrap",
-                    "React",
-                    "TensorFlow",
-                    "Pandas",
-                    "NumPy",
-                    "NLTK"
-                ],
-                "databases": [
-                    "MongoDB"
-                ]
-            },
-            "projects": [
-                {
-                    "name": "Twitter Sentiment Analysis",
-                    "description": "Perform sentiment analysis on Twitter data using LSTM neural networks.",
-                    "highlights": [
-                        "Preprocess text data by tokenizing tweets, converting words to word vectors, and padding sequences for uniformity.",
-                        "Train LSTM model to predict sentiment labels (positive or negative) for tweets.",
-                        "Validate and evaluate model performance on test set."
-                    ]
-                },
-                {
-                    "name": "Driver's Drowsiness Sensor",
-                    "description": "Detect driver drowsiness using an infrared sensor and alert the driver using a buzzer.",
-                    "highlights": [
-                        "Monitor driver's eye movements or facial expressions to determine drowsiness levels.",
-                        "Activate buzzer when signs of drowsiness are detected to prevent potential accidents.",
-                        "Enhance road safety by providing real-time monitoring of driver fatigue."
-                    ]
-                }
-            ],
-            "certifications": [
-                "Cyber Security Virtual Internship - AICTE"
-            ]
-        },
-        "tfidf_score": 0.008,
-        "hybrid_score": 0.4926
-    },
-    {
-        "file": "CV_AIML_8e49d5917f.pdf",
-        "embedding_score": 0.3384,
-        "skills": [
-            "mysql",
-            "git",
-            "javascript",
-            "python",
-            "sql",
-            "react",
-            "c"
-        ],
-        "parsed": {
-            "name": "Chandan",
-            "phone": "(+91) 8700737019",
-            "email": "aryachandan1947@gmail.com",
-            "summary": "Aspiring Machine Learning Engineer with experience in building real-world AI/ML applications. Skilled in deep learning, computer vision, and natural language processing using Python, TensorFlow, scikit-learn, and modern LLM tools. Passionate about using data to solve impactful problems through model development and experimentation.",
-            "education": [
-                {
-                    "degree": "B.Tech CSE-IOT",
-                    "year": "2021\u20132025",
-                    "institution": "Netaji Subhas University of Technology",
-                    "score": "6.88 CGPA"
-                },
-                {
-                    "degree": "CBSE (Class XII)",
-                    "year": "2021",
-                    "institution": "Rajkiya Pratibha Vikas Vidyalaya",
-                    "score": "89.2%"
-                },
-                {
-                    "degree": "CBSE (Class X)",
-                    "year": "2019",
-                    "institution": "Rajkiya Pratibha Vikas Vidyalaya",
-                    "score": "85.5%"
-                }
+            "name": "SARAH JOHNSON",
+            "email": "sarah.johnson@email.com",
+            "phone": "(555) 987-6543",
+            "skills": [
+                "Python",
+                "R",
+                "SQL",
+                "MATLAB",
+                "Scikit-learn",
+                "TensorFlow",
+                "PyTorch",
+                "Keras",
+                "Matplotlib",
+                "Seaborn",
+                "Plotly",
+                "Tableau",
+                "Spark",
+                "Hadoop",
+                "Hive",
+                "PostgreSQL",
+                "MySQL",
+                "MongoDB",
+                "AWS",
+                "GCP",
+                "Regression",
+                "Classification",
+                "Clustering"
             ],
             "experience": [
-                {
-                    "title": "Research & Development Intern",
-                    "duration": "June\u2013August 2024",
-                    "responsibilities": [
-                        "Contributed to the development of an IoT-based automation system.",
-                        "Designed and implemented web user interfaces and Python Tkinter applications.",
-                        "Programmed STM-based controller firmware in C.",
-                        "Documented processes and collaborated with cross-functional teams."
-                    ]
-                }
+                "Data Scientist at AnalyticsCorp (2020 - Present) - Developed predictive models, built recommendation systems, created automated reporting dashboards",
+                "Junior Data Analyst at MarketResearchInc. (2018 - 2020) - Performed statistical analysis, generated insights, created visualizations, maintained data pipelines and ETL processes"
             ],
-            "projects": [
-                {
-                    "name": "Credit Card Recommendation System",
-                    "github_link": "[GitHub]",
-                    "demo_link": "[Demo]",
-                    "description": "AI-powered web app recommending credit cards using hybrid embeddings (text + numeric features) and LLMs for personalized explanations. Built with Python, Streamlit, Hugging Face; deployed on Streamlit Cloud. Engineered data pipeline: extracted, cleaned, and normalized financial data; implemented vector similarity for recommendations. Integrated user preference input, reward simulations, and secure API token management."
-                },
-                {
-                    "name": "SentinelSecure",
-                    "github_link": "[GitHub]",
-                    "description": "Real-time object detection and alerting system for CCTV using YOLOv8 and Python. Automated threat detection and notification for enhanced security monitoring."
-                }
-            ],
-            "skills": {
-                "programming": [
-                    "Python",
-                    "SQL",
-                    "JavaScript",
-                    "C"
-                ],
-                "frameworks": [
-                    "React.js",
-                    "Next.js"
-                ],
-                "data_analysis": [
-                    "Pandas",
-                    "NumPy",
-                    "Matplotlib",
-                    "Seaborn",
-                    "Tableau"
-                ],
-                "tools": [
-                    "OpenCV",
-                    "Excel",
-                    "Power BI",
-                    "Git",
-                    "Jupyter Notebook",
-                    "MySQL",
-                    "PostgreSQL"
-                ]
-            },
-            "leadership_activities": [
-                {
-                    "organization": "TATSAM, The Hindi Society of NSUT",
-                    "duration": "2022\u2013present",
-                    "role": "PR Head (2023\u201324)",
-                    "responsibilities": "Led PR, content, and event promotion."
-                },
-                {
-                    "organization": "National Service Scheme (NSS), NSUT",
-                    "duration": "Volunteer, 2022\u201324",
-                    "responsibilities": "Organized and participated in community service initiatives."
-                },
-                {
-                    "organization": "National Cadet Corps, 5 Delhi Battalion (CHM)",
-                    "duration": "2019\u201320",
-                    "role": "Company Havildar Major",
-                    "skills_developed": "Leadership and teamwork"
-                }
-            ],
-            "achievements": [
-                "Top 15 out of 1500+ teams, HackWithIndia Hackathon",
-                "Gold Medal, State-level Science and Mathematics Exhibition (2016\u20132019)",
-                "Represented school at Northern India Science Exhibition with project 'TEG & TEC'",
-                "Best Cadet Award, NCC 5 D BN (2019)"
+            "education": [
+                "Master of Science in Data Science, Techuniversity, 2016 - 2018",
+                "Bachelor of Science in Statistics, StateCollege, 2012 - 2016"
             ]
         },
-        "tfidf_score": 0.0479,
-        "hybrid_score": 0.4828
+        "rank": 1
     },
     {
         "file": "resume_ai.pdf",
-        "embedding_score": 0.3194,
+        "candidate_name": "Om Raghuvanshi",
+        "email": "omraghuvanshi1010@gmail.com",
+        "final_score": 0.6187,
+        "keyword_score": 0.0789,
+        "llm_score": 0.85,
+        "experience_score": 0.9,
+        "skills_score": 0.9,
+        "education_score": 0.85,
+        "projects_score": 0.9,
+        "career_progression_score": 0.8,
+        "cultural_fit_score": 0.85,
+        "strengths": [
+            "Relevant internship experience in AI/ML projects",
+            "Strong technical skills in Python, scikit-learn, TensorFlow",
+            "Diverse project portfolio covering NLP, computer vision, and automation",
+            "Solid educational background in Information Technology",
+            "Exposure to real-world ML applications and collaboration"
+        ],
+        "concerns": [],
+        "missing_skills": [],
+        "recommendation": "Strong Hire",
+        "reasoning": "Om demonstrates a strong alignment with the Machine Learning Engineer role. His internship experiences in AI/ML projects, technical skills in Python and relevant libraries, diverse project portfolio covering NLP and computer vision, along with a solid educational background make him an excellent fit for the position. His exposure to real-world ML applications and collaboration further strengthen his candidacy.",
+        "total_experience": "1 year of internship experience in AI/ML projects",
+        "education_level": "Bachelor's in Information Technology",
+        "key_achievements": [
+            "Constructed a house pricing model",
+            "Engineered a diabetes prediction model",
+            "Built an NLP-based text summarization system",
+            "Developed an NLP-powered chatbot",
+            "Automated AWS EC2 and S3 operations",
+            "Created an AI-driven hand gesture recognition system"
+        ],
         "skills": [
-            "linux",
-            "java",
-            "aws",
-            "nlp",
-            "python",
-            "sql"
+            "Python",
+            "Java",
+            "Linux",
+            "SQL",
+            "Regression",
+            "Classification",
+            "Dimensionality Reduction",
+            "Anomaly Detection",
+            "Deep Learning",
+            "Image Classification",
+            "Object Detection",
+            "NLP",
+            "OpenAI Integration",
+            "scikit-learn",
+            "numpy",
+            "pandas",
+            "tensorflow",
+            "matplotlib",
+            "GenerativeAI",
+            "OpenCV",
+            "MediaPipe",
+            "Boto3",
+            "AWS",
+            "SERPAPI",
+            "Pinecone",
+            "FlutterFlow",
+            "PromptEngineering",
+            "CloudEventTriggers"
         ],
         "parsed": {
             "name": "Om Raghuvanshi",
-            "location": "New Delhi",
             "email": "omraghuvanshi1010@gmail.com",
             "phone": "7838 700 999",
-            "linkedin": "linkedin.com/in/omraghuvanshi4061/",
-            "github": "github.com/omraghuvanshi",
-            "education": [
-                {
-                    "university": "Gautam Buddha University",
-                    "degree": "BTech in Information Technology",
-                    "dates": "Sept 2021 - June 2025",
-                    "gpa": "8.4/10"
-                }
+            "skills": [
+                "Python",
+                "Java",
+                "Linux",
+                "SQL",
+                "Regression",
+                "Classification",
+                "Dimensionality Reduction",
+                "Anomaly Detection",
+                "Deep Learning",
+                "Image Classification",
+                "Object Detection",
+                "NLP",
+                "OpenAI Integration",
+                "scikit-learn",
+                "numpy",
+                "pandas",
+                "tensorflow",
+                "matplotlib",
+                "GenerativeAI",
+                "OpenCV",
+                "MediaPipe",
+                "Boto3",
+                "AWS",
+                "SERPAPI",
+                "Pinecone",
+                "FlutterFlow",
+                "PromptEngineering",
+                "CloudEventTriggers"
             ],
             "experience": [
                 {
@@ -600,9 +201,9 @@
                     "location": "Noida, India",
                     "dates": "June 2024 - Aug 2024",
                     "responsibilities": [
-                        "Constructed a house pricing model with an R2 score of 89.21",
-                        "Engineered a diabetes prediction model with 81% accuracy",
-                        "Collaborated on building an NLP-based text summarization system"
+                        "Constructed a house pricing model",
+                        "Engineered a diabetes prediction model",
+                        "Collaborated to build an NLP-based text summarization system"
                     ]
                 },
                 {
@@ -612,180 +213,513 @@
                     "dates": "June 2023 - Sept 2023",
                     "responsibilities": [
                         "Engineered an NLP-powered chatbot",
-                        "Automated AWS operations using Boto3",
+                        "Automated AWS EC2 and S3 operations",
                         "Developed an AI-driven hand gesture recognition system"
-                    ]
-                }
-            ],
-            "projects": [
-                {
-                    "name": "Gesture-Controlled OS Launch Tool",
-                    "description": "Engineered an AI-powered system for automating EC2 instances deployment",
-                    "technologies": [
-                        "AWS Boto3",
-                        "Python",
-                        "Machine Learning"
-                    ]
-                },
-                {
-                    "name": "Intelligent Multifunction Application",
-                    "description": "Designed an AI-driven multi-functional application integrating cloud computing, image processing, voice assistance, and real-time data retrieval",
-                    "technologies": [
-                        "AWS Cloud",
-                        "OpenCV",
-                        "SERP API"
-                    ]
-                },
-                {
-                    "name": "DocAI, AI-Powered Medical Chatbot",
-                    "description": "Designed and implemented a medical chatbot leveraging various technologies",
-                    "technologies": [
-                        "LangChain",
-                        "FAISS",
-                        "Hugging Face models"
-                    ]
-                }
-            ],
-            "technologies": {
-                "languages": [
-                    "Python",
-                    "Java",
-                    "Linux",
-                    "SQL"
-                ],
-                "skills": [
-                    "Regression",
-                    "Classification",
-                    "Dimensionality Reduction",
-                    "Anomaly Detection",
-                    "Deep Learning",
-                    "Image Classification",
-                    "Object Detection",
-                    "NLP",
-                    "OpenAI Integration",
-                    "scikit-learn",
-                    "numpy",
-                    "pandas",
-                    "tensorflow",
-                    "matplotlib",
-                    "Generative AI",
-                    "SQL",
-                    "OpenCV",
-                    "MediaPipe",
-                    "Boto3",
-                    "AWS",
-                    "SERPAPI",
-                    "Pinecone",
-                    "FlutterFlow",
-                    "Prompt Engineering",
-                    "Cloud Event Triggers"
-                ]
-            },
-            "accomplishments": [
-                "Led a team of 5 to design and develop an MVP",
-                "Co-organized a 24-hour hackathon with 1200+ participants"
-            ]
-        },
-        "tfidf_score": 0.0231,
-        "hybrid_score": 0.4687
-    },
-    {
-        "file": "sample_resume_2.txt",
-        "embedding_score": 0.3174,
-        "skills": [
-            "mysql",
-            "mongodb",
-            "python",
-            "sql",
-            "gcp"
-        ],
-        "parsed": {
-            "name": "SARAH JOHNSON",
-            "email": "sarah.johnson@email.com",
-            "phone": "(555) 987-6543",
-            "objective": "Data Scientist seeking opportunities to apply machine learning expertise in business intelligence and predictive modeling.",
-            "technical_skills": {
-                "programming": [
-                    "Python",
-                    "R",
-                    "SQL",
-                    "MATLAB"
-                ],
-                "machine_learning": [
-                    "Scikit-learn",
-                    "TensorFlow",
-                    "PyTorch",
-                    "Keras"
-                ],
-                "data_visualization": [
-                    "Matplotlib",
-                    "Seaborn",
-                    "Plotly",
-                    "Tableau"
-                ],
-                "big_data": [
-                    "Spark",
-                    "Hadoop",
-                    "Hive"
-                ],
-                "databases": [
-                    "PostgreSQL",
-                    "MySQL",
-                    "MongoDB"
-                ],
-                "cloud": [
-                    "AWS",
-                    "GCP"
-                ],
-                "statistical_analysis": [
-                    "Regression",
-                    "Classification",
-                    "Clustering"
-                ]
-            },
-            "experience": [
-                {
-                    "title": "Data Scientist",
-                    "company": "Analytics Corp",
-                    "duration": "2020 - Present",
-                    "responsibilities": [
-                        "Developed predictive models for customer churn analysis using Python and scikit-learn",
-                        "Built recommendation systems improving user engagement by 25%",
-                        "Created automated reporting dashboards using Tableau",
-                        "Collaborated with business stakeholders to define KPIs and metrics"
-                    ]
-                },
-                {
-                    "title": "Junior Data Analyst",
-                    "company": "Market Research Inc.",
-                    "duration": "2018 - 2020",
-                    "responsibilities": [
-                        "Performed statistical analysis on market research data",
-                        "Generated insights using SQL queries and Python scripts",
-                        "Created visualizations for executive presentations",
-                        "Maintained data pipelines and ETL processes"
                     ]
                 }
             ],
             "education": [
                 {
-                    "degree": "Master of Science in Data Science",
-                    "university": "Tech University",
-                    "duration": "2016 - 2018"
-                },
-                {
-                    "degree": "Bachelor of Science in Statistics",
-                    "university": "State College",
-                    "duration": "2012 - 2016"
+                    "degree": "BTech in Information Technology",
+                    "institution": "Gautam Buddha University",
+                    "dates": "Sept 2021 - June 2025",
+                    "GPA": "8.4/10"
                 }
-            ],
-            "projects": [
-                "Customer Segmentation Analysis: Used clustering algorithms to segment customer base",
-                "Fraud Detection System: Built machine learning model to detect fraudulent transactions",
-                "Sales Forecasting: Developed time series models for quarterly sales predictions"
             ]
         },
-        "tfidf_score": 0.0126,
-        "hybrid_score": 0.4649
+        "rank": 2
+    },
+    {
+        "file": "sample_resume_1.txt",
+        "candidate_name": "John Smith",
+        "email": "john.smith@email.com",
+        "final_score": 0.5618,
+        "keyword_score": 0.1228,
+        "llm_score": 0.75,
+        "experience_score": 0.8,
+        "skills_score": 0.85,
+        "education_score": 0.9,
+        "projects_score": 0.7,
+        "career_progression_score": 0.75,
+        "cultural_fit_score": 0.8,
+        "strengths": [
+            "Relevant experience in software development and machine learning",
+            "Strong technical skills in Python, machine learning, cloud technologies",
+            "Experience with REST APIs, Azure services, CI/CD pipelines",
+            "Good educational background in Computer Science",
+            "Diverse skill set covering front-end, back-end, and data technologies"
+        ],
+        "concerns": [],
+        "missing_skills": [
+            "FastAPI",
+            "Flask",
+            "MLOps practices",
+            "Experience with NLP or computer vision projects"
+        ],
+        "recommendation": "Consider",
+        "reasoning": "John has a solid background in software development and some experience with machine learning, making him a good candidate for the Machine Learning Engineer role. His technical skills align well with the job requirements, and his educational background is strong. However, he lacks specific experience in FastAPI, Flask, and MLOps practices, which are mentioned as requirements in the job description. Overall, he is a strong candidate but may need some additional training or exposure to certain tools and practices.",
+        "total_experience": "3 years in software development with machine learning experience",
+        "education_level": "Bachelor of Science in Computer Science",
+        "key_achievements": [
+            "Developed and maintained web applications with machine learning components",
+            "Optimized application performance and integrated Azure services",
+            "Participated in code reviews and CI/CD pipeline improvements"
+        ],
+        "skills": [
+            "Python",
+            "React",
+            "cloud technologies",
+            "machine learning",
+            "data analysis",
+            "JavaScript",
+            "Java",
+            "SQL",
+            "HTML",
+            "CSS",
+            "Node.js",
+            "Express",
+            "MySQL",
+            "MongoDB",
+            "PostgreSQL",
+            "Azure",
+            "AWS",
+            "Scikit-learn",
+            "TensorFlow",
+            "Pandas",
+            "NumPy",
+            "Git",
+            "Docker",
+            "Kubernetes",
+            "Jira",
+            "Flask",
+            "FastAPI"
+        ],
+        "parsed": {
+            "name": "John Smith",
+            "email": "john.smith@email.com",
+            "phone": "(555) 123-4567",
+            "skills": [
+                "Python",
+                "React",
+                "cloud technologies",
+                "machine learning",
+                "data analysis",
+                "JavaScript",
+                "Java",
+                "SQL",
+                "HTML",
+                "CSS",
+                "Node.js",
+                "Express",
+                "MySQL",
+                "MongoDB",
+                "PostgreSQL",
+                "Azure",
+                "AWS",
+                "Scikit-learn",
+                "TensorFlow",
+                "Pandas",
+                "NumPy",
+                "Git",
+                "Docker",
+                "Kubernetes",
+                "Jira",
+                "Flask",
+                "FastAPI"
+            ],
+            "experience": [
+                "Senior Software Developer at TechSolutionsInc. (2021 - Present) - Developed and maintained web applications, implemented machine learning models, optimized application performance",
+                "Software Developer at DigitalInnovationsLLC (2019 - 2021) - Built REST APIs, integrated Azure services, participated in code reviews and CI/CD pipeline improvements"
+            ],
+            "education": [
+                "Bachelor of Science in Computer Science, State University, 2015 - 2019"
+            ]
+        },
+        "rank": 3
+    },
+    {
+        "file": "CV_AIML_8e49d5917f.pdf",
+        "candidate_name": "Chandan",
+        "email": "aryachandan1947@gmail.com",
+        "final_score": 0.3308,
+        "keyword_score": 0.0526,
+        "llm_score": 0.45,
+        "experience_score": 0.1,
+        "skills_score": 0.6,
+        "education_score": 0.6,
+        "projects_score": 0.2,
+        "career_progression_score": 0.1,
+        "cultural_fit_score": 0.3,
+        "strengths": [
+            "Strong technical skills in Python, TensorFlow, scikit-learn",
+            "Relevant educational background in CSE-IOT",
+            "Exposure to deep learning, computer vision, and NLP",
+            "Familiarity with SQL, Git, and JavaScript"
+        ],
+        "concerns": [
+            "Limited professional experience in ML or related roles",
+            "Lack of specific ML project experience",
+            "Sparse project portfolio related to ML engineering",
+            "Incomplete information on the internship role"
+        ],
+        "missing_skills": [
+            "Experience with deploying ML models in production environments",
+            "Hands-on experience with MLOps practices",
+            "Knowledge of FastAPI, Flask, Azure ML, AWS SageMaker",
+            "Experience with model evaluation techniques"
+        ],
+        "recommendation": "Consider",
+        "reasoning": "Chandan shows potential with strong technical skills and a relevant educational background in CSE-IOT. However, the lack of substantial professional experience in ML or related roles, limited project portfolio, and missing skills in deploying models and MLOps practices raise concerns. Further experience or projects in ML engineering would strengthen the candidacy.",
+        "total_experience": "Internship experience in R&D",
+        "education_level": "B.Tech in CSE-IOT",
+        "key_achievements": [
+            "Contributed to IoT automation system during internship",
+            "Maintained a decent academic record in CSE-IOT"
+        ],
+        "skills": [
+            "Python",
+            "TensorFlow",
+            "scikit-learn",
+            "LLM",
+            "deeplearning",
+            "computervision",
+            "naturallanguageprocessing",
+            "C",
+            "React.js",
+            "Next.js",
+            "Pandas",
+            "NumPy",
+            "Matplotlib",
+            "Seaborn",
+            "Tableau",
+            "OpenCV",
+            "Excel",
+            "PowerBI",
+            "Git",
+            "JupyterNotebook",
+            "MySQL",
+            "PostgreSQL",
+            "SQL",
+            "JavaScript"
+        ],
+        "parsed": {
+            "name": "Chandan",
+            "email": "aryachandan1947@gmail.com",
+            "phone": "+91 8700737019",
+            "skills": [
+                "Python",
+                "TensorFlow",
+                "scikit-learn",
+                "LLM",
+                "deeplearning",
+                "computervision",
+                "naturallanguageprocessing",
+                "C",
+                "React.js",
+                "Next.js",
+                "Pandas",
+                "NumPy",
+                "Matplotlib",
+                "Seaborn",
+                "Tableau",
+                "OpenCV",
+                "Excel",
+                "PowerBI",
+                "Git",
+                "JupyterNotebook",
+                "MySQL",
+                "PostgreSQL",
+                "SQL",
+                "JavaScript"
+            ],
+            "experience": [
+                "Research & Development Intern (June\u2013August 2024) - Contributed to IoT automation system, designed web user interfaces, programmed STM-based controller firmware, documented processes"
+            ],
+            "education": [
+                "B.Tech in CSE-IOT, Netaji Subhas University of Technology, 2021\u20132025, CGPA: 6.88",
+                "CBSE (Class XII) 2021, Rajkiya Pratibha Vikas Vidyalaya, Score: 89.2%",
+                "CBSE (Class X) 2019, Rajkiya Pratibha Vikas Vidyalaya, Score: 85.5%"
+            ]
+        },
+        "rank": 4
+    },
+    {
+        "file": "Rajiv_Ranjan_Resume.pdf",
+        "candidate_name": "Rajiv Ranjan",
+        "email": "21SCSE1011111@galgotiasuniversity.edu.in",
+        "final_score": 0.2608,
+        "keyword_score": 0.0526,
+        "llm_score": 0.35,
+        "experience_score": 0.2,
+        "skills_score": 0.4,
+        "education_score": 0.6,
+        "projects_score": 0.3,
+        "career_progression_score": 0.1,
+        "cultural_fit_score": 0.2,
+        "strengths": [
+            "Basic experience with Python and TensorFlow",
+            "Hands-on projects demonstrating practical skills",
+            "Currently pursuing B.Tech in Computer Science"
+        ],
+        "concerns": [
+            "Limited relevant work experience in machine learning",
+            "Lack of in-depth projects related to ML engineering",
+            "Missing key skills like NumPy, Scikit-learn, SQL",
+            "No industry experience or internships"
+        ],
+        "missing_skills": [
+            "NumPy",
+            "Scikit-learn",
+            "SQL",
+            "MLOps practices",
+            "API integration"
+        ],
+        "recommendation": "Consider",
+        "reasoning": "Rajiv shows potential with hands-on projects in Python and TensorFlow, but lacks key skills and depth in machine learning engineering. The educational background is in progress, which is a positive sign, but more practical experience and exposure to relevant tools and techniques are needed for a stronger fit.",
+        "total_experience": "Hands-on projects in Python and TensorFlow",
+        "education_level": "B.Tech in Computer Science (In Progress)",
+        "key_achievements": [
+            "Sentiment analysis project using LSTM neural networks",
+            "Driver drowsiness detection using IR sensor"
+        ],
+        "skills": [
+            "Python",
+            "C",
+            "C++",
+            "HTML",
+            "CSS",
+            "JQuery",
+            "JavaScript",
+            "BootStrap",
+            "React",
+            "TensorFlow",
+            "Pandas",
+            "Numpy",
+            "NLTK",
+            "MongoDB"
+        ],
+        "parsed": {
+            "name": "Rajiv Ranjan",
+            "email": "21SCSE1011111@galgotiasuniversity.edu.in",
+            "phone": "+918920615221",
+            "skills": [
+                "Python",
+                "C",
+                "C++",
+                "HTML",
+                "CSS",
+                "JQuery",
+                "JavaScript",
+                "BootStrap",
+                "React",
+                "TensorFlow",
+                "Pandas",
+                "Numpy",
+                "NLTK",
+                "MongoDB"
+            ],
+            "experience": [
+                "TwittersentimentAnalysisPython - Sentiment analysis on Twitter data using LSTM neural networks",
+                "Drivers DrowsinessSensorC, EmbeddedTechnology - Detecting driver drowsiness using an IR sensor"
+            ],
+            "education": [
+                "FIITJEE World School, Hyderabad, India - Matriculation, March 2017 - March 2018, CGPA: 9.46",
+                "M.D.J. Public School, Ara, India - Intermediate, March 2018 - March 2020, Percentage: 76.4%",
+                "Galgotias University, Greater Noida, India - B.Tech in Computer Science, July 2021 - July 2025, CGPA: 8.53"
+            ]
+        },
+        "rank": 5
+    },
+    {
+        "file": "Kunal Bose Resume.pdf",
+        "candidate_name": "Kunal Bose",
+        "email": "",
+        "final_score": 0.1829,
+        "keyword_score": 0.0263,
+        "llm_score": 0.25,
+        "experience_score": 0.1,
+        "skills_score": 0.3,
+        "education_score": 0.4,
+        "projects_score": 0.1,
+        "career_progression_score": 0.1,
+        "cultural_fit_score": 0.2,
+        "strengths": [
+            "Diverse technical skill set including Python, JavaScript, C++, React, AWS, Docker",
+            "Experience with Git, GitHub, and database management systems",
+            "Exposure to AI and asset analysis software development"
+        ],
+        "concerns": [
+            "Limited relevant work experience in machine learning or data science",
+            "Lack of specific experience with key ML libraries like NumPy, Pandas, Scikit-learn, TensorFlow, PyTorch",
+            "No mention of SQL, MLOps, or model deployment experience",
+            "Limited project portfolio related to ML or AI"
+        ],
+        "missing_skills": [
+            "NumPy, Pandas, Scikit-learn, TensorFlow, PyTorch",
+            "SQL",
+            "MLOps and model deployment tools (FastAPI, Flask, TensorFlow Serving, Azure ML, AWS SageMaker)",
+            "Experience with NLP, CV projects"
+        ],
+        "recommendation": "Consider",
+        "reasoning": "Kunal has a diverse technical skill set and some exposure to AI and software development. However, the lack of specific experience in machine learning, data preprocessing, and model deployment is a concern. Additional training or projects in ML-related areas would strengthen the candidacy.",
+        "total_experience": "Less than 1 year of internship experience",
+        "education_level": "Bachelor\u2019s in Computer Science and Engineering",
+        "key_achievements": [
+            "Engineered asset analysis software during internship",
+            "Diverse technical skill set including Python, JavaScript, AWS, Docker"
+        ],
+        "skills": [
+            "Python",
+            "JavaScript",
+            "TypeScript",
+            "C++",
+            "React",
+            "Nextjs",
+            "TailwindCSS",
+            "Nodejs",
+            "Git",
+            "GitHub",
+            "Docker",
+            "AWS",
+            "Jenkins",
+            "Terraform",
+            "Bash Scripting",
+            "MySQL",
+            "MongoDB",
+            "Object-Oriented Programming",
+            "Database Management System",
+            "Operating Systems",
+            "Computer Networks",
+            "Artificial Intelligence"
+        ],
+        "parsed": {
+            "name": "Kunal Bose",
+            "email": "",
+            "phone": "+91 7457037159",
+            "skills": [
+                "Python",
+                "JavaScript",
+                "TypeScript",
+                "C++",
+                "React",
+                "Nextjs",
+                "TailwindCSS",
+                "Nodejs",
+                "Git",
+                "GitHub",
+                "Docker",
+                "AWS",
+                "Jenkins",
+                "Terraform",
+                "Bash Scripting",
+                "MySQL",
+                "MongoDB",
+                "Object-Oriented Programming",
+                "Database Management System",
+                "Operating Systems",
+                "Computer Networks",
+                "Artificial Intelligence"
+            ],
+            "experience": [
+                "IT INTERN at TruKKer (June 2023 - December 2023) - Engineered asset analysis software, designed internal dashboard, worked on daily tasks"
+            ],
+            "education": [
+                "Bennett University, Greater Noida - Bachelor\u2019s in Computer Science and Engineering (2022-2026)",
+                "Army Public School Noida - Class 12th (2021-2022) and Class 10th (2019-2020)"
+            ]
+        },
+        "rank": 6
+    },
+    {
+        "file": "sample_resume_3.txt",
+        "candidate_name": "MICHAEL CHEN",
+        "email": "michael.chen@email.com",
+        "final_score": 0.1803,
+        "keyword_score": 0.0175,
+        "llm_score": 0.25,
+        "experience_score": 0.2,
+        "skills_score": 0.3,
+        "education_score": 0.1,
+        "projects_score": 0.1,
+        "career_progression_score": 0.15,
+        "cultural_fit_score": 0.2,
+        "strengths": [
+            "Experience in web development and collaboration",
+            "Familiarity with frontend technologies and tools",
+            "Participation in code reviews and team meetings"
+        ],
+        "concerns": [
+            "Lack of relevant experience in machine learning or data science",
+            "Limited exposure to Python, NumPy, Pandas, Scikit-learn, TensorFlow/PyTorch",
+            "No mention of ML model development, deployment, or evaluation",
+            "Missing experience in data preprocessing, feature engineering, and MLOps practices"
+        ],
+        "missing_skills": [
+            "Python, NumPy, Pandas, Scikit-learn, TensorFlow/PyTorch",
+            "Data preprocessing, feature engineering",
+            "Model evaluation techniques",
+            "SQL, Git, API integration",
+            "MLOps, cloud deployment, Docker"
+        ],
+        "recommendation": "Consider",
+        "reasoning": "Michael has a background in web development with some collaboration experience. However, he lacks the essential skills and experience required for the Machine Learning Engineer role. There is a significant gap in machine learning knowledge, Python libraries, and deployment practices. Additional training or experience in ML is necessary for a better fit.",
+        "total_experience": "2 years in web development",
+        "education_level": "Bachelor of Arts in Computer Science",
+        "key_achievements": [
+            "Developed responsive web applications",
+            "Collaborated with UX designers",
+            "Improved application performance"
+        ],
+        "skills": [
+            "React",
+            "JavaScript",
+            "HTML5",
+            "CSS3",
+            "TypeScript",
+            "Bootstrap",
+            "Material-UI",
+            "Styled-components",
+            "Jest",
+            "ReactTestingLibrary",
+            "Cypress",
+            "Git",
+            "Webpack",
+            "NPM",
+            "VSCode",
+            "Node.js",
+            "Express"
+        ],
+        "parsed": {
+            "name": "MICHAEL CHEN",
+            "email": "michael.chen@email.com",
+            "phone": "(555) 456-7890",
+            "skills": [
+                "React",
+                "JavaScript",
+                "HTML5",
+                "CSS3",
+                "TypeScript",
+                "Bootstrap",
+                "Material-UI",
+                "Styled-components",
+                "Jest",
+                "ReactTestingLibrary",
+                "Cypress",
+                "Git",
+                "Webpack",
+                "NPM",
+                "VSCode",
+                "Node.js",
+                "Express"
+            ],
+            "experience": [
+                "Frontend Developer at WebDevStudio (2021 - Present) - Developed responsive web applications, collaborated with UX designers, improved application performance, participated in code reviews and team meetings",
+                "Junior Web Developer at StartupXYZ (2020 - 2021) - Built landing pages and marketing websites, maintained and updated existing web applications, worked closely with marketing team to implement tracking and analytics"
+            ],
+            "education": [
+                "Bachelor of Arts in Computer Science, Community College, 2018 - 2020"
+            ]
+        },
+        "rank": 7
     }
 ]
