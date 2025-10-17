@@ -66,6 +66,28 @@ def login(form_data: OAuth2PasswordRequestForm = Depends()):
     return TokenResponse(access_token=token, expires_at=expires)
 
 
+@router.post("/session-login")
+def session_login(request: Request, form_data: OAuth2PasswordRequestForm = Depends()):
+    """
+    Session-based login: sets server-side session instead of returning JWT.
+    """
+    username = form_data.username
+    if not username:
+        raise HTTPException(status_code=400, detail="Missing username")
+
+    # Mock password check; replace with real auth in production
+    user = {
+        "username": username,
+        "auth_type": "password",
+        "roles": ["recruiter"],
+        "login_time": int(time.time()),
+    }
+    request.session["authenticated"] = True
+    request.session["user"] = user
+
+    return {"message": "Logged in", "user": user}
+
+
 def verify_token(token: str) -> dict:
     try:
         payload = jwt.decode(token, JWT_SECRET, algorithms=[JWT_ALGORITHM])
@@ -202,3 +224,10 @@ def guest_logout(request: Request):
     
     guest_session_manager.revoke_guest_session(client_ip)
     return {"message": "Guest session revoked successfully"}
+
+
+@router.post("/logout")
+def logout(request: Request):
+    """Clear the server-side session."""
+    request.session.clear()
+    return {"message": "Logged out"}
