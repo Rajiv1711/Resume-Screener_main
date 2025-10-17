@@ -55,9 +55,9 @@ def extract_text_from_blob(blob_name: str, user_id: str = None) -> str:
     """Extract raw text from a blob in Azure Blob Storage using enhanced extraction."""
     ext = os.path.splitext(blob_name)[1].lower()
     
-    # Download blob content to memory
+    # Download blob content to memory using session-based structure
     if user_id:
-        file_content = blob_storage.download_file_user(blob_name, user_id)
+        file_content = blob_storage.download_file_session(blob_name, user_id)
     else:
         file_content = blob_storage.download_file(blob_name)
     
@@ -206,10 +206,10 @@ def parse_resume_from_blob(blob_name: str, user_id: str = None) -> dict:
     """Full pipeline: extract raw text from blob, preprocess, then parse with GPT."""
     raw_text = extract_text_from_blob(blob_name, user_id=user_id)
 
-    # Save extracted raw text to blob storage
+    # Save extracted raw text to blob storage using session-based structure
     processed_blob_name = f"processed/{os.path.basename(blob_name)}.txt"
     if user_id:
-        blob_storage.upload_file_user(raw_text.encode('utf-8'), processed_blob_name, user_id)
+        blob_storage.upload_file_session(raw_text.encode('utf-8'), processed_blob_name, user_id)
     else:
         blob_storage.upload_file(raw_text.encode('utf-8'), processed_blob_name)
 
@@ -255,9 +255,9 @@ def parse_zip_from_blob(blob_name: str, user_id: str = None) -> list:
     """Handle ZIP file containing multiple resumes from blob storage."""
     parsed_results = []
 
-    # Download ZIP file from blob storage
+    # Download ZIP file from blob storage using session-based structure
     if user_id:
-        zip_content = blob_storage.download_file_user(blob_name, user_id)
+        zip_content = blob_storage.download_file_session(blob_name, user_id)
     else:
         zip_content = blob_storage.download_file(blob_name)
     

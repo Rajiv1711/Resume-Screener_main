@@ -26,7 +26,7 @@ async def get_insights(
         if user_id:
             try:
                 from app.services.blob_storage import blob_storage
-                content = blob_storage.download_file_user("reports/ranked_resumes.json", user_id)
+                content = blob_storage.download_file_session("reports/ranked_resumes.json", user_id)
                 ranked_data = json.loads(content.decode('utf-8'))
             except Exception:
                 ranked_data = []

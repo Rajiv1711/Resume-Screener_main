@@ -39,9 +39,9 @@ async def upload_resume(resume: List[UploadFile] = File(...), request: Request =
             # Read file content
             file_content = await uploaded_file.read()
 
-            # Upload to Azure Blob Storage
+            # Upload to Azure Blob Storage using session-based structure
             blob_name = f"raw_resumes/{uploaded_file.filename}"
-            blob_url = blob_storage.upload_file_user(file_content, blob_name, user_id)
+            blob_url = blob_storage.upload_file_session(file_content, blob_name, user_id)
 
             # Create a temporary file for parsing (since parser expects file paths)
             with tempfile.NamedTemporaryFile(delete=False, suffix=file_ext) as temp_file:

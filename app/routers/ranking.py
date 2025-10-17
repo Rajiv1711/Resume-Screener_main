@@ -32,7 +32,7 @@ async def rank_uploaded_resumes(
             if auth_header:
                 user_id = auth_header
 
-        blob_names = blob_storage.list_blobs_user(prefix="raw_resumes/", user_id=user_id)
+        blob_names = blob_storage.list_blobs_session(user_id=user_id, prefix="raw_resumes/")
         
         for blob_name in blob_names:
             if blob_name.startswith("raw_resumes/"):
@@ -56,14 +56,14 @@ async def rank_uploaded_resumes(
         # Step 2: Rank resumes based on job description
         ranked_results = rank_resumes(resumes, job_description)
 
-        # Step 3: Save ranked output for reporting (both locally and to blob storage)
+        # Step 3: Save ranked output for reporting to session-based blob storage
+        json_content = json.dumps(ranked_results, indent=4).encode('utf-8')
+        blob_storage.upload_file_session(json_content, "reports/ranked_resumes.json", user_id)
+        
+        # Also save locally for backward compatibility
         os.makedirs("reports", exist_ok=True)
         with open("reports/ranked_resumes.json", "w", encoding="utf-8") as f:
             json.dump(ranked_results, f, indent=4)
-        
-        # Also save to per-user blob storage
-        json_content = json.dumps(ranked_results, indent=4).encode('utf-8')
-        blob_storage.upload_file_user(json_content, "reports/ranked_resumes.json", user_id)
 
         return JSONResponse(content={"status": "success", "ranked_resumes": ranked_results})
 
