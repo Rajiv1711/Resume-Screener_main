@@ -4,6 +4,7 @@ import UploadPage from "./pages/UploadPage";
 import Dashboard from "./pages/Dashboard";
 import SessionsPage from "./pages/SessionsPage";
 import Login from "./pages/Login";
+import Home from "./pages/Home";
 import "./App.css";
 import { useIsAuthenticated } from "@azure/msal-react";
 import { isAuthenticated } from "./services/api";
@@ -33,7 +34,7 @@ function App() {
       <ToastContainer toasts={toasts} onClose={closeToast} />
       <main className="app-main">
         <Routes>
-          <Route path="/" element={<Navigate to="/upload" />} />
+          <Route path="/" element={<Home pushToast={pushToast} />} />
           <Route path="/login" element={<Login />} />
           <Route path="/upload" element={<UploadPage pushToast={pushToast} />} />
           <Route

@@ -99,6 +99,34 @@ const Navbar = () => {
         {/* Navigation Links */}
         <div className="navbar-nav me-auto ms-4">
           <Link 
+            to="/" 
+            className={`nav-link px-3 py-2 rounded me-2 ${isActive('/') ? 'active' : ''}`}
+            style={{
+              color: isActive('/') ? 'var(--accent-primary)' : 'var(--text-secondary)',
+              backgroundColor: isActive('/') ? 'rgba(79, 209, 197, 0.12)' : 'transparent',
+              fontWeight: '500',
+              textDecoration: 'none',
+              transition: 'all 0.3s ease'
+            }}
+            onMouseEnter={(e) => {
+              if (!isActive('/')) {
+                e.target.style.color = 'var(--text-primary)';
+                e.target.style.backgroundColor = 'rgba(255, 255, 255, 0.05)';
+              }
+            }}
+            onMouseLeave={(e) => {
+              if (!isActive('/')) {
+                e.target.style.color = 'var(--text-secondary)';
+                e.target.style.backgroundColor = 'transparent';
+              }
+            }}
+          >
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" className="me-1">
+              <path d="M10,20V14H14V20H19V12H22L12,3L2,12H5V20H10Z" />
+            </svg>
+            Home
+          </Link>
+          <Link 
             to="/upload" 
             className={`nav-link px-3 py-2 rounded me-2 ${isActive('/upload') ? 'active' : ''}`}
             style={{
