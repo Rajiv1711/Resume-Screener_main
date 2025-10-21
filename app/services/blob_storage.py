@@ -1,7 +1,9 @@
 import os
 import io
+import json
+import csv
 from datetime import datetime
-from typing import Optional, List, Dict
+from typing import Optional, List, Dict, Tuple
 from azure.core.exceptions import ResourceNotFoundError, ResourceExistsError
 from azure.storage.blob import BlobServiceClient, BlobClient, ContainerClient, ContentSettings
 from app.config import BLOB_CONNECTION_STRING, BLOB_CONTAINER_NAME
@@ -380,7 +382,6 @@ class BlobStorageService:
         try:
             metadata_key = f"{user_id}:{session_id}"
             if metadata_key in self._session_metadata:
-                import json
                 metadata_json = json.dumps(self._session_metadata[metadata_key])
                 session_path = self.get_session_path(user_id, session_id)
                 
@@ -395,7 +396,6 @@ class BlobStorageService:
     def _load_session_metadata(self, user_id: str, session_id: str) -> Dict:
         """Load session metadata from blob storage."""
         try:
-            import json
             session_path = self.get_session_path(user_id, session_id)
             
             blob_client = self.blob_service_client.get_blob_client(
@@ -414,6 +414,53 @@ class BlobStorageService:
                 'user_id': user_id,
                 'session_id': session_id
             }
+    
+    def _ensure_session_history_csv(self) -> None:
+        """Ensure the analytics/session_summary.csv exists with header."""
+        csv_blob = "analytics/session_summary.csv"
+        blob_client = self.blob_service_client.get_blob_client(
+            container=self.container_name,
+            blob=csv_blob
+        )
+        try:
+            blob_client.get_blob_properties()
+        except Exception:
+            header = (
+                "user_id,session_id,name,created,deleted,duration_seconds,duration_human,"
+                "storage_bytes,storage_mb,blob_count\n"
+            ).encode("utf-8")
+            blob_client.upload_blob(header, overwrite=True)
+
+    def _append_session_history_csv(self, row: Dict) -> None:
+        """Append a row to analytics/session_summary.csv in blob storage."""
+        self._ensure_session_history_csv()
+        csv_blob = "analytics/session_summary.csv"
+        blob_client = self.blob_service_client.get_blob_client(
+            container=self.container_name,
+            blob=csv_blob
+        )
+        # Download current CSV, append, and overwrite
+        try:
+            existing = blob_client.download_blob().readall().decode("utf-8")
+        except Exception:
+            existing = ""
+        line = (
+            f"{row['user_id']},{row['session_id']},{row.get('name','')},{row.get('created','')},{row.get('deleted','')},"
+            f"{row.get('duration_seconds',0)},{row.get('duration_human','')},{row.get('storage_bytes',0)},"
+            f"{row.get('storage_mb',0)},{row.get('blob_count',0)}\n"
+        )
+        new_content = (existing + line).encode("utf-8") if existing else ("" + line).encode("utf-8")
+        blob_client.upload_blob(new_content, overwrite=True)
+
+    def _archive_session_metadata(self, user_id: str, session_id: str, metadata: Dict) -> None:
+        """Write a copy of final session metadata under analytics/sessions/{user}/{session_id}.json."""
+        sanitized_user = self._sanitize_user_id(user_id)
+        archive_blob = f"analytics/sessions/{sanitized_user}/{session_id}.json"
+        blob_client = self.blob_service_client.get_blob_client(
+            container=self.container_name,
+            blob=archive_blob
+        )
+        blob_client.upload_blob(json.dumps(metadata).encode("utf-8"), overwrite=True)
     
     def update_session_name(self, user_id: str, session_id: str, new_name: str) -> bool:
         """Update the name of a session.
@@ -443,34 +490,114 @@ class BlobStorageService:
             print(f"Failed to update session name: {e}")
             return False
     
-    def delete_session(self, user_id: str, session_id: str) -> int:
-        """Delete all blobs in a user's session.
+    def delete_session(self, user_id: str, session_id: str) -> Dict:
+        """Delete all blobs in a user's session, but preserve and enrich metadata.
         
         Args:
             user_id: User identifier
             session_id: Session ID to delete
             
         Returns:
-            Number of blobs deleted
+            Dict with deletion stats: {deleted_blobs, storage_bytes, deleted_at, duration_seconds}
         """
         session_path = self.get_session_path(user_id, session_id)
-        
         container_client = self.blob_service_client.get_container_client(self.container_name)
-        blobs = container_client.list_blobs(name_starts_with=session_path)
+        blobs_iter = container_client.list_blobs(name_starts_with=session_path)
         
-        count = 0
-        for blob in blobs:
+        # Load existing metadata (or default)
+        metadata_key = f"{user_id}:{session_id}"
+        metadata = self._load_session_metadata(user_id, session_id)
+        self._session_metadata[metadata_key] = metadata
+
+        # Aggregate stats and collect blobs to delete (exclude .metadata.json)
+        total_bytes = 0
+        blob_count = 0
+        blobs_to_delete: List[str] = []
+        for blob in blobs_iter:
+            if blob.name.endswith('.metadata.json'):
+                continue
+            blob_count += 1
             try:
-                container_client.delete_blob(blob.name)
-                count += 1
-            except:
+                size = getattr(blob, 'size', None)
+                if size is None:
+                    # Fallback: fetch properties
+                    props = container_client.get_blob_client(blob.name).get_blob_properties()
+                    size = getattr(props, 'size', getattr(props, 'content_length', 0))
+                total_bytes += int(size or 0)
+            except Exception:
                 pass
+            blobs_to_delete.append(blob.name)
+
+        # Compute deletion timestamp and duration
+        deleted_at = datetime.now().isoformat()
+        created_str = metadata.get('created')
+        duration_seconds = 0
+        if created_str and created_str != 'Unknown':
+            try:
+                created_dt = datetime.fromisoformat(created_str)
+            except Exception:
+                created_dt = None
+        else:
+            created_dt = None
         
+        if created_dt is None:
+            # Try derive from session_id
+            try:
+                ts = session_id.replace('session_', '')
+                created_dt = datetime.strptime(ts, "%Y%m%d_%H%M%S")
+            except Exception:
+                created_dt = None
+        if created_dt is not None:
+            duration_seconds = max(0, int((datetime.fromisoformat(deleted_at) - created_dt).total_seconds()))
+
+        # Update and persist metadata in place (preserve .metadata.json)
+        metadata.update({
+            'deleted': deleted_at,
+            'blob_count': blob_count,
+            'storage_bytes': total_bytes,
+            'duration_seconds': duration_seconds,
+            'duration_human': f"{duration_seconds//3600}h {(duration_seconds%3600)//60}m {duration_seconds%60}s"
+        })
+        self._session_metadata[metadata_key] = metadata
+        self._save_session_metadata(user_id, session_id)
+
+        # Archive final metadata copy and update global CSV
+        try:
+            self._archive_session_metadata(user_id, session_id, metadata)
+            self._append_session_history_csv({
+                'user_id': user_id,
+                'session_id': session_id,
+                'name': metadata.get('name',''),
+                'created': metadata.get('created',''),
+                'deleted': deleted_at,
+                'duration_seconds': duration_seconds,
+                'duration_human': metadata.get('duration_human',''),
+                'storage_bytes': total_bytes,
+                'storage_mb': round(total_bytes/1024/1024, 3),
+                'blob_count': blob_count,
+            })
+        except Exception as e:
+            print(f"Failed to archive session history: {e}")
+
+        # Delete all other blobs under the session path
+        deleted_count = 0
+        for name in blobs_to_delete:
+            try:
+                container_client.delete_blob(name)
+                deleted_count += 1
+            except Exception:
+                pass
+
         # Clean up from session cache
         if user_id in self._user_sessions and self._user_sessions[user_id] == session_id:
             del self._user_sessions[user_id]
-        
-        return count
+
+        return {
+            'deleted_blobs': deleted_count,
+            'storage_bytes': total_bytes,
+            'deleted_at': deleted_at,
+            'duration_seconds': duration_seconds,
+        }
 
 
 # Global instance

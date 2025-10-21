@@ -215,13 +215,16 @@ async def delete_session(session_id: str, request: Request = None):
             if auth_header:
                 user_id = auth_header
         
-        # Delete session
-        deleted_count = blob_storage.delete_session(user_id, session_id)
+        # Delete session (preserves metadata and records stats)
+        stats = blob_storage.delete_session(user_id, session_id)
         
         return JSONResponse(content={
             "status": "success",
             "session_id": session_id,
-            "deleted_blobs": deleted_count
+            "deleted_blobs": stats.get("deleted_blobs", 0),
+            "storage_bytes": stats.get("storage_bytes", 0),
+            "deleted_at": stats.get("deleted_at"),
+            "duration_seconds": stats.get("duration_seconds", 0)
         })
         
     except Exception as e:
