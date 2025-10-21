@@ -5,7 +5,7 @@ import csv
 from reportlab.lib.pagesizes import A4
 from reportlab.lib import colors
 from reportlab.lib.styles import getSampleStyleSheet
-from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer, PageBreak
 from app.services.blob_storage import blob_storage
 
 REPORTS_DIR = "reports"
@@ -69,7 +69,7 @@ def generate_excel_report(ranked_results):
 
 def generate_pdf_report(ranked_results):
     """
-    Generate PDF summary of ranked resumes.
+    Generate a more insightful PDF report with summary and candidate details.
     """
     pdf_path = os.path.join(REPORTS_DIR, "ranked_resumes.pdf")
     doc = SimpleDocTemplate(pdf_path, pagesize=A4)
@@ -81,7 +81,26 @@ def generate_pdf_report(ranked_results):
     elements.append(title)
     elements.append(Spacer(1, 12))
 
-    # Table Data
+    # Summary Insights
+    scores = []
+    for r in ranked_results:
+        sc = r.get("score")
+        if sc is None:
+            sc = float(r.get("final_score", 0)) * 100.0
+        scores.append(float(sc or 0))
+    total = len(ranked_results)
+    avg_score = round(sum(scores) / len(scores), 2) if scores else 0.0
+    high = len([s for s in scores if s >= 80])
+    med = len([s for s in scores if 60 <= s < 80])
+    low = len([s for s in scores if s < 60])
+    summary_par = Paragraph(
+        f"<b>Summary:</b> Total Candidates: {total} | Average Score: {avg_score}% | High Matches: {high} | Medium: {med} | Low: {low}",
+        styles["Normal"],
+    )
+    elements.append(summary_par)
+    elements.append(Spacer(1, 12))
+
+    # Ranked Table
     table_data = [["Rank", "Candidate", "Email", "Score (%)", "Top Skills"]]
 
     for idx, resume in enumerate(ranked_results, start=1):
@@ -102,6 +121,40 @@ def generate_pdf_report(ranked_results):
     ]))
 
     elements.append(table)
+    elements.append(PageBreak())
+
+    # Detailed Insights for Top Candidates
+    elements.append(Paragraph("<b>Top Candidates - Detailed Insights</b>", styles["Heading2"]))
+    elements.append(Spacer(1, 8))
+
+    top_n = min(5, len(ranked_results))
+    for i in range(top_n):
+        r = ranked_results[i]
+        name = r.get("candidate_name") or r.get("parsed", {}).get("name") or r.get("file", f"Candidate {i+1}")
+        score = r.get("score")
+        if score is None:
+            score = round(float(r.get("final_score", 0)) * 100.0, 2)
+        rec = r.get("recommendation", "")
+        strengths = r.get("strengths", [])
+        concerns = r.get("concerns", [])
+        missing = r.get("missing_skills", [])
+
+        elements.append(Paragraph(f"<b>#{i+1} {name}</b> — Score: {score}% — Recommendation: {rec}", styles["Heading3"]))
+        if strengths:
+            elements.append(Paragraph("<u>Strengths</u>", styles["BodyText"]))
+            for s in strengths[:5]:
+                elements.append(Paragraph(f"• {s}", styles["BodyText"]))
+        if concerns:
+            elements.append(Spacer(1, 4))
+            elements.append(Paragraph("<u>Concerns</u>", styles["BodyText"]))
+            for c in concerns[:5]:
+                elements.append(Paragraph(f"• {c}", styles["BodyText"]))
+        if missing:
+            elements.append(Spacer(1, 4))
+            elements.append(Paragraph("<u>Missing Skills</u>", styles["BodyText"]))
+            elements.append(Paragraph(", ".join(missing[:10]), styles["BodyText"]))
+        elements.append(Spacer(1, 10))
+
     doc.build(elements)
 
     return pdf_path
@@ -144,22 +197,38 @@ def generate_reports():
     }
 
 
-def generate_reports_from_blob():
+def generate_reports_from_blob(user_id: str | None = None):
     """
-    Read the ranked JSON file from blob storage and generate both Excel and PDF reports.
+    Read the ranked JSON file from blob storage (prefer latest user session) and generate Excel/CSV/PDF.
     """
-    try:
-        # Try to read from blob storage first
-        json_content = blob_storage.download_file("reports/ranked_resumes.json")
-        ranked_results = json.loads(json_content.decode('utf-8'))
-    except Exception:
-        # Fallback to local file
-        json_path = os.path.join(REPORTS_DIR, "ranked_resumes.json")
-        if not os.path.exists(json_path):
-            raise FileNotFoundError("Ranked results JSON not found. Please run ranking first.")
-        
-        with open(json_path, "r", encoding="utf-8") as f:
-            ranked_results = json.load(f)
+    ranked_results = []
+    # Prefer per-user latest session file if user_id provided
+    if user_id:
+        try:
+            sessions = blob_storage.list_user_sessions(user_id)
+            for s in sessions:
+                try:
+                    content = blob_storage.download_file_session("reports/ranked_resumes.json", user_id, s['session_id'])
+                    ranked_results = json.loads(content.decode('utf-8'))
+                    if ranked_results:
+                        break
+                except Exception:
+                    continue
+        except Exception:
+            ranked_results = []
+    
+    if not ranked_results:
+        try:
+            # Try shared/root blob as fallback
+            json_content = blob_storage.download_file("reports/ranked_resumes.json")
+            ranked_results = json.loads(json_content.decode('utf-8'))
+        except Exception:
+            # Fallback to local file
+            json_path = os.path.join(REPORTS_DIR, "ranked_resumes.json")
+            if not os.path.exists(json_path):
+                raise FileNotFoundError("Ranked results JSON not found. Please run ranking first.")
+            with open(json_path, "r", encoding="utf-8") as f:
+                ranked_results = json.load(f)
 
     excel_path = generate_excel_report(ranked_results)
     csv_path = generate_csv_report(ranked_results)

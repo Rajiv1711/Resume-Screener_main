@@ -36,7 +36,14 @@ function App() {
         <Routes>
           <Route path="/" element={<Home pushToast={pushToast} />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/upload" element={<UploadPage pushToast={pushToast} />} />
+          <Route
+            path="/upload"
+            element={
+              <ProtectedRoute>
+                <UploadPage pushToast={pushToast} />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/dashboard"
             element={

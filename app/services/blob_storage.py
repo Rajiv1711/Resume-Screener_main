@@ -367,15 +367,19 @@ class BlobStorageService:
                         'session_id': session_id,
                         'name': metadata.get('name', f"Session {session_id.replace('session_', '')}"),
                         'created': metadata.get('created', 'Unknown'),
-                        'blob_count': 0
+                        'blob_count': 0,
+                        'deleted': metadata.get('deleted')
                     }
                 
                 # Count non-metadata files only
-                if not '.metadata.json' in blob.name:
+                if '.metadata.json' not in blob.name:
                     sessions[session_id]['blob_count'] += 1
         
+        # Filter out deleted sessions by default
+        active_sessions = [s for s in sessions.values() if not s.get('deleted')]
+        
         # Sort by creation time (newest first)
-        return sorted(sessions.values(), key=lambda x: x['created'], reverse=True)
+        return sorted(active_sessions, key=lambda x: x['created'], reverse=True)
     
     def _save_session_metadata(self, user_id: str, session_id: str):
         """Save session metadata to blob storage."""

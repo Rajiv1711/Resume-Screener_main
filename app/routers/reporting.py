@@ -23,7 +23,7 @@ async def download_report(report_type: str, request: Request = None):
             user_id = request.headers.get("X-User-Id") or request.headers.get("x-user-id")
         else:
             user_id = None
-        reports = generate_reports_from_blob() if not user_id else generate_reports_from_blob()
+        reports = generate_reports_from_blob(user_id=user_id)
 
         if report_type == "excel":
             file_path = reports["excel_report"]

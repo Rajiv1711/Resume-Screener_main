@@ -23,19 +23,25 @@ async def get_insights(
             user_id = request.headers.get("X-User-Id") or request.headers.get("x-user-id")
         reports_file = "reports/ranked_resumes.json"
         
+        ranked_data = []
         if user_id:
             try:
                 from app.services.blob_storage import blob_storage
-                content = blob_storage.download_file_session("reports/ranked_resumes.json", user_id)
-                ranked_data = json.loads(content.decode('utf-8'))
+                # Look for the latest session's ranked results first
+                sessions = blob_storage.list_user_sessions(user_id)
+                for s in sessions:
+                    try:
+                        content = blob_storage.download_file_session("reports/ranked_resumes.json", user_id, s['session_id'])
+                        ranked_data = json.loads(content.decode('utf-8'))
+                        if ranked_data:
+                            break
+                    except Exception:
+                        continue
             except Exception:
                 ranked_data = []
-        elif os.path.exists(reports_file):
+        if not ranked_data and os.path.exists(reports_file):
             with open(reports_file, "r", encoding="utf-8") as f:
                 ranked_data = json.load(f)
-        else:
-            # If no local file, return empty insights
-            ranked_data = []
         
         if not ranked_data:
             return JSONResponse(content={
