@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { rankResumes, downloadReport } from "../services/api";
+import { rankResumes, rankResumesFromFile, downloadReport } from "../services/api";
 import ResultsTable from "../components/ResultsTable";
 import InsightsChart from "../components/InsightsChart";
 import GlassCard from "../components/GlassCard";
@@ -10,18 +10,26 @@ import SessionManager from "../components/SessionManager";
 const Dashboard = ({ pushToast }) => {
   const [ranked, setRanked] = useState([]);
   const [jobDescription, setJobDescription] = useState("");
+  const [jdFile, setJdFile] = useState(null);
   const [isRanking, setIsRanking] = useState(false);
   const [showJobDescModal, setShowJobDescModal] = useState(false);
 
   const handleRank = async () => {
-    if (!jobDescription.trim()) {
+    if (!jdFile && !jobDescription.trim()) {
       setShowJobDescModal(true);
       return;
     }
 
     setIsRanking(true);
     try {
-      const res = await rankResumes(jobDescription);
+      let res;
+      if (jdFile && !jobDescription.trim()) {
+        const fd = new FormData();
+        fd.append("jd_file", jdFile);
+        res = await rankResumesFromFile(fd);
+      } else {
+        res = await rankResumes(jobDescription);
+      }
       const ranked = Array.isArray(res.data?.ranked_resumes) ? res.data.ranked_resumes : [];
       const mapped = ranked.map((r, i) => {
         // Extract score - handle both final_score (0-1 from LLM) and hybrid_score
@@ -113,11 +121,27 @@ const Dashboard = ({ pushToast }) => {
                 resize: 'vertical'
               }}
             />
+            {/* JD File Upload */}
+            <div className="mb-3">
+              <label className="form-label" style={{color: 'var(--text-secondary)'}}>Or upload a job description document (PDF, DOCX, TXT)</label>
+              <input
+                type="file"
+                accept=".pdf,.doc,.docx,.txt"
+                className="form-control"
+                onChange={(e) => setJdFile(e.target.files && e.target.files[0] ? e.target.files[0] : null)}
+              />
+              {jdFile && (
+                <div className="small mt-2" style={{color: 'var(--text-muted)'}}>
+                  Selected: {jdFile.name} (<button className="btn btn-link p-0" onClick={() => setJdFile(null)}>clear</button>)
+                </div>
+              )}
+            </div>
+
             <div className="d-flex gap-3 flex-wrap align-items-center">
               <button
                 className="btn btn-custom-primary align-items-center d-flex"
                 onClick={handleRank}
-                disabled={isRanking || !jobDescription.trim()}
+                disabled={isRanking || (!jobDescription.trim() && !jdFile)}
               >
                 {isRanking ? (
                   <>

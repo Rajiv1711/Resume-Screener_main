@@ -113,6 +113,12 @@ export const getInsights = () => API.get("/insights");
 export const rankResumes = (jobDescription) =>
   API.post("/rank", { job_description: jobDescription });
 
+// Rank resumes from a job description document
+export const rankResumesFromFile = (formData) =>
+  API.post("/rank-from-file", formData, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
 // Download report securely with auth header
 export const downloadReport = async (type) => {
   const res = await API.get(`/download/${type}`, { responseType: "blob" });
