@@ -36,7 +36,15 @@ def _normalize_row(resume, idx):
             # Fallback to hybrid_score
             score_val = round(float(resume.get("hybrid_score", 0)) * 100, 2)
     
-    return name, email, score_val, skills
+    # Extract recommendation and reasoning summary
+    recommendation = resume.get("recommendation") or ""
+    reasoning = resume.get("reasoning") or ""
+    # Sanitize and summarize reasoning for CSV/tooltips
+    reasoning_clean = str(reasoning).replace("\r", " ").replace("\n", " ").strip()
+    if len(reasoning_clean) > 240:
+        reasoning_clean = reasoning_clean[:237] + "..."
+    
+    return name, email, score_val, skills, recommendation, reasoning_clean
 
 
 def generate_excel_report(ranked_results):
@@ -52,7 +60,7 @@ def generate_excel_report(ranked_results):
 
     # Populate rows
     for idx, resume in enumerate(ranked_results, start=1):
-        name, email, score_val, skills = _normalize_row(resume, idx)
+        name, email, score_val, skills, recommendation, reasoning_summary = _normalize_row(resume, idx)
         ws.append([
             idx,
             name,
@@ -104,7 +112,7 @@ def generate_pdf_report(ranked_results):
     table_data = [["Rank", "Candidate", "Email", "Score (%)", "Top Skills"]]
 
     for idx, resume in enumerate(ranked_results, start=1):
-        name, email, score_val, skills = _normalize_row(resume, idx)
+        name, email, score_val, skills, recommendation, reasoning_summary = _normalize_row(resume, idx)
         row = [idx, name, email, score_val, ", ".join(skills)]
         table_data.append(row)
 
@@ -167,11 +175,12 @@ def generate_csv_report(ranked_results):
     csv_path = os.path.join(REPORTS_DIR, "ranked_resumes.csv")
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-        writer.writerow(["Rank", "Candidate Name", "Email", "File", "Score (%)", "Top Skills"])
-        for idx, resume in enumerate(ranked_results, start=1):
-            name, email, score_val, skills = _normalize_row(resume, idx)
-            writer.writerow([idx, name, email, resume.get("file", "N/A"), score_val, ", ".join(skills)])
-    return csv_path
+    writer.writerow(["Rank", "Candidate Name", "Email", "File", "Score (%)", "Recommendation", "Reasoning", "Top Skills"])
+    for idx, resume in enumerate(ranked_results, start=1):
+        name, email, score_val, skills, recommendation, _reasoning_summary = _normalize_row(resume, idx)
+        reasoning_full = resume.get("reasoning", "")
+        writer.writerow([idx, name, email, resume.get("file", "N/A"), score_val, recommendation, reasoning_full, ", ".join(skills)])
+    return sio.getvalue().encode("utf-8")
 
 
 def generate_reports():

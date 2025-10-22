@@ -14,6 +14,14 @@ const ResultsTable = ({ resumes }) => {
     return 'danger';
   };
 
+  const getTooltip = (r) => {
+    const rec = r?.recommendation ? `Recommendation: ${r.recommendation}` : "Recommendation: N/A";
+    let reason = r?.reasoning || "";
+    if (reason.length > 240) reason = reason.slice(0, 237) + "...";
+    const reasonLine = reason ? `\n${reason}` : "";
+    return `${rec}${reasonLine}`;
+  };
+
   if (!resumes || resumes.length === 0) {
     return (
       <div className="text-center py-4" style={{color: 'var(--text-secondary)'}}>
@@ -79,7 +87,7 @@ const ResultsTable = ({ resumes }) => {
                     </div>
                   </div>
                   <div>
-                    <div className="fw-semibold">
+                    <div className="fw-semibold" title={getTooltip(resume)}>
                       {resume.name || `Candidate ${idx + 1}`}
                     </div>
                     <div className="small" style={{color: 'var(--text-secondary)'}}>
