@@ -58,14 +58,9 @@ async def rank_uploaded_resumes(
         # Step 2: Rank resumes based on job description
         ranked_results = rank_resumes(resumes, job_description)
 
-        # Step 3: Save ranked output for reporting to session-based blob storage
+        # Step 3: Save ranked output for reporting to session-based blob storage (no local persistence)
         json_content = json.dumps(ranked_results, indent=4).encode('utf-8')
         blob_storage.upload_file_session(json_content, "reports/ranked_resumes.json", user_id)
-        
-        # Also save locally for backward compatibility
-        os.makedirs("reports", exist_ok=True)
-        with open("reports/ranked_resumes.json", "w", encoding="utf-8") as f:
-            json.dump(ranked_results, f, indent=4)
 
         return JSONResponse(content={"status": "success", "ranked_resumes": ranked_results})
 
@@ -138,12 +133,9 @@ async def rank_uploaded_resumes_from_file(
         # Rank resumes using extracted text
         ranked_results = rank_resumes(resumes, job_description_text)
 
-        # Save ranked output to session-based blob storage and locally
+        # Save ranked output to session-based blob storage (no local persistence)
         json_content = json.dumps(ranked_results, indent=4).encode('utf-8')
         blob_storage.upload_file_session(json_content, "reports/ranked_resumes.json", user_id)
-        os.makedirs("reports", exist_ok=True)
-        with open("reports/ranked_resumes.json", "w", encoding="utf-8") as f:
-            json.dump(ranked_results, f, indent=4)
 
         return JSONResponse(content={"status": "success", "ranked_resumes": ranked_results})
 

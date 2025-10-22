@@ -1,13 +1,27 @@
-# Azure SQL Database
-SQL_SERVER = "your-server.database.windows.net"
-SQL_DATABASE = "resume-screener"
-SQL_USERNAME = "your-username"
-SQL_PASSWORD = "your-password"
+import os
 
-# Azure OpenAI
-OPENAI_API_KEY = "your-openai-key"
-OPENAI_ENDPOINT = "your-openai-endpoint"
+# Azure SQL Database (optional; not used by current code)
+SQL_SERVER = os.getenv("SQL_SERVER")
+SQL_DATABASE = os.getenv("SQL_DATABASE")
+SQL_USERNAME = os.getenv("SQL_USERNAME")
+SQL_PASSWORD = os.getenv("SQL_PASSWORD")
+
+# Azure OpenAI (used by parser, embeddings, ranker)
+# Backward compatible single-resource vars
+OPENAI_API_VERSION = os.getenv("AZURE_OPENAI_API_VERSION", "2024-12-01-preview")
+
+# Chat (completions) config
+OPENAI_CHAT_API_KEY = os.getenv("AZURE_OPENAI_CHAT_API_KEY") or os.getenv("AZURE_OPENAI_API_KEY")
+OPENAI_CHAT_ENDPOINT = os.getenv("AZURE_OPENAI_CHAT_ENDPOINT") or os.getenv("AZURE_OPENAI_ENDPOINT")
+OPENAI_CHAT_API_VERSION = os.getenv("AZURE_OPENAI_CHAT_API_VERSION") or OPENAI_API_VERSION
+OPENAI_CHAT_DEPLOYMENT = os.getenv("AZURE_OPENAI_CHAT_DEPLOYMENT", "gpt-35-turbo")
+
+# Embeddings config
+OPENAI_EMBEDDING_API_KEY = os.getenv("AZURE_OPENAI_EMBEDDING_API_KEY") or os.getenv("AZURE_OPENAI_API_KEY")
+OPENAI_EMBEDDING_ENDPOINT = os.getenv("AZURE_OPENAI_EMBEDDING_ENDPOINT") or os.getenv("AZURE_OPENAI_ENDPOINT")
+OPENAI_EMBEDDING_API_VERSION = os.getenv("AZURE_OPENAI_EMBEDDING_API_VERSION") or OPENAI_API_VERSION
+OPENAI_EMBEDDING_DEPLOYMENT = os.getenv("AZURE_OPENAI_EMBEDDING_DEPLOYMENT", "text-embedding-3-large")
 
 # Azure Blob Storage
-BLOB_CONNECTION_STRING = "DefaultEndpointsProtocol=https;AccountName=resume1raw;AccountKey=uy3mg2nDk8S/R2X+OGAd6RqDEBX3FmFfOEPqO/VTaFIOt/2jLG4m1vev6KXBK7286H/HbIBsHl1z+AStIeSelA==;EndpointSuffix=core.windows.net"
-BLOB_CONTAINER_NAME = "resumes"
+BLOB_CONNECTION_STRING = os.getenv("AZURE_STORAGE_CONNECTION_STRING")
+BLOB_CONTAINER_NAME = os.getenv("AZURE_BLOB_CONTAINER", "resumes")

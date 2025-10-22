@@ -1,5 +1,6 @@
 import os
 import json
+from io import BytesIO, StringIO
 from openpyxl import Workbook
 import csv
 from reportlab.lib.pagesizes import A4
@@ -8,8 +9,7 @@ from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Table, TableStyle, Spacer, PageBreak
 from app.services.blob_storage import blob_storage
 
-REPORTS_DIR = "reports"
-os.makedirs(REPORTS_DIR, exist_ok=True)
+# Local REPORTS_DIR disabled: all reports handled via blob storage
 
 
 def _normalize_row(resume, idx):
@@ -39,9 +39,9 @@ def _normalize_row(resume, idx):
     return name, email, score_val, skills
 
 
-def generate_excel_report(ranked_results):
+def generate_excel_report(ranked_results) -> bytes:
     """
-    Generate Excel report of ranked resumes.
+    Generate Excel report of ranked resumes and return as bytes.
     """
     wb = Workbook()
     ws = wb.active
@@ -62,17 +62,18 @@ def generate_excel_report(ranked_results):
             ", ".join(skills)
         ])
 
-    excel_path = os.path.join(REPORTS_DIR, "ranked_resumes.xlsx")
-    wb.save(excel_path)
-    return excel_path
+    buffer = BytesIO()
+    wb.save(buffer)
+    buffer.seek(0)
+    return buffer.read()
 
 
-def generate_pdf_report(ranked_results):
+def generate_pdf_report(ranked_results) -> bytes:
     """
-    Generate a more insightful PDF report with summary and candidate details.
+    Generate a more insightful PDF report with summary and candidate details and return as bytes.
     """
-    pdf_path = os.path.join(REPORTS_DIR, "ranked_resumes.pdf")
-    doc = SimpleDocTemplate(pdf_path, pagesize=A4)
+    buffer = BytesIO()
+    doc = SimpleDocTemplate(buffer, pagesize=A4)
     styles = getSampleStyleSheet()
     elements = []
 
@@ -156,50 +157,29 @@ def generate_pdf_report(ranked_results):
         elements.append(Spacer(1, 10))
 
     doc.build(elements)
+    buffer.seek(0)
+    return buffer.read()
 
-    return pdf_path
 
-
-def generate_csv_report(ranked_results):
+def generate_csv_report(ranked_results) -> bytes:
     """
-    Generate CSV report of ranked resumes.
+    Generate CSV report of ranked resumes and return as bytes.
     """
-    csv_path = os.path.join(REPORTS_DIR, "ranked_resumes.csv")
-    with open(csv_path, "w", newline="", encoding="utf-8") as f:
-        writer = csv.writer(f)
-        writer.writerow(["Rank", "Candidate Name", "Email", "File", "Score (%)", "Top Skills"])
-        for idx, resume in enumerate(ranked_results, start=1):
-            name, email, score_val, skills = _normalize_row(resume, idx)
-            writer.writerow([idx, name, email, resume.get("file", "N/A"), score_val, ", ".join(skills)])
-    return csv_path
+    sio = StringIO()
+    writer = csv.writer(sio)
+    writer.writerow(["Rank", "Candidate Name", "Email", "File", "Score (%)", "Top Skills"])
+    for idx, resume in enumerate(ranked_results, start=1):
+        name, email, score_val, skills = _normalize_row(resume, idx)
+        writer.writerow([idx, name, email, resume.get("file", "N/A"), score_val, ", ".join(skills)])
+    return sio.getvalue().encode("utf-8")
 
 
-def generate_reports():
-    """
-    Read the ranked JSON file and generate both Excel and PDF reports.
-    """
-    json_path = os.path.join(REPORTS_DIR, "ranked_resumes.json")
-
-    if not os.path.exists(json_path):
-        raise FileNotFoundError("Ranked results JSON not found. Please run ranking first.")
-
-    with open(json_path, "r", encoding="utf-8") as f:
-        ranked_results = json.load(f)
-
-    excel_path = generate_excel_report(ranked_results)
-    csv_path = generate_csv_report(ranked_results)
-    pdf_path = generate_pdf_report(ranked_results)
-
-    return {
-        "excel_report": excel_path,
-        "csv_report": csv_path,
-        "pdf_report": pdf_path
-    }
 
 
 def generate_reports_from_blob(user_id: str | None = None):
     """
-    Read the ranked JSON file from blob storage (prefer latest user session) and generate Excel/CSV/PDF.
+    Read ranked results JSON from blob storage and generate Excel/CSV/PDF directly to blob storage.
+    Returns blob names for the generated reports.
     """
     ranked_results = []
     # Prefer per-user latest session file if user_id provided
@@ -218,41 +198,25 @@ def generate_reports_from_blob(user_id: str | None = None):
             ranked_results = []
     
     if not ranked_results:
-        try:
-            # Try shared/root blob as fallback
-            json_content = blob_storage.download_file("reports/ranked_resumes.json")
-            ranked_results = json.loads(json_content.decode('utf-8'))
-        except Exception:
-            # Fallback to local file
-            json_path = os.path.join(REPORTS_DIR, "ranked_resumes.json")
-            if not os.path.exists(json_path):
-                raise FileNotFoundError("Ranked results JSON not found. Please run ranking first.")
-            with open(json_path, "r", encoding="utf-8") as f:
-                ranked_results = json.load(f)
+        # Try shared/root blob as fallback
+        json_content = blob_storage.download_file("reports/ranked_resumes.json")
+        ranked_results = json.loads(json_content.decode('utf-8'))
 
-    excel_path = generate_excel_report(ranked_results)
-    csv_path = generate_csv_report(ranked_results)
-    pdf_path = generate_pdf_report(ranked_results)
-    
-    # Upload reports to blob storage
-    with open(excel_path, "rb") as f:
-        excel_content = f.read()
-    blob_storage.upload_file(excel_content, f"reports/{os.path.basename(excel_path)}")
-    
-    with open(pdf_path, "rb") as f:
-        pdf_content = f.read()
-    blob_storage.upload_file(pdf_content, f"reports/{os.path.basename(pdf_path)}")
+    # Generate files in-memory
+    excel_bytes = generate_excel_report(ranked_results)
+    csv_bytes = generate_csv_report(ranked_results)
+    pdf_bytes = generate_pdf_report(ranked_results)
 
-    # Upload CSV as well
-    with open(csv_path, "rb") as f:
-        csv_content = f.read()
-    blob_storage.upload_file(csv_content, f"reports/{os.path.basename(csv_path)}")
+    # Upload to shared reports path in default container
+    excel_blob = "reports/ranked_resumes.xlsx"
+    csv_blob = "reports/ranked_resumes.csv"
+    pdf_blob = "reports/ranked_resumes.pdf"
+    blob_storage.upload_file(excel_bytes, excel_blob)
+    blob_storage.upload_file(csv_bytes, csv_blob)
+    blob_storage.upload_file(pdf_bytes, pdf_blob)
 
     return {
-        "excel_report": excel_path,
-        "csv_report": csv_path,
-        "pdf_report": pdf_path,
-        "excel_blob": f"reports/{os.path.basename(excel_path)}",
-        "csv_blob": f"reports/{os.path.basename(csv_path)}",
-        "pdf_blob": f"reports/{os.path.basename(pdf_path)}"
+        "excel_blob": excel_blob,
+        "csv_blob": csv_blob,
+        "pdf_blob": pdf_blob
     }

@@ -1,0 +1,77 @@
+version: "3.9"
+services:
+  backend:
+    image: resume-screener-backend:latest
+    container_name: resume-screener-backend
+    ports:
+      - "8000:8000"
+    environment:
+      # Set via environment or secrets manager; do not hardcode secrets here
+      - SESSION_SECRET=${SESSION_SECRET:?set_in_env}
+      - AZURE_STORAGE_CONNECTION_STRING=${AZURE_STORAGE_CONNECTION_STRING:?set_in_env}
+      - AZURE_BLOB_CONTAINER=${AZURE_BLOB_CONTAINER:-resumes}
+      # Back-compat single resource
+      - AZURE_OPENAI_API_KEY=${AZURE_OPENAI_API_KEY:-}
+      - AZURE_OPENAI_ENDPOINT=${AZURE_OPENAI_ENDPOINT:-}
+      - AZURE_OPENAI_API_VERSION=${AZURE_OPENAI_API_VERSION:-2024-12-01-preview}
+      # Preferred: separate chat vs embeddings
+      - AZURE_OPENAI_CHAT_API_KEY=${AZURE_OPENAI_CHAT_API_KEY:?set_in_env}
+      - AZURE_OPENAI_CHAT_ENDPOINT=${AZURE_OPENAI_CHAT_ENDPOINT:?set_in_env}
+      - AZURE_OPENAI_CHAT_API_VERSION=${AZURE_OPENAI_CHAT_API_VERSION:-2024-12-01-preview}
+      - AZURE_OPENAI_CHAT_DEPLOYMENT=${AZURE_OPENAI_CHAT_DEPLOYMENT:-gpt-35-turbo}
+      - AZURE_OPENAI_EMBEDDING_API_KEY=${AZURE_OPENAI_EMBEDDING_API_KEY:?set_in_env}
+      - AZURE_OPENAI_EMBEDDING_ENDPOINT=${AZURE_OPENAI_EMBEDDING_ENDPOINT:?set_in_env}
+      - AZURE_OPENAI_EMBEDDING_API_VERSION=${AZURE_OPENAI_EMBEDDING_API_VERSION:-2024-12-01-preview}
+      - AZURE_OPENAI_EMBEDDING_DEPLOYMENT=${AZURE_OPENAI_EMBEDDING_DEPLOYMENT:-text-embedding-3-large}
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - app
+    # Optional additional healthcheck override (Dockerfile already has one)
+    # healthcheck:
+    #   test: ["CMD-SHELL", "curl -fsS http://127.0.0.1:8000/ || exit 1"]
+    #   interval: 30s
+    #   timeout: 5s
+    #   retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: "1.0"
+          memory: 1G
+        reservations:
+          cpus: "0.25"
+          memory: 256M
+
+  frontend:
+    image: resume-screener-frontend:latest
+    container_name: resume-screener-frontend
+    depends_on:
+      - backend
+ports:
+      - "80:8080"
+    restart: unless-stopped
+    read_only: true
+    tmpfs:
+      - /var/cache/nginx
+      - /var/run
+      - /tmp
+    security_opt:
+      - no-new-privileges:true
+    networks:
+      - app
+    deploy:
+      resources:
+        limits:
+          cpus: "0.5"
+          memory: 256M
+        reservations:
+          cpus: "0.1"
+          memory: 64M
+
+networks:
+  app:
+    driver: bridge

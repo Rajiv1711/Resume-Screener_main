@@ -1,0 +1,27 @@
+# VCS and OS junk
+.git
+.gitignore
+.DS_Store
+
+# Python
+__pycache__
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+.venv
+venv
+
+# Node
+frontend/node_modules
+frontend/build
+
+# Test and local env
+.env
+*.env*
+coverage
+pytest_cache
+.test_env
+
+# Not needed in image
+test_environment

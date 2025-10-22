@@ -8,6 +8,12 @@ import json
 import logging
 from typing import Dict, List, Tuple
 from openai import AzureOpenAI
+from app.config import (
+    OPENAI_CHAT_API_KEY,
+    OPENAI_CHAT_ENDPOINT,
+    OPENAI_CHAT_API_VERSION,
+    OPENAI_CHAT_DEPLOYMENT,
+)
 
 logger = logging.getLogger(__name__)
 
@@ -19,10 +25,12 @@ class LLMBasedRanker:
     
     def __init__(self):
         # Configure Azure OpenAI
+        if not OPENAI_CHAT_API_KEY or not OPENAI_CHAT_ENDPOINT:
+            raise RuntimeError("Azure OpenAI chat credentials not configured: set AZURE_OPENAI_CHAT_API_KEY and AZURE_OPENAI_CHAT_ENDPOINT (or AZURE_OPENAI_API_KEY/ENDPOINT)")
         self.client = AzureOpenAI(
-            api_key="C6GA6hGNxN48a6A2jR6JyhDYTzbnwfvHJuYTM2FUz4olCPa2mBq0JQQJ99BIAC77bzfXJ3w3AAABACOGAz1x",
-            api_version="2024-12-01-preview",
-            azure_endpoint="https://parseroa.openai.azure.com/"
+            api_key=OPENAI_CHAT_API_KEY,
+            api_version=OPENAI_CHAT_API_VERSION,
+            azure_endpoint=OPENAI_CHAT_ENDPOINT,
         )
         
         # Few-shot examples for resume evaluation
@@ -127,7 +135,7 @@ class LLMBasedRanker:
         
         try:
             response = self.client.chat.completions.create(
-                model="gpt-35-turbo",
+                model=OPENAI_CHAT_DEPLOYMENT,
                 messages=prompt,
                 temperature=0.1,  # Low temperature for consistent evaluation
                 max_tokens=1500,

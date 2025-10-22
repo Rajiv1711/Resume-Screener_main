@@ -14,13 +14,24 @@ from app.services.enhanced_text_extractor import enhanced_extractor
 # Configure OpenAI / Azure OpenAI
 from openai import AzureOpenAI
 
-client = AzureOpenAI(
-    api_key="C6GA6hGNxN48a6A2jR6JyhDYTzbnwfvHJuYTM2FUz4olCPa2mBq0JQQJ99BIAC77bzfXJ3w3AAABACOGAz1x",
-    api_version="2024-12-01-preview",
-    azure_endpoint="https://parseroa.openai.azure.com/"
+# Configure Azure OpenAI client from environment (see app/config.py)
+from app.config import (
+    OPENAI_CHAT_API_KEY,
+    OPENAI_CHAT_ENDPOINT,
+    OPENAI_CHAT_API_VERSION,
+    OPENAI_CHAT_DEPLOYMENT,
 )
 
-UPLOAD_DIR = "data/processed"
+if not OPENAI_CHAT_API_KEY or not OPENAI_CHAT_ENDPOINT:
+    raise RuntimeError("Azure OpenAI chat credentials not configured: set AZURE_OPENAI_CHAT_API_KEY and AZURE_OPENAI_CHAT_ENDPOINT (or AZURE_OPENAI_API_KEY/ENDPOINT)")
+
+client = AzureOpenAI(
+    api_key=OPENAI_CHAT_API_KEY,
+    api_version=OPENAI_CHAT_API_VERSION,
+    azure_endpoint=OPENAI_CHAT_ENDPOINT,
+)
+
+UPLOAD_DIR = "data/processed"  # Deprecated: local storage disabled
 
 
 def extract_text(file_path: str) -> str:
@@ -165,7 +176,7 @@ Resume:
     })
 
     response = client.chat.completions.create(
-        model="gpt-35-turbo",  # Azure deployment name
+        model=OPENAI_CHAT_DEPLOYMENT,  # Azure deployment name configured via env
         messages=few_shot_examples,
         temperature=0.0
     )
@@ -179,14 +190,10 @@ Resume:
 
 
 def parse_resume(file_path: str) -> dict:
-    """Full pipeline: extract raw text, preprocess, then parse with GPT."""
+    """Full pipeline: extract raw text, preprocess, then parse with GPT.
+    Note: Local persistence disabled; only in-memory processing.
+    """
     raw_text = extract_text(file_path)
-
-    # Save extracted raw text
-    os.makedirs(UPLOAD_DIR, exist_ok=True)
-    processed_file = os.path.join(UPLOAD_DIR, os.path.basename(file_path) + ".txt")
-    with open(processed_file, "w", encoding="utf-8") as f:
-        f.write(raw_text)
 
     # Step 1: Preprocess
     preprocessed = preprocess_resume_text(raw_text)

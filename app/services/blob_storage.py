@@ -15,6 +15,10 @@ class BlobStorageService:
     def __init__(self):
         self.connection_string = BLOB_CONNECTION_STRING
         self.container_name = BLOB_CONTAINER_NAME
+        if not self.connection_string:
+            raise RuntimeError("AZURE_STORAGE_CONNECTION_STRING is not set")
+        if not self.container_name:
+            raise RuntimeError("AZURE_BLOB_CONTAINER is not set")
         self.blob_service_client = BlobServiceClient.from_connection_string(self.connection_string)
         self._ensure_container_exists()
         # Store current session per user
@@ -239,6 +243,19 @@ class BlobStorageService:
         try:
             blob_client = self.blob_service_client.get_blob_client(
                 container=self.container_name, 
+                blob=blob_name
+            )
+            blob_client.get_blob_properties()
+            return True
+        except Exception:
+            return False
+    
+    def blob_exists_user(self, blob_name: str, user_id: str) -> bool:
+        """Check if a blob exists in a user's container."""
+        try:
+            user_container = self._get_or_create_user_container(user_id)
+            blob_client = self.blob_service_client.get_blob_client(
+                container=user_container,
                 blob=blob_name
             )
             blob_client.get_blob_properties()

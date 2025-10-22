@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: resume-screener-backend:latest
+    container_name: resume-screener-backend
+    ports:
+      - "8000:8000"
+    environment:
+      - SESSION_SECRET=${SESSION_SECRET:-change_this_secret_for_dev}
+    networks:
+      - app
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        REACT_APP_API_BASE_URL: http://backend:8000/api
+    image: resume-screener-frontend:latest
+    container_name: resume-screener-frontend
+    ports:
+      - "3000:80"
+    depends_on:
+      - backend
+    networks:
+      - app
+
+networks:
+  app:
+    driver: bridge

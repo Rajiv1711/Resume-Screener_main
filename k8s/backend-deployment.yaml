@@ -1,0 +1,133 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: resume-screener
+  labels:
+    app: backend
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: backend
+          image: resume-screener-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: SESSION_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: resume-screener-secrets
+                  key: SESSION_SECRET
+            - name: AZURE_STORAGE_CONNECTION_STRING
+              valueFrom:
+                secretKeyRef:
+                  name: resume-screener-secrets
+                  key: AZURE_STORAGE_CONNECTION_STRING
+            - name: AZURE_BLOB_CONTAINER
+              valueFrom:
+                secretKeyRef:
+                  name: resume-screener-secrets
+                  key: AZURE_BLOB_CONTAINER
+            # Back-compat single resource
+            - name: AZURE_OPENAI_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: resume-screener-secrets
+                  key: AZURE_OPENAI_API_KEY
+            - name: AZURE_OPENAI_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: resume-screener-secrets
+                  key: AZURE_OPENAI_ENDPOINT
+            - name: AZURE_OPENAI_API_VERSION
+              valueFrom:
+                secretKeyRef:
+                  name: resume-screener-secrets
+                  key: AZURE_OPENAI_API_VERSION
+            # Preferred: separate chat vs embeddings
+            - name: AZURE_OPENAI_CHAT_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: resume-screener-secrets
+                  key: AZURE_OPENAI_CHAT_API_KEY
+            - name: AZURE_OPENAI_CHAT_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: resume-screener-secrets
+                  key: AZURE_OPENAI_CHAT_ENDPOINT
+            - name: AZURE_OPENAI_CHAT_API_VERSION
+              valueFrom:
+                secretKeyRef:
+                  name: resume-screener-secrets
+                  key: AZURE_OPENAI_CHAT_API_VERSION
+            - name: AZURE_OPENAI_CHAT_DEPLOYMENT
+              valueFrom:
+                secretKeyRef:
+                  name: resume-screener-secrets
+                  key: AZURE_OPENAI_CHAT_DEPLOYMENT
+            - name: AZURE_OPENAI_EMBEDDING_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: resume-screener-secrets
+                  key: AZURE_OPENAI_EMBEDDING_API_KEY
+            - name: AZURE_OPENAI_EMBEDDING_ENDPOINT
+              valueFrom:
+                secretKeyRef:
+                  name: resume-screener-secrets
+                  key: AZURE_OPENAI_EMBEDDING_ENDPOINT
+            - name: AZURE_OPENAI_EMBEDDING_API_VERSION
+              valueFrom:
+                secretKeyRef:
+                  name: resume-screener-secrets
+                  key: AZURE_OPENAI_EMBEDDING_API_VERSION
+            - name: AZURE_OPENAI_EMBEDDING_DEPLOYMENT
+              valueFrom:
+                secretKeyRef:
+                  name: resume-screener-secrets
+                  key: AZURE_OPENAI_EMBEDDING_DEPLOYMENT
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 5
+            periodSeconds: 10
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 20
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+      volumes:
+        - name: tmp
+          emptyDir: {}
