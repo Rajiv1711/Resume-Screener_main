@@ -71,6 +71,25 @@ class BlobStorageService:
         
         # Save metadata to blob storage
         self._save_session_metadata(user_id, session_id)
+
+        # Record session in analytics CSV as active
+        try:
+            metadata_key = f"{user_id}:{session_id}"
+            meta = self._session_metadata.get(metadata_key, {})
+            self._upsert_session_history_csv({
+                'user_id': user_id,
+                'session_id': session_id,
+                'name': meta.get('name', f"Session {timestamp}"),
+                'created': meta.get('created', datetime.now().isoformat()),
+                'deleted': 'still Active',
+                'duration_seconds': 0,
+                'duration_human': '',
+                'storage_bytes': 0,
+                'storage_mb': 0,
+                'blob_count': 0,
+            })
+        except Exception as e:
+            print(f"Failed to upsert active session in CSV: {e}")
         
         return session_id
     
@@ -456,6 +475,49 @@ class BlobStorageService:
         new_content = (existing + line).encode("utf-8") if existing else ("" + line).encode("utf-8")
         blob_client.upload_blob(new_content, overwrite=True)
 
+    def _upsert_session_history_csv(self, row: Dict) -> None:
+        """Insert or update a session row in analytics/session_summary.csv by (user_id, session_id)."""
+        self._ensure_session_history_csv()
+        csv_blob = "analytics/session_summary.csv"
+        blob_client = self.blob_service_client.get_blob_client(
+            container=self.container_name,
+            blob=csv_blob
+        )
+        # Read existing content
+        try:
+            existing = blob_client.download_blob().readall().decode("utf-8")
+        except Exception:
+            existing = ""
+        headers = [
+            "user_id","session_id","name","created","deleted",
+            "duration_seconds","duration_human","storage_bytes","storage_mb","blob_count"
+        ]
+        rows = []
+        found = False
+        if existing.strip():
+            try:
+                reader = csv.DictReader(existing.splitlines())
+                for r in reader:
+                    if r.get("user_id") == row.get("user_id") and r.get("session_id") == row.get("session_id"):
+                        # Update existing row values with provided row (cast to str)
+                        for h in headers:
+                            if h in row:
+                                r[h] = str(row.get(h, r.get(h, "")))
+                        found = True
+                    rows.append({h: r.get(h, "") for h in headers})
+            except Exception:
+                # If parsing fails, fallback to appending a new row below
+                rows = []
+                found = False
+        if not found:
+            rows.append({h: str(row.get(h, "")) for h in headers})
+        # Write back full CSV with header
+        out = io.StringIO()
+        writer = csv.DictWriter(out, fieldnames=headers)
+        writer.writeheader()
+        writer.writerows(rows)
+        blob_client.upload_blob(out.getvalue().encode("utf-8"), overwrite=True)
+
     def _archive_session_metadata(self, user_id: str, session_id: str, metadata: Dict) -> None:
         """Write a copy of final session metadata under analytics/sessions/{user}/{session_id}.json."""
         sanitized_user = self._sanitize_user_id(user_id)
@@ -568,7 +630,7 @@ class BlobStorageService:
         # Archive final metadata copy and update global CSV
         try:
             self._archive_session_metadata(user_id, session_id, metadata)
-            self._append_session_history_csv({
+            self._upsert_session_history_csv({
                 'user_id': user_id,
                 'session_id': session_id,
                 'name': metadata.get('name',''),
