@@ -13,17 +13,18 @@ REPORTS_DIR = "reports"
 @router.get("/download/{report_type}")
 async def download_report(report_type: str, request: Request = None):
     """
-    Download ranked resumes report in Excel or PDF format.
-    report_type: 'excel' or 'pdf'
+    Download ranked resumes report in Excel, CSV, or PDF format.
+    report_type: 'excel' | 'csv' | 'pdf'
     """
     try:
-        # Generate reports from blob storage
-        # Prefer per-user reports
+        if report_type not in {"excel", "csv", "pdf"}:
+            raise HTTPException(status_code=400, detail="Invalid report type. Use 'excel', 'csv', or 'pdf'.")
+
+        # Generate reports from blob storage (falls back to local JSON)
+        user_id = None
         if request is not None:
             user_id = request.headers.get("X-User-Id") or request.headers.get("x-user-id")
-        else:
-            user_id = None
-        reports = generate_reports_from_blob(user_id=user_id)
+        reports = generate_reports_from_blob(user_id=user_id, types={report_type})
 
         if report_type == "excel":
             file_path = reports["excel_report"]
@@ -34,7 +35,7 @@ async def download_report(report_type: str, request: Request = None):
                 media_type="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"
             )
 
-        elif report_type == "csv":
+        if report_type == "csv":
             file_path = reports["csv_report"]
             filename = os.path.basename(file_path)
             return FileResponse(
@@ -43,20 +44,23 @@ async def download_report(report_type: str, request: Request = None):
                 media_type="text/csv"
             )
 
-        elif report_type == "pdf":
-            file_path = reports["pdf_report"]
-            filename = os.path.basename(file_path)
-            return FileResponse(
-                path=file_path,
-                filename=filename,
-                media_type="application/pdf"
-            )
+        # pdf
+        file_path = reports["pdf_report"]
+        filename = os.path.basename(file_path)
+        return FileResponse(
+            path=file_path,
+            filename=filename,
+            media_type="application/pdf"
+        )
 
-        else:
-            raise HTTPException(status_code=400, detail="Invalid report type. Use 'excel' or 'pdf'.")
-
+    except FileNotFoundError as e:
+        # Surface a clearer error when ranking JSON is missing
+        raise HTTPException(status_code=404, detail=str(e))
+    except HTTPException:
+        raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
+        # Unexpected failure
+        raise HTTPException(status_code=500, detail=f"Failed to generate report: {str(e)}")
 
 
 @router.get("/blob-url/{report_type}")

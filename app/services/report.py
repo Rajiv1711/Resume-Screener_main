@@ -151,12 +151,12 @@ def generate_pdf_report(ranked_results):
         if strengths:
             elements.append(Paragraph("<u>Strengths</u>", styles["BodyText"]))
             for s in strengths[:5]:
-                elements.append(Paragraph(f"• {s}", styles["BodyText"]))
+                elements.append(Paragraph(f"- {s}", styles["BodyText"]))
         if concerns:
             elements.append(Spacer(1, 4))
             elements.append(Paragraph("<u>Concerns</u>", styles["BodyText"]))
             for c in concerns[:5]:
-                elements.append(Paragraph(f"• {c}", styles["BodyText"]))
+                elements.append(Paragraph(f"- {c}", styles["BodyText"]))
         if missing:
             elements.append(Spacer(1, 4))
             elements.append(Paragraph("<u>Missing Skills</u>", styles["BodyText"]))
@@ -170,17 +170,17 @@ def generate_pdf_report(ranked_results):
 
 def generate_csv_report(ranked_results):
     """
-    Generate CSV report of ranked resumes.
+    Generate CSV report of ranked resumes and return the file path.
     """
     csv_path = os.path.join(REPORTS_DIR, "ranked_resumes.csv")
     with open(csv_path, "w", newline="", encoding="utf-8") as f:
         writer = csv.writer(f)
-    writer.writerow(["Rank", "Candidate Name", "Email", "File", "Score (%)", "Recommendation", "Reasoning", "Top Skills"])
-    for idx, resume in enumerate(ranked_results, start=1):
-        name, email, score_val, skills, recommendation, _reasoning_summary = _normalize_row(resume, idx)
-        reasoning_full = resume.get("reasoning", "")
-        writer.writerow([idx, name, email, resume.get("file", "N/A"), score_val, recommendation, reasoning_full, ", ".join(skills)])
-    return sio.getvalue().encode("utf-8")
+        writer.writerow(["Rank", "Candidate Name", "Email", "File", "Score (%)", "Recommendation", "Reasoning", "Top Skills"])
+        for idx, resume in enumerate(ranked_results, start=1):
+            name, email, score_val, skills, recommendation, _reasoning_summary = _normalize_row(resume, idx)
+            reasoning_full = resume.get("reasoning", "")
+            writer.writerow([idx, name, email, resume.get("file", "N/A"), score_val, recommendation, reasoning_full, ", ".join(skills)])
+    return csv_path
 
 
 def generate_reports():
@@ -206,9 +206,10 @@ def generate_reports():
     }
 
 
-def generate_reports_from_blob(user_id: str | None = None):
+def generate_reports_from_blob(user_id: str | None = None, types: set[str] | None = None):
     """
-    Read the ranked JSON file from blob storage (prefer latest user session) and generate Excel/CSV/PDF.
+    Read the ranked JSON file from blob storage (prefer latest user session) and generate selected reports.
+    types: a set containing any of {'excel','csv','pdf'}; if None, generate all.
     """
     ranked_results = []
     # Prefer per-user latest session file if user_id provided
@@ -239,29 +240,41 @@ def generate_reports_from_blob(user_id: str | None = None):
             with open(json_path, "r", encoding="utf-8") as f:
                 ranked_results = json.load(f)
 
-    excel_path = generate_excel_report(ranked_results)
-    csv_path = generate_csv_report(ranked_results)
-    pdf_path = generate_pdf_report(ranked_results)
-    
-    # Upload reports to blob storage
-    with open(excel_path, "rb") as f:
-        excel_content = f.read()
-    blob_storage.upload_file(excel_content, f"reports/{os.path.basename(excel_path)}")
-    
-    with open(pdf_path, "rb") as f:
-        pdf_content = f.read()
-    blob_storage.upload_file(pdf_content, f"reports/{os.path.basename(pdf_path)}")
+    # Determine which types to generate
+    generate_all = types is None
+    results = {}
 
-    # Upload CSV as well
-    with open(csv_path, "rb") as f:
-        csv_content = f.read()
-    blob_storage.upload_file(csv_content, f"reports/{os.path.basename(csv_path)}")
+    excel_path = csv_path = pdf_path = None
 
-    return {
-        "excel_report": excel_path,
-        "csv_report": csv_path,
-        "pdf_report": pdf_path,
-        "excel_blob": f"reports/{os.path.basename(excel_path)}",
-        "csv_blob": f"reports/{os.path.basename(csv_path)}",
-        "pdf_blob": f"reports/{os.path.basename(pdf_path)}"
-    }
+    if generate_all or "excel" in types:
+        excel_path = generate_excel_report(ranked_results)
+        results["excel_report"] = excel_path
+        # Best-effort upload
+        try:
+            with open(excel_path, "rb") as f:
+                blob_storage.upload_file(f.read(), f"reports/{os.path.basename(excel_path)}")
+            results["excel_blob"] = f"reports/{os.path.basename(excel_path)}"
+        except Exception:
+            pass
+
+    if generate_all or "csv" in types:
+        csv_path = generate_csv_report(ranked_results)
+        results["csv_report"] = csv_path
+        try:
+            with open(csv_path, "rb") as f:
+                blob_storage.upload_file(f.read(), f"reports/{os.path.basename(csv_path)}")
+            results["csv_blob"] = f"reports/{os.path.basename(csv_path)}"
+        except Exception:
+            pass
+
+    if generate_all or "pdf" in types:
+        pdf_path = generate_pdf_report(ranked_results)
+        results["pdf_report"] = pdf_path
+        try:
+            with open(pdf_path, "rb") as f:
+                blob_storage.upload_file(f.read(), f"reports/{os.path.basename(pdf_path)}")
+            results["pdf_blob"] = f"reports/{os.path.basename(pdf_path)}"
+        except Exception:
+            pass
+
+    return results
